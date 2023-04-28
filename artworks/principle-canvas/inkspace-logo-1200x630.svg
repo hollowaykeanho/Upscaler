@@ -27,7 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
    version="1.1"
    id="svg4"
    sodipodi:docname="inkspace-logo-1200x630.svg"
-   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -69,14 +69,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
      inkscape:pagecheckerboard="0"
      showgrid="false"
      inkscape:zoom="0.59916667"
-     inkscape:cx="790.26425"
+     inkscape:cx="630.87621"
      inkscape:cy="258.69263"
      inkscape:window-width="1920"
      inkscape:window-height="1005"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg4" />
+     inkscape:current-layer="svg4"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1" />
   <style
      id="style2">
 		.window {
@@ -9432,7 +9434,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
        x="1155.5774"
        y="379.89996"
        style="font-size:73.3333px;text-align:end;text-anchor:end;fill:#ffffff;fill-opacity:1"
-       id="tspan11104">Template</tspan></text>
+       id="tspan11104">Upscaler</tspan></text>
   <g
      transform="matrix(0.06027485,0,0,0.06029181,1049.307,62.503403)"
      stroke-width="2.0735"

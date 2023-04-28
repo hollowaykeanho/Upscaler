@@ -11,7 +11,6 @@ themes/
 .bin/
 vendor/
 gh-pages/
-bin/
 tmp/
 output/
 /releases/
@@ -58,7 +57,6 @@ certbot.log
 *.o
 *.elf
 *.hex
-*.bin
 
 #####################
 # MacOS specifics

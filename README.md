@@ -1,35 +1,28 @@
-# Template Repository
-[![Holloway's Template](artworks/logo-1200x630.svg)](https://github.com/hollowaykeanho/Template)
+# Upscaler
+[![Holloway's Upscaler](artworks/logo-1200x630.svg)](https://github.com/hollowaykeanho/Upscaler)
+This project is a combination of various open-source AI image upscaling project
+efforts for making a CLI friendly image upscaler program that are interactable
+with FFMPEG and GIMP. Among the main contributors are:
 
-This repo serves as a template for all (Holloway) Chew, Kean Ho's new project
-repository. It setups and includes all necessary and easy-to-modify artworks,
-`README.md`, `LICENSE`, and `.gitignore` files that are crucial for a git
-repository.
-
-> WHAT TO UPDATE AFTER CLONING:
->
-> 1. Start with `README.md` especially dealing with title + anything below.
-> 2. Update the `artworks/principle-canvas` logo files and re-generate all the
->    output logos.
-> 3. Update the `LICENSE` file with the appropriate license(s).
-> 4. Delete this blockquote once it is done.
+1. [Tencent's NCNN](https://github.com/Tencent/ncnn)
+2. [Nihui](https://github.com/nihui)
+3. [Xintao](https://github.com/xinntao)
+4. [Upscayl (Nayam Amarshe & TGS963)](https://github.com/upscayl/upscayl/tree/main)
 
 
 
 
 ## Why It Matters
-State the business reasons for this project.
+For these obvious reasons:
 
-1. **Working things out efficiently with pinpoint accuracy** - template
-   standardizes all marketing and presentable elements so just focus on the
-   project development.
-2. **Steadily for continuous improvement** - version controlled and improve
-   iteratively.
-3. **Simple and scalable** - just one git and some changes; you get a decent
-   repo ready to deploy.
+1. **To consolidate a list of tested and reusable models and executables** -
+   quick deployment at usable CLI level for further integration.
+2. **Determine use cases** - need to ensure what is needed and what's not.
+3. **Map out the required APIs and calls** - before writing and compiling a big
+   binary.
 
 
 
 
 ## License
-This project is licensed under [MIT License](LICENSE).
+This project is private. TBD
