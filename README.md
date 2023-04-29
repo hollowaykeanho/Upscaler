@@ -25,4 +25,5 @@ For these obvious reasons:
 
 
 ## License
-This project is private. TBD
+This project is licensed under
+[BSD-3-Clause "New or "Revised" License](LICENSE.txt).
