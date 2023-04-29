@@ -302,6 +302,11 @@ _check_io() {
                         _print_status error "missing required ffmpeg program for video.\n"
                         return 1
                 fi
+
+                if [ "$(type -p ffprobe)" = "" ]; then
+                        _print_status error "missing required ffprobe program for video.\n"
+                        return 1
+                fi
         fi
 
         return 0
