@@ -2,7 +2,7 @@
 #############
 # variables #
 #############
-repo="${HOME}/Documents/holloway/Upscaler"
+repo="${BASH_SOURCE[0]%%init/unix.sh}"
 
 # arguments
 action='run'
