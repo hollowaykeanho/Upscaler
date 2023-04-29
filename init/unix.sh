@@ -13,10 +13,16 @@ output=""
 format=""
 
 # variables
+video_mode=0
 program=''
 model_id=''
 model_name=''
 model_max_scale=''
+subject_name=''
+subject_ext=''
+subject_dir=''
+subject_suffix="${UPSCALER_SUFFIX:-"upscaled"}"
+workspace=''
 
 
 
@@ -77,8 +83,9 @@ $ ./start.cmd \\
         --model MODEL_NAME \\
         --scale SCALE_FACTOR \\
         --format FORMAT \\
+        --video \\
         --input PATH_TO_FILE \\
-        --output PATH_TO_FILE_OR_DIR
+        --output PATH_TO_FILE_OR_DIR    # optional
 
 EXAMPLES
 
@@ -86,8 +93,22 @@ $ ./start.cmd \\
         --model ultrasharp \\
         --scale 4 \\
         --format webp \\
+        --input my-image.jpg
+
+$ ./start.cmd \\
+        --model ultrasharp \\
+        --scale 4 \\
+        --format webp \\
         --input my-image.jpg \\
         --output my-image-upscaled.webp
+
+$ ./start.cmd \\
+        --model ultrasharp \\
+        --scale 4 \\
+        --format png \\
+        --video \\
+        --input my-video.mp4 \\
+        --output my-video-upscaled.mp4
 
 $ ./start.cmd \\
         --model ultrasharp \\
@@ -198,32 +219,27 @@ function _check_model_and_scale() {
         return 0
 }
 
-function _check_io() {
-        if [ "$input" == "" ]; then
-                _print_status error "missing input.\n"
-                return 1
-        fi
-
-
-        if [ "$output" == "" ]; then
-                _print_status error "missing output.\n"
-                return 1
-        fi
-
-        if [ ! -e "$input" ]; then
-                _print_status error "input does not exist: '${input}'.\n"
-                return 1
-        fi
-}
-
 function _check_format() {
         if [ -z "$format" ]; then
-                _print_status error "missing format.\n"
-                return 1
+                if [ $video_mode -gt 0 ]; then
+                        format='png'
+                else
+                        format="${input##*/}"
+                        format="${format#*.}"
+                fi
         fi
 
         case "$format" in
-        jpg|JPG|png|PNG|webp|WEBP)
+        jpg|JPG)
+                format="jpg"
+                return 0
+                ;;
+        png|PNG)
+                format="png"
+                return 0
+                ;;
+        webp|WEBP)
+                format="webp"
                 return 0
                 ;;
         *)
@@ -233,13 +249,108 @@ function _check_format() {
         esac
 }
 
-function _exec_program() {
-        $program -i "$input" \
-                -o "$output" \
+function _check_io() {
+        if [ "$input" == "" ]; then
+                _print_status error "missing input.\n"
+                return 1
+        fi
+
+        if [ ! -e "$input" ]; then
+                _print_status error "input does not exist: '${input}'.\n"
+                return 1
+        fi
+
+        subject_name="${input##*/}"
+        subject_dir="${input%/*}"
+        subject_ext="${subject_name#*.}"
+        subject_name="${subject_name%%.*}"
+
+        return 0
+}
+
+function _exec_upscale_program() {
+        $program -i "$1" \
+                -o "$2" \
                 -s "$scale" \
                 -m "${repo}/models" \
                 -n "$model" \
                 -f "$format"
+        return $?
+}
+
+function _exec_program() {
+        if [ $video_mode -eq 0 ]; then
+                output="${subject_dir}/${subject_name}-${subject_suffix}.${format}"
+                _exec_upscale_program "$input" "$output"
+                return $?
+        fi
+
+        # (1) setup video workspace
+        workspace="${subject_dir}/${subject_name}-${subject_suffix}_workspace"
+        rm -rf "${workspace}" &> /dev/null
+        mkdir -p "${workspace}/frames/input"
+        mkdir -p "${workspace}/frames/output"
+
+
+        # (2) run ffmpeg and dissect video
+        video_codec="$(ffprobe -v error \
+                        -select_streams v:0 \
+                        -show_entries stream=codec_name \
+                        -of default=noprint_wrappers=1:nokey=1 \
+                        "$input"
+        )"
+        audio_codec="$(
+                ffprobe -v error \
+                        -select_streams a:0 \
+                        -show_entries stream=codec_name \
+                        -of default=noprint_wrappers=1:nokey=1 \
+                        "$input"
+        )"
+        frame_rate="$(
+                ffprobe -v error \
+                        -select_streams v \
+                        -of default=noprint_wrappers=1:nokey=1 \
+                        -show_entries stream=r_frame_rate \
+                        "$input"
+        )"
+        total_frames="$(
+                ffprobe -v error \
+                        -select_streams v:0 \
+                        -count_frames \
+                        -show_entries stream=nb_read_frames \
+                        -of default=nokey=1:noprint_wrappers=1 \
+                        "$input"
+        )"
+        pixel_format=""
+
+        ffmpeg -y -i "$input" "${workspace}/frames/input/0%d.png"
+        ffmpeg -y -i "$input" -vn -acodec copy "${workspace}/audio.${audio_codec}"
+        # (3) loop through each frame and upscale
+        for img in "${workspace}/frames/input/"*.png; do
+                output="${workspace}/frames/output/${img##*/}"
+                _exec_upscale_program "$img" "${output}"
+                if [ "$pixel_format" == "" ]; then
+                        pixel_format="$(ffprobe \
+                                -loglevel error \
+                                -show_entries \
+                                stream=pix_fmt \
+                                -of csv=p=0 \
+                                "$input"
+                        )"
+                fi
+        done
+
+        # (4) run ffmpeg to merge everything back
+        output="${subject_dir}/${subject_name}-${subject_suffix}.${subject_ext}"
+        ffmpeg -y -i "${workspace}/frames/output/0%d.png" \
+                -i "${workspace}/audio.${audio_codec}" \
+                -c:v "$video_codec" \
+                -pix_fmt "$pixel_format" \
+                -r "$frame_rate" \
+                -c:a copy \
+                -shortest \
+                "$output"
+        return 0
 }
 
 function main() {
@@ -254,6 +365,9 @@ function main() {
                 --help|-h|help)
                         _provide_help
                         exit 0
+                        ;;
+                --video|-vd)
+                        video_mode=1
                         ;;
                 --model|-m)
                         if [[ "$2" != "" && "${2:1}" != "-" ]]; then
@@ -297,8 +411,8 @@ function main() {
                 '_check_arch'
                 '_check_program_existence'
                 '_check_model_and_scale'
-                '_check_io'
                 '_check_format'
+                '_check_io'
                 '_exec_program'
         )
 
