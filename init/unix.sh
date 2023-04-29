@@ -1,8 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 #############
 # variables #
 #############
-repo="${BASH_SOURCE[0]%%init/unix.sh}"
+repo="$(command -v $0)"
+repo="${repo%%init/unix.sh}"
 
 # arguments
 action='run'
@@ -73,7 +74,7 @@ _print_status() {
         return 0
 }
 
-function _provide_help() {
+_provide_help() {
         _print_status plain """
 HOLLOWAY'S UPSCALER
 -------------------
@@ -126,7 +127,7 @@ AVAILABLE MODELS:
 """
 
         for model_type in "${repo}/models"/*.sh; do
-                source "$model_type"
+                . "$model_type"
 
                 model_id="${model_type##*/}"
                 model_id="${model_id%%.*}"
@@ -143,7 +144,7 @@ AVAILABLE MODELS:
         return 0
 }
 
-function _check_os() {
+_check_os() {
         case "$(uname)" in
         Darwin)
                 program="${repo}/bin/mac"
@@ -156,12 +157,12 @@ function _check_os() {
         return 0
 }
 
-function _check_arch() {
+_check_arch() {
         program="${program}-amd64"
         return 0
 }
 
-function _check_program_existence() {
+_check_program_existence() {
         if [ ! -f "$program" ]; then
                 _print_status error "missing AI executable: '${program}'.\n"
                 return 1
@@ -170,7 +171,7 @@ function _check_program_existence() {
         return 0
 }
 
-function _check_model_and_scale() {
+_check_model_and_scale() {
         if [ -z "$model" ]; then
                 _print_status error "unspecified model.\n"
                 return 1
@@ -187,13 +188,13 @@ function _check_model_and_scale() {
                 model_id="${model_type##*/}"
                 model_id="${model_id%%.*}"
 
-                if [ "$model" == "$model_id" ]; then
+                if [ "$model" = "$model_id" ]; then
                         __supported=true
-                        source "$model_type"
+                        . "$model_type"
                 fi
         done
 
-        if [ "$__supported" == "false" ]; then
+        if [ "$__supported" = "false" ]; then
                 _print_status error "unsupported model: '${model}'.\n"
                 return 1
         fi
@@ -219,7 +220,7 @@ function _check_model_and_scale() {
         return 0
 }
 
-function _check_format() {
+_check_format() {
         if [ -z "$format" ]; then
                 if [ $video_mode -gt 0 ]; then
                         format='png'
@@ -249,8 +250,8 @@ function _check_format() {
         esac
 }
 
-function _check_io() {
-        if [ "$input" == "" ]; then
+_check_io() {
+        if [ "$input" = "" ]; then
                 _print_status error "missing input.\n"
                 return 1
         fi
@@ -266,7 +267,7 @@ function _check_io() {
         subject_name="${subject_name%%.*}"
 
         if [ $video_mode -gt 0 ]; then
-                if [ "$(type -p ffmpeg)" == "" ]; then
+                if [ "$(type -p ffmpeg)" = "" ]; then
                         _print_status error "missing required ffmpeg program for video.\n"
                         return 1
                 fi
@@ -275,7 +276,7 @@ function _check_io() {
         return 0
 }
 
-function _exec_upscale_program() {
+_exec_upscale_program() {
         $program -i "$1" \
                 -o "$2" \
                 -s "$scale" \
@@ -285,7 +286,7 @@ function _exec_upscale_program() {
         return $?
 }
 
-function _exec_program() {
+_exec_program() {
         if [ $video_mode -eq 0 ]; then
                 output="${subject_dir}/${subject_name}-${subject_suffix}.${format}"
                 _exec_upscale_program "$input" "$output"
@@ -331,12 +332,11 @@ function _exec_program() {
 
         # (3) recover from last status to continue work if found
         if [ -f "$control" ]; then
-                source "$control"
+                . "$control"
         else
                 # not a valid cache. Remove it and start fresh.
                 rm -rf "${workspace}" &> /dev/null
-                mkdir -p "${workspace}/frames/input"
-                mkdir -p "${workspace}/frames/output"
+                mkdir -p "${workspace}/frames"
         fi
 
         # (4) export audio if yet to be completed
@@ -355,13 +355,21 @@ function _exec_program() {
                 ffmpeg -y \
                         -i "$input" \
                         -vf select="'eq(n\,${current_frame})'" \
+                        -vframes 1 \
                         "$img" \
                 &> /dev/null
+                if [ $? -ne 0 ]; then
+                        exit 1
+                fi
 
                 # upscale the frame
                 output="${workspace}/frames/0${current_frame}.png"
                 _exec_upscale_program "$img" "$output"
-                if [ "$pixel_format" == "" ]; then
+                if [ $? -ne 0 ]; then
+                        exit 1
+                fi
+
+                if [ "$pixel_format" = "" ]; then
                         pixel_format="$(ffprobe \
                                 -loglevel error \
                                 -show_entries \
@@ -402,14 +410,14 @@ audio_exported="${audio_exported}"
         return 0
 }
 
-function main() {
-        if [[ "$@" == "" ]]; then
+main() {
+        if [ "$*" = "" ]; then
                 _provide_help
                 exit 0
         fi
 
         # parse argument
-        while [[ $# != 0 ]]; do
+        while [ $# -ne 0 ]; do
         case "$1" in
                 --help|-h|help)
                         _provide_help
@@ -419,31 +427,31 @@ function main() {
                         video_mode=1
                         ;;
                 --model|-m)
-                        if [[ "$2" != "" && "${2:1}" != "-" ]]; then
+                        if [ "$2" != "" ] && [ "$(printf "%.1s" "$2")" != "-" ]; then
                                 model="$2"
                                 shift 1
                         fi
                         ;;
                 --scale|-s)
-                        if [[ "$2" != "" && "${2:1}" != "-" ]]; then
+                        if [ "$2" != "" ] && [ "$(printf "%.1s" "$2")" != "-" ]; then
                                 scale="$2"
                                 shift 1
                         fi
                         ;;
                 --input|-i)
-                        if [[ "$2" != "" && "${2:1}" != "-" ]]; then
+                        if [ "$2" != "" ] && [ "$(printf "%.1s" "$2")" != "-" ]; then
                                 input="$2"
                                 shift 1
                         fi
                         ;;
                 --output|-o)
-                        if [[ "$2" != "" && "${2:1}" != "-" ]]; then
+                        if [ "$2" != "" ] && [ "$(printf "%.1s" "$2")" != "-" ]; then
                                 output="$2"
                                 shift 1
                         fi
                         ;;
                 --format|-f)
-                        if [[ "$2" != "" && "${2:1}" != "-" ]]; then
+                        if [ "$2" != "" ] && [ "$(printf "%.1s" "$2")" != "-" ]; then
                                 format="$2"
                                 shift 1
                         fi
@@ -455,21 +463,39 @@ function main() {
         done
 
         # run function
-        __ops=(
-                '_check_os'
-                '_check_arch'
-                '_check_program_existence'
-                '_check_model_and_scale'
-                '_check_format'
-                '_check_io'
-                '_exec_program'
-        )
+        _check_os
+        if [ $? -ne 0 ]; then
+                exit 1
+        fi
 
-        for _op in "${__ops[@]}"; do
-                ${_op}
-                if [ $? -ne 0 ]; then
-                        exit 1
-                fi
-        done
+        _check_arch
+        if [ $? -ne 0 ]; then
+                exit 1
+        fi
+
+        _check_program_existence
+        if [ $? -ne 0 ]; then
+                exit 1
+        fi
+
+        _check_model_and_scale
+        if [ $? -ne 0 ]; then
+                exit 1
+        fi
+
+        _check_format
+        if [ $? -ne 0 ]; then
+                exit 1
+        fi
+
+        _check_io
+        if [ $? -ne 0 ]; then
+                exit 1
+        fi
+
+        _exec_program
+        if [ $? -ne 0 ]; then
+                exit 1
+        fi
 }
 main $@
