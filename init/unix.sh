@@ -265,6 +265,13 @@ function _check_io() {
         subject_ext="${subject_name#*.}"
         subject_name="${subject_name%%.*}"
 
+        if [ $video_mode -gt 0 ]; then
+                if [ "$(type -p ffmpeg)" == "" ]; then
+                        _print_status error "missing required ffmpeg program for video.\n"
+                        return 1
+                fi
+        fi
+
         return 0
 }
 
@@ -287,12 +294,9 @@ function _exec_program() {
 
         # (1) setup video workspace
         workspace="${subject_dir}/${subject_name}-${subject_suffix}_workspace"
-        rm -rf "${workspace}" &> /dev/null
-        mkdir -p "${workspace}/frames/input"
-        mkdir -p "${workspace}/frames/output"
+        control="${workspace}/control.sh"
 
-
-        # (2) run ffmpeg and dissect video
+        # (2) analyze input video and initialize sentinel variables
         video_codec="$(ffprobe -v error \
                         -select_streams v:0 \
                         -show_entries stream=codec_name \
@@ -322,27 +326,72 @@ function _exec_program() {
                         "$input"
         )"
         pixel_format=""
+        current_frame=0
+        audio_exported=0
 
-        ffmpeg -y -i "$input" "${workspace}/frames/input/0%d.png"
-        ffmpeg -y -i "$input" -vn -acodec copy "${workspace}/audio.${audio_codec}"
-        # (3) loop through each frame and upscale
-        for img in "${workspace}/frames/input/"*.png; do
-                output="${workspace}/frames/output/${img##*/}"
-                _exec_upscale_program "$img" "${output}"
+        # (3) recover from last status to continue work if found
+        if [ -f "$control" ]; then
+                source "$control"
+        else
+                # not a valid cache. Remove it and start fresh.
+                rm -rf "${workspace}" &> /dev/null
+                mkdir -p "${workspace}/frames/input"
+                mkdir -p "${workspace}/frames/output"
+        fi
+
+        # (4) export audio if yet to be completed
+        if [ $audio_exported -eq 0 ]; then
+                ffmpeg -y -i "$input" -vn -acodec copy "${workspace}/audio.${audio_codec}"
+                audio_exported=1
+        fi
+
+        # (5) loop through 1 frame at a time to allow large video upscaling
+        while [ $current_frame -lt $total_frames ]; do
+                # print status
+                _print_status info "Upscaling frame ${current_frame}/${total_frames}...\n"
+
+                # extract 1 frame
+                img="${workspace}/sample.png"
+                ffmpeg -y \
+                        -i "$input" \
+                        -vf select="'eq(n\,${current_frame})'" \
+                        "$img" \
+                &> /dev/null
+
+                # upscale the frame
+                output="${workspace}/frames/0${current_frame}.png"
+                _exec_upscale_program "$img" "$output"
                 if [ "$pixel_format" == "" ]; then
                         pixel_format="$(ffprobe \
                                 -loglevel error \
                                 -show_entries \
                                 stream=pix_fmt \
                                 -of csv=p=0 \
-                                "$input"
+                                "${output}"
                         )"
                 fi
+                rm "$img" &> /dev/null
+
+                # write settings to cache for recovery
+                printf """\
+#!/bin/bash
+total_frames=${total_frames}
+current_frame=${current_frame}
+pixel_format="${pixel_format}"
+frame_rate="${frame_rate}"
+video_codec="${video_codec}"
+audio_codec="${audio_codec}"
+audio_exported="${audio_exported}"
+""" > "$control"
+                _print_status success "frame ${current_frame}/${total_frames} upscaled.\n\n"
+
+                # increase frame count
+                current_frame=$(($current_frame + 1))
         done
 
-        # (4) run ffmpeg to merge everything back
+        # (6) run ffmpeg to merge everything back
         output="${subject_dir}/${subject_name}-${subject_suffix}.${subject_ext}"
-        ffmpeg -y -i "${workspace}/frames/output/0%d.png" \
+        ffmpeg -y -i "${workspace}/frames/0%d.png" \
                 -i "${workspace}/audio.${audio_codec}" \
                 -c:v "$video_codec" \
                 -pix_fmt "$pixel_format" \
