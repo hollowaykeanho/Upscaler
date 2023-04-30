@@ -323,6 +323,11 @@ _exec_upscale_program() {
 }
 
 _exec_program() {
+        __output_format="$format"
+        if [ $video_mode -gt 0 ]; then
+                __output_format="$subject_ext"
+        fi
+
         _print_status info """
 
 Upscale Model    : $model
@@ -335,11 +340,11 @@ Is Video Input   : $video_mode (0=No ; 1=Yes)
 Output Directory : $subject_dir
 Output Filename  : $subject_name
 Output Suffix    : $subject_suffix
-Output Extension : $subject_ext
+Output Extension : $__output_format
 
 
 """
-
+        unset __output_format
 
         if [ $video_mode -eq 0 ]; then
                 output="${subject_dir}/${subject_name}-${subject_suffix}.${format}"
