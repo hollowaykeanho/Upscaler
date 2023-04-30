@@ -323,6 +323,23 @@ _exec_upscale_program() {
 }
 
 _exec_program() {
+        _print_status info """
+
+Upscale Model   : $model
+Upscale Scale   : $scale
+Model Max Scale : $model_max_scale (0 = no limits)
+Upscale Format  : $format
+Input File      : $input
+Is Video Input  : $video_mode (0=No ; 1=Yes)
+
+Input Directory : $subject_dir
+Input Filename  : $subject_name
+Input Extension : $subject_ext
+Output Suffix   : $sujbect_suffix
+
+"""
+
+
         if [ $video_mode -eq 0 ]; then
                 output="${subject_dir}/${subject_name}-${subject_suffix}.${format}"
                 _exec_upscale_program "$input" "$output"
@@ -368,12 +385,27 @@ _exec_program() {
 
         # (3) recover from last status to continue work if found
         if [ -f "$control" ]; then
+                _print_status info "Found control file ($control). Restoring...\n\n"
                 . "$control"
         else
-                # not a valid cache. Remove it and start fresh.
+                _print_status info "Creating workspace...\n\n"
                 rm -rf "${workspace}" &> /dev/null
                 mkdir -p "${workspace}/frames"
         fi
+        _print_status info """
+
+Video Name     : ${subject_name}.${subject_ext}
+Video Codec    : ${video_codec}
+Audio Codec    : ${audio_codec}
+Pixel Format   : ${pixel_format} (empty means yet to determine)
+
+Frame Rate     : ${frame_rate}
+Total Frames   : ${total_frames}
+Current Frame  : ${current_frame}
+
+Audio Exported : ${audio_exported} (0 = not yet; 1 = done)
+
+"""
 
         # (4) export audio if yet to be completed
         if [ $audio_exported -eq 0 ]; then
