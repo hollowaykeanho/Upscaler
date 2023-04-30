@@ -43,19 +43,26 @@ This project is licensed under
 ## Supported Hardware
 Here are the tested hardware and operating system:
 
-1. `Linux`   - tested and operated on `debian-amd64`.
-2. `Windows` - **HELP NEEDED** to either translate `init/unix.sh` or somewhat
-               support PowerShell. Latter is preferred if PowerShell complies to
-               POSIX shell script.
-3. `MacOS`   - **HELP NEEDED** to test the repository. Assume it only works on
-               `amd64`.
+| System             | Results     | Usable Processing Units |
+|:-------------------|:------------|:------------------------|
+| `debian-amd64` (linux) | `PASS`      | `NVIDIA GeForce MX150`, `Intel(R) UHD Graphics 620 (KBL GT2)` |
+| `darwin-amd64` (macOS) | `FAILED`    | Binary failed to use `Intel Iris Graphics` iGPU. |
+| `windows-amd64` (windows) | `TBD`    | **Help Needed** - either powershell support or BATCH translations. |
 
 > **IMPORTANT NOTE**
 >
-> You seriously need a GPU to dramatically speed up the upscaling efforts from
-> hours to minutes. I tested mine against `NVIDIA GeForce MX150` versus the
-> built-in `Intel(R) UHD Graphics 620 (KBL GT2)` graphic hardwares. It makes a
-> lot of difference.
+> You seriously need a compatible GPU to dramatically speed up the upscaling
+> efforts **from hours to minutes**. I tested mine against
+> `NVIDIA GeForce MX150` versus the built-in
+> `Intel(R) UHD Graphics 620 (KBL GT2)` graphic hardwares on my laptop. It makes
+> a huge difference.
+
+> **NOTE TO MacOS USERS**
+>
+> The binary `bin/mac-amd64` is currently unsigned. Hence, you need to explictly
+> grant the use permission in your `Settings > Security & Privacy` section.
+> Take note that according to Upscayl team, many CPU and iGPUs are not woking
+> and supported yet.
 
 
 ### Dependencies
