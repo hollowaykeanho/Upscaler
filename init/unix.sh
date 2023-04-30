@@ -325,17 +325,18 @@ _exec_upscale_program() {
 _exec_program() {
         _print_status info """
 
-Upscale Model   : $model
-Upscale Scale   : $scale
-Model Max Scale : $model_max_scale (0 = no limits)
-Upscale Format  : $format
-Input File      : $input
-Is Video Input  : $video_mode (0=No ; 1=Yes)
+Upscale Model    : $model
+Upscale Scale    : $scale
+Model Max Scale  : $model_max_scale (0=No Limit)
+Upscale Format   : $format
+Input File       : $input
+Is Video Input   : $video_mode (0=No ; 1=Yes)
 
-Input Directory : $subject_dir
-Input Filename  : $subject_name
-Input Extension : $subject_ext
-Output Suffix   : $sujbect_suffix
+Output Directory : $subject_dir
+Output Filename  : $subject_name
+Output Suffix    : $subject_suffix
+Output Extension : $subject_ext
+
 
 """
 
@@ -343,6 +344,11 @@ Output Suffix   : $sujbect_suffix
         if [ $video_mode -eq 0 ]; then
                 output="${subject_dir}/${subject_name}-${subject_suffix}.${format}"
                 _exec_upscale_program "$input" "$output"
+
+                output=$?
+                if [ $output -eq 0 ]; then
+                        _print_status success "\n"
+                fi
                 return $?
         fi
 
@@ -427,6 +433,7 @@ Audio Exported : ${audio_exported} (0 = not yet; 1 = done)
                         "$img" \
                 &> /dev/null
                 if [ $? -ne 0 ]; then
+                        _print_status error
                         exit 1
                 fi
 
@@ -434,6 +441,7 @@ Audio Exported : ${audio_exported} (0 = not yet; 1 = done)
                 output="${workspace}/frames/0${current_frame}.png"
                 _exec_upscale_program "$img" "$output"
                 if [ $? -ne 0 ]; then
+                        _print_status error
                         exit 1
                 fi
 
@@ -459,6 +467,10 @@ video_codec="${video_codec}"
 audio_codec="${audio_codec}"
 audio_exported="${audio_exported}"
 """ > "$control"
+                if [ $? -ne 0 ]; then
+                        _print_status error
+                        exit 1
+                fi
                 _print_status success "frame ${current_frame}/${total_frames} upscaled.\n\n"
 
                 # increase frame count
@@ -475,7 +487,12 @@ audio_exported="${audio_exported}"
                 -c:a copy \
                 -shortest \
                 "$output"
-        return 0
+
+        output=$?
+        if [ $output -eq 0 ]; then
+                _print_status success "\n"
+        fi
+        return $?
 }
 
 main() {
