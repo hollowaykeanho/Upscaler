@@ -43,12 +43,12 @@ This project is licensed under
 ## Supported Hardware
 Here are the tested hardware and operating system:
 
-1. `Linux` - tested and operated on Debian `amd64`.
-2. `Windows` - HELP NEEDED to either translate `init/unix.sh` or somewhat
+1. `Linux`   - tested and operated on `debian-amd64`.
+2. `Windows` - **HELP NEEDED** to either translate `init/unix.sh` or somewhat
                support PowerShell. Latter is preferred if PowerShell complies to
                POSIX shell script.
-3. `MacOS` - HELP NEEDED to test the repository. Assume it only works on
-             `amd64`.
+3. `MacOS`   - **HELP NEEDED** to test the repository. Assume it only works on
+               `amd64`.
 
 > **IMPORTANT NOTE**
 >
@@ -72,10 +72,8 @@ Here are the basic user manuals:
 
 
 ### Install
-At the moment, I'm not planning to re-package the products. Besides, it's
-specifically designed for CLI interfacing. Hence, to install, simply `git clone`
-the repository into an appropriate location and symlink to your `$PATH` or
-`%PATH%` directory. Example, on `Debian Linux`:
+To install, simply `git clone` the repository into an appropriate location and
+symlink to your `$PATH` or `%PATH%` directory. Example, on `Debian Linux`:
 
 ```
 $ git clone https://github.com/hollowaykeanho/Upscaler.git
@@ -155,9 +153,10 @@ The minimum 3x is due to:
 1. 1 set is your original video.
 2. 1 set is for all the upscaled images (can be lot bigger since we're doing it
    frame by frame losing the video compression effect).
-3. 1 set is your output video
+3. 1 set is your output video (bigger than original of course).
 
-Hence, please plan out your storage budget before proceeding to upscale a video.
+Hence, please plan out your storage budget before starting a video upscale
+project.
 
 #### Setup Project Directory
 You're advised to create a project directory for upscaling video project due to
@@ -204,3 +203,16 @@ restart all over again.
 
 ## Helping The Project
 Stars, Watch, or the best: sponsor the contributors.
+
+
+### Contribute Back
+In case you need to contribute back:
+
+1. Raise an [issue ticket](https://github.com/hollowaykeanho/Upscaler/issues).
+2. Fork the repository and work against the `main` branch.
+3. Develop your contributions and ensure your commit are GPG-signed.
+4. Once done, **DO NOT raise a pull request**. Simply notify me via your ticket
+   and I will clone your forked repo locally and `cherry-pick` them (I want
+   those GPG signatures preserved where GitHub Pull Request cannot fulfill).
+5. Delete your fork repo once I notify you that the merging is completed.
+6. Thank you.
