@@ -1,8 +1,8 @@
 # Holloway's Upscaler
 [![Holloway's Upscaler](artworks/logo-1200x630.svg)](https://github.com/hollowaykeanho/Upscaler)
-This project is a combination of various compiled open-source AI image upscaling
-project efforts for making a working CLI friendly image upscaler program that
-can be used for image and video subjects with FFMPEG.
+This project is a consolidation of various compiled open-source AI image
+upscaler products for a working CLI friendly image and video upscaling program.
+It is configured to be ready for work right at the get-go.
 
 
 
@@ -11,9 +11,9 @@ can be used for image and video subjects with FFMPEG.
 For these reasons:
 
 1. **I urgently need a video upscaling technologies to work locally** -
-   that works on image and video without GUI overheads and its funkiness.
+   for both image and video without any GUI overheads or its funkiness.
 2. **Programmable** - when you want to upscale the an album or video, the AI
-   program has to be programmable and not restricted to the GUI's design.
+   program has to be programmable and not restricted by the GUI's design.
 3. **Reliabily working on big subject** - larger video requires streaming
    approach to prevent the program from consuming too much resources from the
    system.
@@ -46,23 +46,23 @@ Here are the tested hardware and operating system:
 | System             | Results     | Usable Processing Units |
 |:-------------------|:------------|:------------------------|
 | `debian-amd64` (linux) | `PASS`      | `NVIDIA GeForce MX150`, `Intel(R) UHD Graphics 620 (KBL GT2)` |
-| `darwin-amd64` (macOS) | `FAILED`    | Binary failed to use `Intel Iris Graphics` iGPU. |
+| `darwin-amd64` (macOS) | `FAILED`    | Binary failed to use `Intel Iris Graphics` iGPU and CPU. |
 | `windows-amd64` (windows) | `TBD`    | **Help Needed** - either powershell support or BATCH translations. |
 
 > **IMPORTANT NOTE**
 >
-> You seriously need a compatible GPU to dramatically speed up the upscaling
+> You seriously need a compatible GPU to drastically speed up the upscaling
 > efforts **from hours to minutes**. I tested mine against
-> `NVIDIA GeForce MX150` versus the built-in
-> `Intel(R) UHD Graphics 620 (KBL GT2)` graphic hardwares on my laptop. It makes
-> a huge difference.
+> `NVIDIA GeForce MX150` vs. `Intel(R) UHD Graphics 620 (KBL GT2)` built-in
+> graphic hardwares on my laptop. It did a huge difference.
 
 > **NOTE TO MacOS USERS**
 >
 > The binary `bin/mac-amd64` is currently unsigned. Hence, you need to explictly
 > grant the use permission in your `Settings > Security & Privacy` section.
-> Take note that according to Upscayl team, many CPU and iGPUs are not woking
-> and supported yet.
+>
+> Please be informed that my test result is in accordance with the Upscayl team:
+> many CPU and iGPUs are not woking and supported yet.
 
 
 ### Dependencies
@@ -97,8 +97,8 @@ pass all arguments into the `start.cmd`. Example:
 
 > TIP: if you decided to use the shell script approach, you can also design the
 > command to use your default model and scaling for your programming
-> efficiencies. Recommend you use `$HOME/bin` directory if it is shown in your
-> `$PATH` value.
+> efficiencies. Recommend you use `$HOME/bin` directory if it is set visible in
+> your `$PATH` value.
 
 > NOTE:
 >
@@ -152,7 +152,7 @@ Unless you're working on 8 seconds 8MB sized video, you would want to follow the
 instructions below to make sure your video upscaling project are in tact and
 resumeable.
 
-#### Budget Your Storage
+#### (1) Budget Your Storage
 Also please keep in mind that **you need at least 3x video size storage** for
 the job depending on the video frame rate, frame size, color schemes and etc.
 The minimum 3x is due to:
@@ -165,7 +165,7 @@ The minimum 3x is due to:
 Hence, please plan out your storage budget before starting a video upscale
 project.
 
-#### Setup Project Directory
+#### (2) Setup Project Directory
 You're advised to create a project directory for upscaling video project due to
 its large sized data.
 
@@ -189,7 +189,7 @@ work. A good directory looks something as follows:
 └── sample-vid.mp4
 ```
 
-#### Run The Initator Script
+#### (3) Run The Initator Script
 To initiate or to resume project, simply run your initiated project:
 
 ```
@@ -200,16 +200,19 @@ $ ./run.sh
 The Upscaler will create a workspace to house its output frames and control
 values.
 
-#### Resetting the Project
+#### (4) Resetting the Project [IN CASE]
 Just in case if you bump into something odd that requires to restart the project
 from start, you can delete the `-workspace` directory inside the project to
 restart all over again.
+
+The project intentionally left the workspace as it is for those who want to
+do frame extractions for other purposes (e.g. thumbnail).
 
 
 
 
 ## Helping The Project
-Stars, Watch, or the best: sponsor the contributors.
+Star, Watch, or the best: **sponsor the contributors**.
 
 
 ### Contribute Back
