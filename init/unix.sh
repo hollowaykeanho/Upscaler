@@ -323,11 +323,11 @@ _exec_upscale_program() {
 }
 
 _exec_program() {
+        # (0) printout job info
         __output_format="$format"
         if [ $video_mode -gt 0 ]; then
                 __output_format="$subject_ext"
         fi
-
         _print_status info """
 
 Upscale Model    : $model
@@ -346,6 +346,7 @@ Output Extension : $__output_format
 """
         unset __output_format
 
+        # (1) execute image upscale if it's not a video job.
         if [ $video_mode -eq 0 ]; then
                 output="${subject_dir}/${subject_name}-${subject_suffix}.${format}"
                 _exec_upscale_program "$input" "$output"
@@ -357,11 +358,11 @@ Output Extension : $__output_format
                 return $?
         fi
 
-        # (1) setup video workspace
+        # (2) setup video workspace
         workspace="${subject_dir}/${subject_name}-${subject_suffix}_workspace"
         control="${workspace}/control.sh"
 
-        # (2) analyze input video and initialize sentinel variables
+        # (3) analyze input video and initialize sentinel variables
         video_codec="$(ffprobe -v error \
                         -select_streams v:0 \
                         -show_entries stream=codec_name \
@@ -390,11 +391,19 @@ Output Extension : $__output_format
                         -of default=nokey=1:noprint_wrappers=1 \
                         "$input"
         )"
+        input_frame_size="$(
+                ffprobe \
+                        -v error \
+                        -select_streams v:0 \
+                        -show_entries stream=width,height \
+                        -of csv=s=x:p=0 \
+                        "$input"
+        )"
         pixel_format=""
+        output_frame_size=""
         current_frame=0
-        audio_exported=0
 
-        # (3) recover from last status to continue work if found
+        # (4) recover from last status for job continuation if available
         if [ -f "$control" ]; then
                 _print_status info "Found control file ($control). Restoring...\n\n"
                 . "$control"
@@ -409,28 +418,20 @@ Video Name     : ${subject_name}.${subject_ext}
 Video Codec    : ${video_codec}
 Audio Codec    : ${audio_codec}
 Pixel Format   : ${pixel_format} (empty means yet to determine)
+Input Frame    : ${input_frame_size}
+Output Frame   : ${output_frame_size} (empty means yet to determine)
 
 Frame Rate     : ${frame_rate}
 Total Frames   : ${total_frames}
 Current Frame  : ${current_frame}
-
-Audio Exported : ${audio_exported} (0 = not yet; 1 = done)
-
 """
-
-        # (4) export audio if yet to be completed
-        if [ $audio_exported -eq 0 ]; then
-                ffmpeg -y -i "$input" -vn -acodec copy "${workspace}/audio.${audio_codec}"
-                audio_exported=1
-        fi
-
-        # (5) loop through 1 frame at a time to allow large video upscaling
+        # (5) loop through 1 frame at a time for large video upscaling
         while [ $current_frame -lt $total_frames ]; do
                 # print status
                 _print_status info "Upscaling frame ${current_frame}/${total_frames}...\n"
 
                 # extract 1 frame
-                img="${workspace}/sample.png"
+                img="${workspace}/sample.${format}"
                 ffmpeg -y \
                         -i "$input" \
                         -vf select="'eq(n\,${current_frame})'" \
@@ -443,7 +444,7 @@ Audio Exported : ${audio_exported} (0 = not yet; 1 = done)
                 fi
 
                 # upscale the frame
-                output="${workspace}/frames/0${current_frame}.png"
+                output="${workspace}/frames/0${current_frame}.${format}"
                 _exec_upscale_program "$img" "$output"
                 if [ $? -ne 0 ]; then
                         _print_status error
@@ -459,18 +460,30 @@ Audio Exported : ${audio_exported} (0 = not yet; 1 = done)
                                 "${output}"
                         )"
                 fi
+
+                if [ "$output_frame_size" = "" ]; then
+                        output_frame_size="$(ffprobe \
+                                -v error \
+                                -select_streams v:0 \
+                                -show_entries stream=width,height \
+                                -of csv=s=x:p=0 \
+                                "${output}"
+                        )"
+                fi
+
                 rm "$img" &> /dev/null
 
-                # write settings to cache for recovery
+                # save settings to control file for future continuation
                 printf """\
 #!/bin/bash
 total_frames=${total_frames}
-current_frame=${current_frame}
+current_frame=$(($current_frame+1))
 pixel_format="${pixel_format}"
 frame_rate="${frame_rate}"
 video_codec="${video_codec}"
 audio_codec="${audio_codec}"
-audio_exported="${audio_exported}"
+input_frame_size="${input_frame_size}"
+output_frame_size="${output_frame_size}"
 """ > "$control"
                 if [ $? -ne 0 ]; then
                         _print_status error
@@ -482,15 +495,17 @@ audio_exported="${audio_exported}"
                 current_frame=$(($current_frame + 1))
         done
 
-        # (6) run ffmpeg to merge everything back
+        # (6) run ffmpeg to merge the frames to new video
         output="${subject_dir}/${subject_name}-${subject_suffix}.${subject_ext}"
-        ffmpeg -y -i "${workspace}/frames/0%d.png" \
-                -i "${workspace}/audio.${audio_codec}" \
+        ffmpeg -y \
+                -i "$input" \
+                -r "$frame_rate" \
+                -i "${workspace}/frames/0%d.${format}" \
                 -c:v "$video_codec" \
                 -pix_fmt "$pixel_format" \
                 -r "$frame_rate" \
+                -filter_complex "[0:v:0]scale=${output_frame_size}[v0];[v0][1]overlay=eof_action=pass" \
                 -c:a copy \
-                -shortest \
                 "$output"
 
         output=$?
