@@ -244,7 +244,9 @@ In case you need to contribute back:
 
 
 ## Benchmarks
-Results of benchmarks
+Results of benchmarks running `tests/benchmark.sh` at the root of the
+repository. Please leave the system dedicated to only running the benchmark
+and not doing something else for maintaining consistencies.
 
 ### Debian AMD64 CPU, 12GB Memory, 2GB VRAM, NVIDIA GeForce MX150
 
