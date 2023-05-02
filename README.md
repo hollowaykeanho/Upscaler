@@ -239,3 +239,18 @@ In case you need to contribute back:
    those GPG signatures preserved where GitHub Pull Request cannot fulfill).
 5. Delete your fork repo once I notify you that the merging is completed.
 6. Thank you.
+
+
+
+
+## Benchmarks
+Results of benchmarks
+
+### Debian AMD64 CPU, 12GB Memory, 2GB VRAM, NVIDIA GeForce MX150
+
+| Version     | Sample 1 (Video)                                           |
+|:------------|:-----------------------------------------------------------|
+|`v0.4.0`     | `(real) 171m56.165s (user) 257m51.602s (sys) 19m24.107s`   |
+|`v0.3.0`     | `TBD`   |
+|`v0.2.0`     | `TBD`   |
+|`v0.1.0`     | `TBD`   |
