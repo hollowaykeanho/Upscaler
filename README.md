@@ -1,4 +1,4 @@
-# Holloway's Upscaler
+# Holloway's Upscaler - for Image and Video
 [![Holloway's Upscaler](artworks/logo-1200x630.svg)](https://github.com/hollowaykeanho/Upscaler)
 This project is a consolidation of various compiled open-source AI image
 upscaler products for a working CLI friendly image and video upscaling program.
@@ -11,7 +11,7 @@ It is configured to be ready for work right at the get-go.
 For these reasons:
 
 1. **I urgently need a video upscaling technologies to work locally** -
-   for both image and video without any GUI overheads or its funkiness.
+   for both image and video without any GUI overheads.
 2. **Programmable** - when you want to upscale the an album or video, the AI
    program has to be programmable and not restricted by the GUI's design.
 3. **Reliabily working on big subject** - larger video requires streaming
@@ -29,6 +29,13 @@ original contributors here:
 2. [Nihui](https://github.com/nihui)
 3. [Xintao](https://github.com/xinntao)
 4. [Upscayl (Nayam Amarshe & TGS963)](https://github.com/upscayl/upscayl/tree/main)
+
+Sample video was supplied by
+[Igrid North](https://www.pexels.com/video/the-sun-illuminating-earth-s-surface-1851190/)
+from
+[Pexels](https://www.pexels.com/).
+
+Original 4k sized video is also available at source for upscaling comparison.
 
 
 
@@ -143,8 +150,8 @@ formats, simple execute the `--help` and look for: `AVAILABLE MODELS` and
 `AVAILABLE FORMATS` respectively.
 
 If done correctly, an image based on orginal filename with a suffix `-upscaled`
-is created. If we follow the example above, it should b
- `my-image-upscaled.webp`.
+is created. If we follow the example above, it should be
+`my-image-upscaled.webp`.
 
 
 ### Upscale a Video
@@ -152,8 +159,8 @@ Unless you're working on 8 seconds 8MB sized video, you would want to follow the
 instructions below to make sure your video upscaling project are in tact and
 resumeable.
 
-#### (1) Budget Your Storage
-Also please keep in mind that **you need at least 3x video size storage** for
+#### (1) Budget Your Hardware Storage
+Please keep in mind that **you need at least 3x video size storage** for
 the job depending on the video frame rate, frame size, color schemes and etc.
 The minimum 3x is due to:
 
@@ -164,6 +171,12 @@ The minimum 3x is due to:
 
 Hence, please plan out your storage budget before starting a video upscale
 project.
+
+> **IMPORTANT**
+>
+> **Know your hardware limitations** before determining the scaling factor. A
+> scale of 4x on a 1090p for a 16GB memory laptop can crash the entire OS during
+> video re-assembly phase due to memory starvation.
 
 #### (2) Setup Project Directory
 You're advised to create a project directory for upscaling video project due to
