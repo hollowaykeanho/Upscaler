@@ -99,7 +99,7 @@ pass all arguments into the `start.cmd`. Example:
 
 ```
 #!/bin/sh
-/path/to/Upscaler/start.cmd $@
+/path/to/Upscaler/start.cmd "$@"
 ```
 
 > TIP: if you decided to use the shell script approach, you can also design the

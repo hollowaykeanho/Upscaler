@@ -606,4 +606,4 @@ main() {
                 exit 1
         fi
 }
-main $@
+main "$@"
