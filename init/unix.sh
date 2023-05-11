@@ -433,6 +433,7 @@ Current Frame  : ${current_frame}
                 # extract 1 frame
                 img="${workspace}/sample.${format}"
                 ffmpeg -y \
+                        -thread_queue_size 4096 \
                         -i "$input" \
                         -vf select="'eq(n\,${current_frame})'" \
                         -vframes 1 \
@@ -498,8 +499,10 @@ output_frame_size="${output_frame_size}"
         # (6) run ffmpeg to merge the frames to new video
         output="${subject_dir}/${subject_name}-${subject_suffix}.${subject_ext}"
         ffmpeg -y \
+                -thread_queue_size 4096 \
                 -i "$input" \
                 -r "$frame_rate" \
+                -thread_queue_size 4096 \
                 -i "${workspace}/frames/0%d.${format}" \
                 -c:v "$video_codec" \
                 -pix_fmt "$pixel_format" \
