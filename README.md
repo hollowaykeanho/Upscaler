@@ -58,10 +58,19 @@ Here are the tested hardware and operating system:
 
 > **IMPORTANT NOTE**
 >
+> (1)
+>
 > You seriously need a compatible GPU to drastically speed up the upscaling
 > efforts **from hours to minutes**. I tested mine against
 > `NVIDIA GeForce MX150` vs. `Intel(R) UHD Graphics 620 (KBL GT2)` built-in
 > graphic hardwares on my laptop. It did a huge difference.
+>
+> (2)
+>
+> At the moment, the algorithm only works on constant bit rate video. Variable
+> bit rate (VBR) video are considered but may be done in the future with proper
+> programming language. Most (as in 99% of video) are constant bit rate video
+> so VBR support is at least concern.
 
 > **NOTE TO MacOS USERS**
 >
