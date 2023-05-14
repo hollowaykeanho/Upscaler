@@ -261,6 +261,7 @@ and not doing something else for maintaining consistencies.
 
 | Version     | Sample 1 (Video)                                           |
 |:------------|:-----------------------------------------------------------|
+| `v0.5.0`    | `(real) 153m12.182s (user) 178m30.323s (sys) 18m29.955s`   |
 |`v0.4.0`     | `(real) 171m56.165s (user) 257m51.602s (sys) 19m24.107s`   |
 |`v0.3.0`     | `TBD`   |
 |`v0.2.0`     | `TBD`   |
