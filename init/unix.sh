@@ -190,6 +190,7 @@ _check_os() {
 
 _check_arch() {
         program="${program}-amd64"
+
         return 0
 }
 
