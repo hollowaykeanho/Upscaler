@@ -2,6 +2,7 @@ echo >/dev/null # >nul & GOTO WINDOWS & rem ^
 #
 # BSD 3-Clause License
 #
+# Copyright (c) 2023, Joly0
 # Copyright (c) 2023, (Holloway) Chew, Kean Ho
 # All rights reserved.
 #

@@ -37,6 +37,12 @@ from
 origin for upscaling comparison.
 
 
+### Contributors
+This repository was made possible by the following contributors:
+
+1. [Joly0](https://github.com/Joly0) - Windows support via PowerShell
+
+
 
 
 ## License

@@ -65,7 +65,7 @@ function Test-Program {
 		$script:program = "$repo\bin\windows-amd64.exe"
 		return $true
 	}
-	
+
 	return $false
 }
 
@@ -74,12 +74,12 @@ function Test-Model {
 		Write-Host "Unspecified model" $model -ForegroundColor Red
 		return $false
 	}
-	
+
 	if (-not (Test-Path -Path "$repo\models") ) {
 		Write-Host "$repo\models folder not found" -ForegroundColor Red
 		return $false
 	}
-	
+
 	return $true
 }
 
@@ -110,19 +110,19 @@ function Get-Scale($model_max_scale) {
 		Write-Host "Unspecified scaling factor" -ForegroundColor Red
 		return $false
 	}
-	
+
 	if ( ($model_max_scale -eq 0) -and ($scale -gt 1) ) {
 		return $true
 	} else {
 		Write-Host "Bad scale:" $scale -ForegroundColor Red
 		return $false
 	}
-	
+
 	if ($scale -gt $model_max_scale) {
 		Write-Host "Scale is too big:" $scale "/" $model_max_scale -ForegroundColor Red
 		return $false
 	}
-	
+
 	return $true
 }
 
@@ -134,7 +134,7 @@ function Get-Format {
 			$script:format = $path.Substring($path.LastIndexOf('.') + 1)
 		}
 	}
-	
+
 	switch ($format.ToLower()) {
 		'jpg' {
 			$format = 'jpg'
@@ -160,12 +160,12 @@ function Get-IO {
 		Write-Host "Unspecified input path" -ForegroundColor Red
 		return $false
 	}
-	
+
 	if (-not (Test-Path -Path $path) ) {
 		Write-Host "Input does not exist:" $path -ForegroundColor Red
 		return $false
 	}
-	
+
 	if ($video) {
 		if ( -not (Get-Command ffmpeg -ErrorAction SilentlyContinue) ) {
 			Write-Host "Missing required ffmpeg program for video." -ForegroundColor Red
@@ -177,7 +177,7 @@ function Get-IO {
 			return $false
 		}
 	}
-	
+
 	return $true
 }
 
@@ -197,8 +197,8 @@ function Invoke-Program {
 	Write-Host "Upscale Max Scale:" $model_max_scale "(0=No Limit)"
 	Write-Host "Upscale Format:" $format
 	Write-Host "Input File:" $path
-	if ($video) { 
-		Write-Host "Video mode set" 
+	if ($video) {
+		Write-Host "Video mode set"
 	}
 	Write-Host "Output Directory:" $subject_dir
 	Write-Host "Output Filename:" $subject_name
