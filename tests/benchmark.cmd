@@ -61,7 +61,7 @@ exit $?
 setlocal enabledelayedexpansion
 if exist ./start.cmd (
         set startTime=!time!
-        time ./start.cmd ^
+        ./start.cmd ^
                 --model upscayl-ultrasharp2 ^
                 --scale 4 ^
                 --format webp ^
