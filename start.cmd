@@ -48,7 +48,24 @@ exit $?
 ::##############################################################################
 :: Windows Main Codes                                                          #
 ::##############################################################################
-echo Unsupported for now.
+@echo off
+setlocal EnableDelayedExpansion
+
+IF "%*"=="" ( goto :empty )
+
+set location=%~dp0init\windows.ps1
+set location="%location%"
+set _parameters=%*
+set _parameters=!_parameters:--=-!
+set _parameters=!_parameters:input=path!
+set _parameters=!_parameters:"=\"!
+Powershell.exe -NoProfile -Command "& '%location%' %_parameters%"
+EXIT /B
+
+:empty
+set location=%~dp0init\windows.ps1
+set location="%location%"
+Powershell.exe -NoProfile -Command "& '%location%'"
 ::##############################################################################
 :: Windows Main Codes                                                          #
 ::##############################################################################
