@@ -30,12 +30,11 @@ original contributors here:
 3. [Xintao](https://github.com/xinntao)
 4. [Upscayl (Nayam Amarshe & TGS963)](https://github.com/upscayl/upscayl/tree/main)
 
-Sample video was supplied by
+Test sample video in the `tests/` directory was supplied by
 [Igrid North](https://www.pexels.com/video/the-sun-illuminating-earth-s-surface-1851190/)
 from
-[Pexels](https://www.pexels.com/).
-
-Original 4k sized video is also available at source for upscaling comparison.
+[Pexels](https://www.pexels.com/). Original 4k sized video is also available at
+origin for upscaling comparison.
 
 
 
