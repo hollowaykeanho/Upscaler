@@ -56,14 +56,14 @@ Here are the tested hardware and operating system:
 | `darwin-amd64` (macOS) | `FAILED`    | Binary failed to use `Intel Iris Graphics` iGPU and CPU. |
 | `windows-amd64` (windows) | `TBD`    | **Help Needed** - either powershell support or BATCH translations. |
 
-> **IMPORTANT NOTE**
+> **IMPORTANT NOTES**
 >
 > (1)
 >
 > You seriously need a compatible GPU to drastically speed up the upscaling
-> efforts **from hours to minutes**. I tested mine against
+> efforts **from hours to seconds** for image. I tested mine against
 > `NVIDIA GeForce MX150` vs. `Intel(R) UHD Graphics 620 (KBL GT2)` built-in
-> graphic hardwares on my laptop. It did a huge difference.
+> graphic hardwares in my laptop. It did a huge difference.
 >
 > (2)
 >
@@ -71,6 +71,13 @@ Here are the tested hardware and operating system:
 > bit rate (VBR) video are considered but may be done in the future with proper
 > programming language. Most (as in 99% of video) are constant bit rate video
 > so VBR support is at least concern.
+>
+> (3)
+>
+> Not all images can be upscaled (e.g. some AI generated images from Stable
+> Diffussion) due to the binary's internal image decoder bug. Tracking issue:
+> https://github.com/xinntao/Real-ESRGAN/issues/595
+
 
 > **NOTE TO MacOS USERS**
 >
@@ -78,7 +85,7 @@ Here are the tested hardware and operating system:
 > grant the use permission in your `Settings > Security & Privacy` section.
 >
 > Please be informed that my test result is in accordance with the Upscayl team:
-> many CPU and iGPUs are not woking and supported yet.
+> many CPU and iGPUs are not working and supported yet.
 
 
 ### Dependencies
@@ -130,13 +137,13 @@ This repository was unified using
 [Holloway's Polygot Script](https://github.com/hollowaykeanho/PolygotScript) to
 keep user instruction extremely simple. Hence, in any operating system (UNIX or
 WINDOWS), simply interact with the repository's `start.cmd` script will do.
-Example for, instruction on Linux or MacOS
+Example for requesting a help instruction:
 
 ```
 $ ./Upscaler/start.cmd --help
 ```
 
-In help display, you generally want to take notice of the `AVAILABLE MODELS`
+In the help display, you generally want to take notice of the `AVAILABLE MODELS`
 list. The upscaling algorithms are solely based on the available models in the
 [models](https://github.com/hollowaykeanho/Upscaler/tree/main/models) directory.
 The scripts are written in a way to dynamically index each of them and present
@@ -184,8 +191,8 @@ project.
 > **IMPORTANT**
 >
 > **Know your hardware limitations** before determining the scaling factor. A
-> scale of 4x on a 1090p for a 16GB memory laptop can crash the entire OS during
-> video re-assembly phase due to memory starvation.
+> scale of 4x on a 1090p for a 12GB memory laptop can crash the entire OS during
+> the video re-assembly phase with FFMPEG due to memory starvation.
 
 #### (2) Setup Project Directory
 You're advised to create a project directory for upscaling video project due to
