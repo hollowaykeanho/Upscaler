@@ -37,7 +37,7 @@ if [ -f "./start.cmd" ]; then
         rm -rf ./tests/video/sample-1-640x360-upscaled_workspace &> /dev/null
         rm -rf ./tests/video/sample-1-640x360-upscaled.mp4 &> /dev/null
         time ./start.cmd \
-                --model upscayl-ultrasharp2 \
+                --model upscayl-ultrasharp-v2 \
                 --scale 4 \
                 --format webp \
                 --video \
@@ -59,20 +59,21 @@ exit $?
 ::##############################################################################
 @echo off
 setlocal enabledelayedexpansion
-if exist ./start.cmd (
-        set startTime=!time!
-        ./start.cmd ^
-                --model upscayl-ultrasharp2 ^
-                --scale 4 ^
-                --format webp ^
-                --video ^
-                --input tests/video/sample-1-640x360.mp4
-        set endTime=!time!
-        set /A elapsedTime=(((1%endTime:~0,2%-100)*60)+1%endTime:~3,2%-100)-(((1%startTime:~0,2%-100)*60)+1%startTime:~3,2%-100)
-        echo Elapsed time: %elapsedTime% seconds
-) else (
-        echo "[ ERROR ] Please make sure you're at the root location of the repo!"
-)
+if exist start.cmd ( goto :runBenchmark )
+echo "[ ERROR ] Please make sure you're at the root location of the repo!"
+
+:runBenchmark
+set startTime=!time!
+start.cmd ^
+		--model upscayl-ultrasharp-v2 ^
+		--scale 4 ^
+		--format webp ^
+		--video ^
+		--input tests/video/sample-1-640x360.mp4
+set endTime=!time!
+set /A elapsedTime=(((1%endTime:~0,2%-100)*60)+1%endTime:~3,2%-100)-(((1%startTime:~0,2%-100)*60)+1%startTime:~3,2%-100)
+echo Elapsed time: %elapsedTime% seconds
+EXIT /B
 ::##############################################################################
 :: Windows Main Codes                                                          #
 ::##############################################################################
