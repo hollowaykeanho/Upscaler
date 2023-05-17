@@ -102,7 +102,7 @@ function Get-ModelInformation {
 	}
 
 	Write-Host "Unsupported model:" $model -ForegroundColor Red
-	return $false
+	Exit
 }
 
 function Get-Scale($model_max_scale) {
@@ -167,12 +167,12 @@ function Get-IO {
 	}
 
 	if ($video) {
-		if ( -not (Get-Command ffmpeg -ErrorAction SilentlyContinue) ) {
+		if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue) ) {
 			Write-Host "Missing required ffmpeg program for video." -ForegroundColor Red
 			return $false
 		}
 
-		if ( -not (Get-Command ffprobe -ErrorAction SilentlyContinue) ) {
+		if (-not (Get-Command ffprobe -ErrorAction SilentlyContinue) ) {
 			Write-Host "Missing required ffprobe program for video." -ForegroundColor Red
 			return $false
 		}
@@ -315,24 +315,24 @@ if ($help) {
 
 if (-not (Test-Program) ) {
 	Write-Output "Missing AI executable: $repo\bin\windows-amd64.exe" -ForegroundColor Red
-	exit
+	Exit
 }
 
 if (-not (Test-Model) ) {
-	exit
+	Exit
 }
 $modeldetails = Get-ModelInformation
 
 if (-not (Get-Scale -model_max_scale $modeldetails.Model_Max_Scale) ) {
-	exit
+	Exit
 }
 
 if (-not (Get-Format) ) {
-	exit
+	Exit
 }
 
 if (-not (Get-IO) ) {
-	exit
+	Exit
 } else {
 	$subject_name = Split-Path $path -Leaf
 	$subject_dir = Split-Path $path -Parent
@@ -340,6 +340,6 @@ if (-not (Get-IO) ) {
 	$subject_name = $subject_name -replace "\.$subject_ext", ""
 }
 
-if (-not (Invoke-Programm) ) {
-	exit
+if (-not (Invoke-Program) ) {
+	Exit
 }
