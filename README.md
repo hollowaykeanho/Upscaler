@@ -106,6 +106,7 @@ You can proceed to install it at: https://ffmpeg.org/
 Here are the basic user manuals:
 
 
+
 ### Install
 To install, simply `git clone` the repository into an appropriate location and
 symlink to your `$PATH` or `%PATH%` directory. Example, on `Debian Linux`:
@@ -137,6 +138,7 @@ pass all arguments into the `start.cmd`. Example:
 > resources to rewrite or study the NCNN.
 
 
+
 ### Call for Help
 This repository was unified using
 [Holloway's Polygot Script](https://github.com/hollowaykeanho/PolygotScript) to
@@ -153,6 +155,7 @@ list. The upscaling algorithms are solely based on the available models in the
 [models](https://github.com/hollowaykeanho/Upscaler/tree/main/models) directory.
 The scripts are written in a way to dynamically index each of them and present
 it in the help display without re-writing itself.
+
 
 
 ### Upscale an Image
@@ -175,10 +178,12 @@ is created. If we follow the example above, it should be
 `my-image-upscaled.webp`.
 
 
+
 ### Upscale a Video
 Unless you're working on 8 seconds 8MB sized video, you would want to follow the
 instructions below to make sure your video upscaling project are in tact and
 resumeable.
+
 
 #### (1) Budget Your Hardware Storage
 Please keep in mind that **you need at least 3x video size storage** for
@@ -198,6 +203,7 @@ project.
 > **Know your hardware limitations** before determining the scaling factor. A
 > scale of 4x on a 1090p for a 12GB memory laptop can crash the entire OS during
 > the video re-assembly phase with FFMPEG due to memory starvation.
+
 
 #### (2) Setup Project Directory
 You're advised to create a project directory for upscaling video project due to
@@ -235,6 +241,7 @@ work. A good directory looks something as follows:
 └── sample-vid.mp4
 ```
 
+
 #### (3) Run The Initator Script
 To initiate or to resume project, simply run your initiated project:
 
@@ -245,6 +252,7 @@ $ ./run.sh
 
 The Upscaler will create a workspace to house its output frames and control
 values.
+
 
 #### (4) Resetting the Project [IN CASE]
 Just in case if you bump into something odd that requires to restart the project
@@ -261,15 +269,21 @@ do frame extractions for other purposes (e.g. getting thumbnail).
 Star, Watch, or the best: **sponsor the contributors**.
 
 
+
 ### Contribute Back
 In case you need to contribute back:
 
 1. Raise an [issue ticket](https://github.com/hollowaykeanho/Upscaler/issues).
 2. Fork the repository and work against the `main` branch.
 3. Develop your contributions and ensure your commit are GPG-signed.
-4. Once done, **DO NOT raise a pull request**. Simply notify me via your ticket
-   and I will clone your forked repo locally and `cherry-pick` them (I want
-   those GPG signatures preserved where GitHub Pull Request cannot fulfill).
+4. Once done, **DO NOT raise a pull request unless instructed**. Simply notify
+   me via your ticket and I will clone your forked repo locally and
+   `cherry-pick` them (I need those GPG signatures preserved where GitHub Pull
+   Request cannot fulfill). An exception would be the you have a need to earn
+   the
+   [GitHub Pair Extraordinaire Badge](https://github.blog/2018-01-29-commit-together-with-co-authors/).
+   For doing that, please add me into your forked repo and I will make it happen
+   for you.
 5. Delete your fork repo once I notify you that the merging is completed.
 6. Thank you.
 
@@ -280,6 +294,7 @@ In case you need to contribute back:
 Results of benchmarks running `tests/benchmark.sh` at the root of the
 repository. Please leave the system dedicated to only running the benchmark
 and not doing something else for maintaining consistencies.
+
 
 ### Debian AMD64 CPU, 12GB Memory, 2GB VRAM, NVIDIA GeForce MX150
 
