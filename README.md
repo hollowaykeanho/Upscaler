@@ -204,13 +204,25 @@ You're advised to create a project directory for upscaling video project due to
 its large sized data.
 
 Instead of executing the `start.cmd` straight away, please script it inside and
-place it in a project directory. A simple example would be:
+place it in a project directory.
+
+A simple UNIX example would be a shell script (e.g. `run.sh`) as follows:
 
 ```
 #!/bin/sh
 /path/to/Upscaler/start.cmd --model ultrasharp \
 	--scale 4 \
 	--input ./sample-vid.mp4 \
+	--video
+```
+
+A simple WINDOWS example would be a batch script (e.g. `run.bat`) as follows:
+
+```
+@echo off
+/path/to/Upscaler/start.cmd --model ultrasharp ^
+	--scale 4 ^
+	--input ./sample-vid.mp4 ^
 	--video
 ```
 
@@ -236,11 +248,11 @@ values.
 
 #### (4) Resetting the Project [IN CASE]
 Just in case if you bump into something odd that requires to restart the project
-from start, you can delete the `-workspace` directory inside the project to
-restart all over again.
+from start, you can delete the `-workspace` directory inside the project and it
+will restart all over again.
 
 The project intentionally left the workspace as it is for those who want to
-do frame extractions for other purposes (e.g. thumbnail).
+do frame extractions for other purposes (e.g. getting thumbnail).
 
 
 
