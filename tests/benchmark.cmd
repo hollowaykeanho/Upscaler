@@ -33,18 +33,20 @@ echo >/dev/null # >nul & GOTO WINDOWS & rem ^
 ################################################################################
 # Unix Main Codes                                                              #
 ################################################################################
-if [ -f "./start.cmd" ]; then
-        rm -rf ./tests/video/sample-1-640x360-upscaled_workspace &> /dev/null
-        rm -rf ./tests/video/sample-1-640x360-upscaled.mp4 &> /dev/null
-        time ./start.cmd \
-                --model upscayl-ultrasharp-v2 \
-                --scale 4 \
-                --format webp \
-                --video \
-                --input tests/video/sample-1-640x360.mp4
-else
-        printf "[ ERROR ] Please make sure you're at the root location of the repo!\n"
+if [ ! -f "./start.cmd" ]; then
+	printf "[ ERROR ] Please make sure you're at the root location of the repo!\n"
+	exit 1
 fi
+
+
+rm -rf ./tests/video/sample-1-640x360-upscaled_workspace &> /dev/null
+rm -rf ./tests/video/sample-1-640x360-upscaled.mp4 &> /dev/null
+time ./start.cmd \
+	--model upscayl-ultrasharp-v2 \
+	--scale 4 \
+	--format webp \
+	--video \
+	--input tests/video/sample-1-640x360.mp4
 ################################################################################
 # Unix Main Codes                                                              #
 ################################################################################
@@ -61,19 +63,23 @@ exit $?
 setlocal enabledelayedexpansion
 if exist start.cmd ( goto :runBenchmark )
 echo "[ ERROR ] Please make sure you're at the root location of the repo!"
+EXIT /B
+
 
 :runBenchmark
+del .\tests\video\sample-1-640x360-upscaled_workspace 2>null
+del .\tests\video\sample-1-640x360-upscaled.mp4 2>null
 set startTime=!time!
 start.cmd ^
-		--model upscayl-ultrasharp-v2 ^
-		--scale 4 ^
-		--format webp ^
-		--video ^
-		--input tests/video/sample-1-640x360.mp4
+	--model upscayl-ultrasharp-v2 ^
+	--scale 4 ^
+	--format webp ^
+	--video ^
+	--input tests/video/sample-1-640x360.mp4
 set endTime=!time!
 set /A elapsedTime=(((1%endTime:~0,2%-100)*60)+1%endTime:~3,2%-100)-(((1%startTime:~0,2%-100)*60)+1%startTime:~3,2%-100)
 echo Elapsed time: %elapsedTime% seconds
-EXIT /B
 ::##############################################################################
 :: Windows Main Codes                                                          #
 ::##############################################################################
+EXIT /B
