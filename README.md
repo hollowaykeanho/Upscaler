@@ -12,11 +12,11 @@ For these reasons:
 
 1. **I urgently need a video upscaling technologies to work locally** -
    for both image and video without any GUI overheads.
-2. **Programmable** - when you want to upscale the an album or video, the AI
-   program has to be programmable and not restricted by the GUI's design.
+2. **Programmable** - when you want to upscale an album or a video, the AI
+   program has to be programmable and not restricted by any GUI's design.
 3. **Reliabily working on big subject** - larger video requires streaming
-   approach to prevent the program from consuming too much resources from the
-   system.
+   approach to prevent its upscaling processing efforts from consuming too much
+   resources from the system (e.g. disk space, RAM, and vRAM).
 
 
 
@@ -59,7 +59,7 @@ Here are the tested hardware and operating system:
 |:-------------------|:------------|:------------------------|
 | `debian-amd64` (linux) | `PASS`      | `NVIDIA GeForce MX150`, `Intel(R) UHD Graphics 620 (KBL GT2)` |
 | `darwin-amd64` (macOS) | `FAILED`    | Binary failed to use `Intel Iris Graphics` iGPU and CPU. |
-| `windows-amd64` (windows) | `TBD`    | **Help Needed** - either powershell support or BATCH translations. |
+| `windows-amd64` (windows) | `TBD`    | **Help Needed** - pending benchmark results from `tests/benchmark.cmd` |
 
 > **IMPORTANT NOTES**
 >
@@ -124,8 +124,8 @@ pass all arguments into the `start.cmd`. Example:
 /path/to/Upscaler/start.cmd "$@"
 ```
 
-> TIP: if you decided to use the shell script approach, you can also design the
-> command to use your default model and scaling for your programming
+> TIP: if had you decided to use the shell script approach, you can also design
+> the command to use your default model and scaling for your programming
 > efficiencies. Recommend you use `$HOME/bin` directory if it is set visible in
 > your `$PATH` value.
 
@@ -181,8 +181,8 @@ is created. If we follow the example above, it should be
 
 ### Upscale a Video
 Unless you're working on 8 seconds 8MB sized video, you would want to follow the
-instructions below to make sure your video upscaling project are in tact and
-resumeable.
+instructions below to make sure your video upscaling project are always
+in-tact and resumeable.
 
 
 #### (1) Budget Your Hardware Storage
@@ -195,14 +195,15 @@ The minimum 3x is due to:
    frame by frame losing the video compression effect).
 3. 1 set is your output video (bigger than original of course).
 
-Hence, please plan out your storage budget before starting a video upscale
+Hence, please plan out your storage budget before starting a video upscaling
 project.
 
 > **IMPORTANT**
 >
 > **Know your hardware limitations** before determining the scaling factor. A
-> scale of 4x on a 1090p for a 12GB memory laptop can crash the entire OS during
-> the video re-assembly phase with FFMPEG due to memory starvation.
+> scale of 4x on a 1090p for a 12GB memory laptop can crash the entire OS (I'm
+> talking about the very stable Debian OS) during the video re-assembly phase
+> with FFMPEG due to memory starvation.
 
 
 #### (2) Setup Project Directory
@@ -251,13 +252,19 @@ $ ./run.sh
 ```
 
 The Upscaler will create a workspace to house its output frames and control
-values.
+values. You can inspect the frame images while Upscaler is at work as long as
+you're viewing the frame that it is working on.
+
+I recommend you inpect the frames first for determining whether the AI model is
+suitable or otherwise. If it's not, please stop the process and execute the next
+step.
 
 
-#### (4) Resetting the Project [IN CASE]
+#### (4) Resetting the Project [JUST IN CASE]
 Just in case if you bump into something odd that requires to restart the project
-from start, you can delete the `-workspace` directory inside the project and it
-will restart all over again.
+from start, you can delete the `[FILENAME]-workspace` directory inside the
+project directory. This will force the program to restart everything all over
+again.
 
 The project intentionally left the workspace as it is for those who want to
 do frame extractions for other purposes (e.g. getting thumbnail).
