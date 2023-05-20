@@ -41,12 +41,16 @@ fi
 
 rm -rf ./tests/video/sample-1-640x360-upscaled_workspace &> /dev/null
 rm -rf ./tests/video/sample-1-640x360-upscaled.mp4 &> /dev/null
-time ./start.cmd \
+start="$(echo $(($(date +%s%N)/1000000000)))"
+./start.cmd \
 	--model upscayl-ultrasharp-v2 \
 	--scale 4 \
 	--format webp \
 	--video \
 	--input tests/video/sample-1-640x360.mp4
+end="$(echo $(($(date +%s%N)/1000000000)))"
+duration="$(($end - $start))"
+printf "Elapsed time: ${duration} seconds.\n"
 ################################################################################
 # Unix Main Codes                                                              #
 ################################################################################
@@ -75,10 +79,10 @@ start.cmd ^
 	--scale 4 ^
 	--format webp ^
 	--video ^
-	--input tests/video/sample-1-640x360.mp4
+	--input tests\video\sample-1-640x360.mp4
 set endTime=!time!
 set /A elapsedTime=(((1%endTime:~0,2%-100)*60)+1%endTime:~3,2%-100)-(((1%startTime:~0,2%-100)*60)+1%startTime:~3,2%-100)
-echo Elapsed time: %elapsedTime% seconds
+echo Elapsed time: %elapsedTime% seconds.
 ::##############################################################################
 :: Windows Main Codes                                                          #
 ::##############################################################################
