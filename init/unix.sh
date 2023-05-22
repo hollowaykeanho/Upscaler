@@ -351,12 +351,13 @@ Output Extension : $__output_format
         if [ $video_mode -eq 0 ]; then
                 output="${subject_dir}/${subject_name}-${subject_suffix}.${format}"
                 _exec_upscale_program "$input" "$output"
-
-                output=$?
-                if [ $output -eq 0 ]; then
+                if [ $? -eq 0 ]; then
                         _print_status success "\n"
+                        exit 0
                 fi
-                return $?
+
+                _print_status error
+                exit 1
         fi
 
         # (2) setup video workspace

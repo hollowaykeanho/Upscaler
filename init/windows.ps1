@@ -1,6 +1,7 @@
 #
 # BSD 3-Clause License
 #
+# Copyright (c) 2023, (Holloway) Chew, Kean Ho <hollowaykeanho@gmail.com>
 # Copyright (c) 2023, Joly0 (https://github.com/Joly0)
 # All rights reserved.
 #
@@ -183,7 +184,12 @@ function Get-IO {
 
 function Invoke-Upscale($input_path, $output_path) {
 	$params = "-i `"$input_path`" -o `"$output_path`" -s $scale -m `"$repo\models`" -n $model -f $format"
-	Start-Process -FilePath $program -ArgumentList $params -Wait -WindowStyle Hidden
+	$process = (Start-Process -FilePath $program -ArgumentList $params -Wait -PassThru)
+	if ($process.ExitCode) {
+		return $false
+	}
+
+	return $true
 }
 
 function Invoke-Program {
@@ -198,22 +204,26 @@ function Invoke-Program {
 	Write-Host "Upscale Format:" $format
 	Write-Host "Input File:" $path
 	if ($video) {
-		Write-Host "Video mode set"
+		Write-Host "Is Video Input   : 1 (0=No ; 1=Yes)"
+	} else {
+		Write-Host "Is Video Input   : 0 (0=No ; 1=Yes)"
 	}
+	Write-Host ""
 	Write-Host "Output Directory:" $subject_dir
 	Write-Host "Output Filename:" $subject_name
 	Write-Host "Output Suffix:" $subject_suffix
 	Write-Host "Output Extension:" $output_format
 
+
 	if (-not ($video) ) {
 		$script:output = $subject_dir + "\" + $subject_name + "-" + $subject_suffix + "." + $output_format
-		Invoke-Upscale -input_path $path -output_path $output
-
-		if (Test-Path $output) {
-			Write-Host "Success" -ForegroundColor Green
-			return $true
+		if (-not (Invoke-Upscale -input_path $path -output_path $output) ) {
+			Write-Host "Error" -ForegroundColor Red
+			Exit
 		}
-		return $false
+
+		Write-Host "Success" -ForegroundColor Green
+		Exit
 	}
 
 	$script:workspace = $subject_dir + "\" + $subject_name + "-" + $subject_suffix + "_" + "workspace"
@@ -246,7 +256,7 @@ function Invoke-Program {
 	Write-Host "Pixel Format:" $pixel_format "(empty means yet to determine)"
 	Write-Host "Input Frame:" $input_frame_size
 	Write-Host "Output Frame:" $output_frame_size "(empty means yet to determine)"
-
+	Write-Host ""
 	Write-Host "Frame Rate:" $frame_rate
 	Write-Host "Total Frames:" $total_frames
 	Write-Host "Current Frame:" $current_frame
@@ -257,7 +267,11 @@ function Invoke-Program {
 		ffmpeg -y -thread_queue_size 4096 -i "$path" -vf select="eq(n\,$_)" -vframes 1 $img 2> $null
 
 		$script:output = $workspace + "/" + "frame" + "/" + "0" + $_ + "." + $format
-		Invoke-Upscale -input_path $img -output_path $output;
+		if (-not (Invoke-Upscale -input_path $img -output_path $output) ) {
+			Write-Host "Error" -ForegroundColor Red
+			Exit
+		}
+
 		if ( [string]::IsNullOrEmpty($pixel_format) ) {
 			$pixel_format = ffprobe -loglevel error -show_entries stream=pix_fmt -of csv=p=0 `"$output`" 2>&1
 		}
