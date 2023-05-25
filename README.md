@@ -61,6 +61,14 @@ Here are the tested hardware and operating system:
 > Not all images can be upscaled (e.g. some AI generated images from Stable
 > Diffussion) due to the binary's internal image decoder bug. Tracking issue:
 > https://github.com/xinntao/Real-ESRGAN/issues/595
+>
+> (4)
+>
+> Re-packaging efforts are unlikely because currently it's a bad investment.
+> It's either I spend the time study NCNN implementations and write the whole
+> XinTao's RealESRGAN-Vulcan program as my own codes from scratch or glued the
+> existing programs together. At the moment, I do not have the resources to rewrite
+> or study the NCNN (yet).
 
 
 > **NOTE TO MacOS USERS**
@@ -72,11 +80,12 @@ Here are the tested hardware and operating system:
 > many CPU and iGPUs are not working and supported yet.
 
 
+
 ### Dependencies
 If you're working on video, you need `ffmpeg` and `ffprobe` for dissecting and
 reassembling a video file.
 
-You can proceed to install it at: https://ffmpeg.org/
+You can proceed to install them in 1 go at: https://ffmpeg.org/
 
 
 
@@ -87,11 +96,38 @@ Here are the basic user manuals:
 
 
 ### Install
-To install, simply `git clone` the repository into an appropriate location and
-symlink to your `$PATH` or `%PATH%` directory. Example, on `Debian Linux`:
+There are different ways of installing this program depending on your interested
+versions:
+
+
+#### `>= v0.6.0`
+You can download the latest version of the `upscaler-[VERSION].zip`
+package from https://github.com/hollowaykeanho/Upscaler/releases
+and unzip it to an appropriate version. Note that the models are already
+included in this package.
+
+For those who wants to just update the models, the
+`upscaler-models-[VERSION].zip` is made available for you. Simply overwrite
+the `models/` directory's contents in the software.
+
+For those who wants to run test and benchmarks for the repository, the
+`upscaler-tests-[VERSION].zip` is made available for you. Simply integrate
+the `tests/` directory into your existing software program.
+
+
+#### `< v0.6.0`
+You need to `git clone` the repository into an appropriate location.
 
 ```
 $ git clone https://github.com/hollowaykeanho/Upscaler.git
+```
+
+
+### Setup Pathing for Comamnd Calls [OPTIONAL, 1-Time]
+We advise you to symlink the `start.cmd` into `$PATH` or `%PATH%` directory
+depending on your operating system. Example, on `Debian Linux`:
+
+```
 $ ln -s /path/to/Upscaler/start.cmd /path/to/bin/upscaler
 ```
 
@@ -107,14 +143,6 @@ pass all arguments into the `start.cmd`. Example:
 > the command to use your default model and scaling for your programming
 > efficiencies. Recommend you use `$HOME/bin` directory if it is set visible in
 > your `$PATH` value.
-
-> NOTE:
->
-> Re-packaging efforts are unlikely because it's a bad investment. It's either
-> I spend the time study NCNN implementations and write the whole XinTao's
-> RealESRGAN-Vulcan program as my own codes or glued the existing programs
-> together with POSIX compliant shell script. At the moment, I do not have the
-> resources to rewrite or study the NCNN.
 
 
 
