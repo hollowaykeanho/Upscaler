@@ -1,0 +1,103 @@
+[Metadata]
+Name = "Zip Upscaler's Models"
+Description = """
+Package upscaler's models into a single .zip package.
+"""
+Type = 'manual'
+
+
+
+
+[Variables]
+Product = 'upscaler-models'
+
+[FMTVariables]
+PackageDir = '{{- .WorkingDir -}}/{{- .Product -}}'
+
+
+
+
+[[Dependencies]]
+Name = 'Zip Program for Archive and Compression'
+Conditions = 'all-all'
+Type = 'command'
+Command = 'zip'
+
+
+[[Dependencies]]
+Name = 'GPG Program for Cryptography Certificate Generation'
+Conditions = 'all-all'
+Type = 'command'
+Command = 'gpg'
+
+
+
+
+[Packages.001]
+OS = [ 'all' ]
+Arch = [ 'all' ]
+Name = '{{- .Product -}}-{{- .PkgVersion -}}'
+Distribution = [
+	'stable',
+]
+BuildSource = false
+
+[Packages.001.Files]
+'{{- .PackageDir -}}/start.cmd' = '{{- .RootDir -}}/start.cmd'
+
+
+
+
+
+
+
+[[CMD]]
+Name = 'Delete Existing Packaging Directory if Exists'
+Type = 'delete-recursive-quiet'
+Condition = [ 'all-all' ]
+Source = '{{ .PackageDir -}}'
+
+
+[[CMD]]
+Name = 'Make Packaging Directory for New Packaging Job'
+Type = 'create-path'
+Condition = [ 'all-all' ]
+Source = '{{ .PackageDir -}}'
+
+
+[[CMD]]
+Name = 'Copy models/ to target'
+Type = 'copy'
+Condition = [ 'all-all' ]
+Source = '{{- .RootDir -}}/models'
+Target = '{{- .PackageDir -}}/models'
+
+
+[[CMD]]
+Name = 'Copy LICENSE.TXT to target'
+Type = 'copy'
+Condition = [ 'all-all' ]
+Source = '{{- .RootDir -}}/LICENSE.txt'
+Target = '{{- .PackageDir -}}/LICENSE.txt'
+
+
+[[CMD]]
+Name = 'Compress into Zip'
+Type = 'command'
+Condition = [ 'all-all' ]
+Location = '{{- .WorkingDir -}}'
+Source = 'zip -r "{{- .Product -}}-{{- .App.Version -}}.zip" "{{- .Product -}}"'
+
+
+[[CMD]]
+Name = 'Generate GPG Certificate'
+Type = 'command'
+Condition = [ 'all-all' ]
+Location = '{{- .WorkingDir -}}'
+Source = '''gpg \
+--batch --yes \
+--local-user hollowaykeanho@gmail.com \
+--armor \
+--detach-sign \
+"{{- .Product -}}-{{- .App.Version -}}.zip" \
+'''
