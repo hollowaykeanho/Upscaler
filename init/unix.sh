@@ -326,17 +326,25 @@ _exec_upscale_program() {
 _exec_program() {
         # (0) printout job info
         __output_format="$format"
+        ___video_mode="No"
         if [ $video_mode -gt 0 ]; then
                 __output_format="$subject_ext"
+                ___video_mode="Yes"
         fi
+
+        ___model_max_scale='unspecified'
+        if [ $model_max_scale -gt 0 ]; then
+                ___model_max_scale="$model_max_scale"
+        fi
+
         _print_status info """
 
 Upscale Model    : $model
 Upscale Scale    : $scale
-Model Max Scale  : $model_max_scale (0=No Limit)
+Model Max Scale  : $___model_max_scale
 Upscale Format   : $format
 Input File       : $input
-Is Video Input   : $video_mode (0=No ; 1=Yes)
+Is Video Input   : $___video_mode
 
 Output Directory : $subject_dir
 Output Filename  : $subject_name
@@ -345,7 +353,7 @@ Output Extension : $__output_format
 
 
 """
-        unset __output_format
+        unset __output_format ___video_mode ___model_max_scale
 
         # (1) execute image upscale if it's not a video job.
         if [ $video_mode -eq 0 ]; then
