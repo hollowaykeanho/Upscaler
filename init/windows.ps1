@@ -198,21 +198,26 @@ function Invoke-Program {
 		$output_format = $subject_ext
 	}
 
-	Write-Host "Upscale Model:" $model
-	Write-Host "Upscale Scale:" $scale
-	Write-Host "Upscale Max Scale:" $model_max_scale "(0=No Limit)"
-	Write-Host "Upscale Format:" $format
-	Write-Host "Input File:" $path
+	if ($model_max_scale -eq 0 ) {
+		$model_max_scale = "unspecified"
+	}
+
+	Write-Host "Upscale Model:      " $model
+	Write-Host "Upscale Scale:      " $scale
+	Write-Host "Upscale Max Scale: " $model_max_scale
+	Write-Host "Upscale Format:     " $format
+	Write-Host "Input File:	    " $path
 	if ($video) {
-		Write-Host "Is Video Input   : 1 (0=No ; 1=Yes)"
+		Write-Host "Is Video Input:      Yes"
 	} else {
-		Write-Host "Is Video Input   : 0 (0=No ; 1=Yes)"
+		Write-Host "Is Video Input:      No"
 	}
 	Write-Host ""
-	Write-Host "Output Directory:" $subject_dir
-	Write-Host "Output Filename:" $subject_name
-	Write-Host "Output Suffix:" $subject_suffix
-	Write-Host "Output Extension:" $output_format
+	Write-Host "Output Directory:   " $subject_dir
+	Write-Host "Output Filename:    " $subject_name
+	Write-Host "Output Suffix:      " $subject_suffix
+	Write-Host "Output Extension:   " $output_format
+	Write-Host ""
 
 
 	if (-not ($video) ) {
@@ -241,25 +246,32 @@ function Invoke-Program {
 
 	if (Test-Path $control) {
 		Write-Host "Found control file $control. Restoring..."
+		Write-Host ""
 		. $control
 	} else {
 		Write-Host "Creating workspace..."
+		Write-Host ""
 		if (Test-Path $workspace) {
 			Remove-Item -Path $workspace -Recurse -Force
 		}
 		New-Item -Path $workspace -ItemType directory
 	}
 
-	Write-Host "Video Name:" "$subject_name.$subject_ext"
-	Write-Host "Video Codec:" $video_codec
-	Write-Host "Audio Codec:" $audio_codec
-	Write-Host "Pixel Format:" $pixel_format "(empty means yet to determine)"
-	Write-Host "Input Frame:" $input_frame_size
-	Write-Host "Output Frame:" $output_frame_size "(empty means yet to determine)"
+	if ($current_frame -gt $total_frames) {
+		$current_frame = $total_frames
+	}
+
+	Write-Host "Video Name:	    " "$subject_name.$subject_ext"
+	Write-Host "Video Codec:        " $video_codec
+	Write-Host "Audio Codec:        " $audio_codec
+	Write-Host "Pixel Format:       " $pixel_format "(empty means yet to determine)"
+	Write-Host "Input Frame:        " $input_frame_size
+	Write-Host "Output Frame:       " $output_frame_size "(empty means yet to determine)"
 	Write-Host ""
-	Write-Host "Frame Rate:" $frame_rate
-	Write-Host "Total Frames:" $total_frames
-	Write-Host "Current Frame:" $current_frame
+	Write-Host "Frame Rate:         " $frame_rate
+	Write-Host "Total Frames:	    " $total_frames
+	Write-Host "Current Frame:	    " $current_frame
+	Write-Host ""
 
 	$current_frame..$total_frames | ForEach-Object {
 		Write-Host "Upscaling frame" "$_/$total_frames"
@@ -298,7 +310,7 @@ function Invoke-Program {
 			-i "$path" `
 			-r $frame_rate `
 			-thread_queue_size 4096 `
-			-i "$workspace\0%d.$format" `
+			-i "$workspace\frame\0%d.$format" `
 			-c:v $video_codec `
 			-pix_fmt $pixel_format `
 			-r $frame_rate `

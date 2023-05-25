@@ -71,10 +71,10 @@ EXIT /B
 
 
 :runBenchmark
-del .\tests\video\sample-1-640x360-upscaled_workspace 2>null
+RMDIR /S /Q .\tests\video\sample-1-640x360-upscaled_workspace 2>null
 del .\tests\video\sample-1-640x360-upscaled.mp4 2>null
 set startTime=!time!
-start.cmd ^
+call start.cmd ^
 	--model upscayl-ultrasharp-v2 ^
 	--scale 4 ^
 	--format webp ^
