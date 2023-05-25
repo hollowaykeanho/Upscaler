@@ -11,14 +11,14 @@ For these reasons:
 
 1. **Low-cost image/video AI upscaling software** - run locally in your laptop
    with an AI solution.
-2. **I urgently need a video upscaling technologies to work locally** -
-   for both image and video without any GUI overheads.
-3. **Programmable** - when you upscale an album or a video, the AI program has
+2. **Programmable** - when you upscale an album or a video, the AI program has
    to be programmable and not restricted by any GUI's design.
-4. **Reliabily working on big subject** - video files are usually large and
+3. **Reliabily working on big subject** - video files are usually large and
    require streaming algorithm approach for preventing uncontrollable
    resources consumption for a simple OS system (e.g. disk space, RAM, and
    vRAM).
+4. **I urgently need a video upscaling technologies to work locally** -
+   for both image and video without any GUI overheads.
 
 
 
