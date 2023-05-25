@@ -1,0 +1,51 @@
+[Software]
+Name = 'Upscaler'
+Command = 'upscaler'
+ID = 'upscaler'
+Version = 'v0.6.0' # version number
+Category = 'devel' # software category
+Suite = ''         # software suite (e.g. MSFT Office for MSFT Word)
+Abstract = "Holloway's Upscaler - for Image and Video"
+Description = """
+A consolidation of various compiled open-source AI image upscaler products for
+a working CLI friendly image and video upscaling program.
+"""
+Website = 'https://github.com/hollowaykeanho/Upscaler'
+
+[Software.Contact]
+Name = '(Holloway) Chew, Kean Ho'
+Email = [ 'hollowaykeanho@gmail.com' ]
+
+
+
+
+[Software.Maintainers.Holloway]
+Name = '(Holloway) Chew, Kean Ho'
+Email = [ 'hollowaykeanho@gmail.com' ]
+[Software.Maintainers.Holloway.JointTime]
+Year = '2023'
+
+
+
+
+[Software.Contributors.Holloway]
+Name = '(Holloway) Chew, Kean Ho'
+Email = [ 'hollowaykeanho@gmail.com' ]
+[Software.Contributors.Holloway.JointTime]
+Year = '2023'
+
+
+[Software.Contributors.Joly0]
+Name = 'Joly0'
+Email = [ '13993216+Joly0@users.noreply.github.com' ]
+[Software.Contributors.Holloway.JointTime]
+Year = '2023'
+
+
+
+
+[Software.Sponsors.Holloway]
+Name = '(Holloway) Chew, Kean Ho'
+Email = [ 'hollowaykeanho@gmail.com' ]
+[Software.Sponsors.Holloway.JointTime]
+Year = '2023'

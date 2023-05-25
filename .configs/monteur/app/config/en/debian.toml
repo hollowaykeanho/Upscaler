@@ -1,0 +1,65 @@
+[DEB]
+Compat = 11
+Rules = """
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	echo "nothing to override"
+"""
+
+[DEB.Control]
+Essential = false
+PackageType = 'deb'
+Priority = 'optional'
+RulesRequiresRoot = 'binary-targets'
+Standards = '4.6.0'
+Section = 'devel'
+
+[DEB.Relationships]
+'Build-Depends' = [
+	'debhelper (>= 11)',
+]
+'Depends' = [
+	'ffmpeg (>=4.3.6)',
+]
+
+# More Info:
+#  https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-vcs-fields
+[DEB.VCS]
+Type = 'Vcs-Git'
+URL = 'https://example.com/git'
+Branch = 'main'
+#Path = '.'
+
+[DEB.Testsuite]
+Paths = [
+	# 'relative/path/to/debTestScript',
+]
+
+[DEB.Copyright]
+Format = 'https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/'
+Disclaimer = ''
+Comment = ''
+
+[DEB.Changelog]
+Urgency = 'low'
+
+[DEB.Source]
+Format = '3.0 (native)'
+LocalOptions = """
+"""
+Options = """
+"""
+LintianOverrides = """
+# supply the license file in case OS did not supply one
+
+# we are go package so it is okay not to specify Depends:
+"""
+
+[DEB.Install]

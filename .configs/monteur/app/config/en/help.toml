@@ -1,0 +1,31 @@
+[Help]
+Command = '$ {{ .App.Command }} help'
+Description = '{{ .App.Abstract }}'
+Resources = 'Visit {{ .App.Website }} for detailed documentations.'
+
+[Help.Manpage]
+Lv1 = """
+.\\" {{ .App.Name }} - Lv1 Manpage
+.\\" Contact {{ index .App.Contact.Email 0 }} for errors or typos.
+.TH man 1 "{{- .App.Time.Day }} {{ .App.Time.Month }} {{ .App.Time.Year -}}" "{{- .App.Version -}}" "{{- .App.ID }} man page"
+
+.SH NAME
+{{ .App.Name }} - {{ .App.Abstract }}
+
+.SH SYNOPSIS
+{{ .App.Help.Command }}
+
+.SH DESCRIPTION
+{{ .App.Description -}}
+
+.SH OPTIONS
+{{ .App.Help.Description }}
+
+.SH SEE ALSO
+{{ .App.Help.Resources }}
+
+#.SH AUTHORS
+#{{ range $index, $owner := .App.Maintainers -}}
+#       {{- $owner.Name }} ({{- index $owner.Email 0 -}})
+#{{ end -}}
+"""
