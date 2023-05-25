@@ -1,0 +1,29 @@
+[Metadata]
+Name = 'Clean Up Known Hestia Documentation Artifacts'
+Description = """
+Clean up all artifacts for Hestia documentation directory.
+"""
+
+
+
+
+[Variables]
+
+
+[FMTVariables]
+Directory = '{{- .RootDir -}}/docs'
+
+
+
+
+[[CMD]]
+Name = "Remove Target Recursively"
+Type = 'delete-recursive-quiet'
+Condition = [ 'all-all' ]
+Source = '{{- .Directory -}}/resources'
+
+[[CMD]]
+Name = "Remove Target Recursively"
+Type = 'delete-recursive-quiet'
+Condition = [ 'all-all' ]
+Source = '{{- .Directory -}}/.hugo_build.lock'

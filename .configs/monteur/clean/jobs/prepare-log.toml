@@ -1,0 +1,27 @@
+[Metadata]
+Name = 'Clean Up Prepare Log Artifacts'
+Description = """
+Clean up all artifacts for a job.
+"""
+
+[Variables]
+Job = 'prepare'
+MonteurPath = '.monteurFS'
+
+
+[FMTVariables]
+Target = '{{- .RootDir -}}/{{- .MonteurPath -}}/log/{{- .Job -}}'
+
+
+
+[[CMD]]
+Name = "Remove Target Directory"
+Type = 'delete-recursive-quiet'
+Condition = [ 'all-all' ]
+Source = '{{- .Target -}}'
+
+[[CMD]]
+Name = "Create Target Directory"
+Type = 'create-path'
+Condition = [ 'all-all' ]
+Source = '{{- .Target -}}'

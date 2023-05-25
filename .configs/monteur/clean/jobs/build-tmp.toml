@@ -1,0 +1,27 @@
+[Metadata]
+Name = 'Clean Up Build TMP Artifacts'
+Description = """
+Clean up all artifacts for a job.
+"""
+
+[Variables]
+Job = 'build'
+MonteurPath = '.monteurFS'
+
+
+[FMTVariables]
+Path = '{{- .RootDir -}}/{{- .MonteurPath -}}/tmp/{{- .Job -}}'
+
+
+
+[[CMD]]
+Name = "Remove Target Recursively"
+Type = 'delete-recursive-quiet'
+Condition = [ 'all-all' ]
+Source = '{{- .Path -}}'
+
+[[CMD]]
+Name = "Re-Create Target for Restoration"
+Type = 'create-path'
+Condition = [ 'all-all' ]
+Source = '{{- .Path -}}'

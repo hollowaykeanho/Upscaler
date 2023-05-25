@@ -1,0 +1,23 @@
+[Metadata]
+Name = 'Clean Up Known Hestia Releases Artifacts'
+Description = """
+Clean up all artifacts for Hestia releases directory.
+"""
+
+
+
+
+[Variables]
+
+
+[FMTVariables]
+Directory = '{{- .RootDir -}}/releases'
+
+
+
+
+[[CMD]]
+Name = "Remove Target Recursively"
+Type = 'delete-recursive-quiet'
+Condition = [ 'all-all' ]
+Source = '{{- .Directory -}}'
