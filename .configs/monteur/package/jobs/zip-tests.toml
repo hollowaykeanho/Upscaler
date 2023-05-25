@@ -108,6 +108,14 @@ Target = '{{- .PackageDir -}}/tests/video/sample-1-640x360.mp4'
 
 
 [[CMD]]
+Name = 'Copy VERSION to target'
+Type = 'copy'
+Condition = [ 'all-all' ]
+Source = '{{- .RootDir -}}/VERSION'
+Target = '{{- .PackageDir -}}/VERSION'
+
+
+[[CMD]]
 Name = 'Copy LICENSE.TXT to target'
 Type = 'copy'
 Condition = [ 'all-all' ]
