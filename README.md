@@ -25,8 +25,10 @@ For these reasons:
 ### Contributors
 This repository was made possible by the following contributors:
 
-1. [Joly0](https://github.com/Joly0) - Windows support via PowerShell
-2. [Cory Galyna](https://github.com/corygalyna) - repository and CI management.
+1. [Joly0](https://github.com/Joly0) - Windows support via PowerShell.
+2. [Cory Galyna](https://github.com/corygalyna) - Repository & CI management.
+3. [Jean Shuralyov](https://github.com/JeanShuralyov) - Documentations.
+4. [(Holloway) Chew, Kean Ho](https://github.com/hollowaykeanho) - FFMPEG & UNIX Support via POSIX Shell and Polygot Script.
 
 
 
