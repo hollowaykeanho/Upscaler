@@ -1,4 +1,4 @@
-# Holloway's Upscaler - for Image and Video
+# Holloway's Upscaler - Image & Video
 [![Holloway's Upscaler](artworks/logo-1200x630.svg)](https://github.com/hollowaykeanho/Upscaler)
 This project is a consolidation of various compiled open-source AI image/video
 upscaling product for a working CLI friendly image and video upscaling program.
@@ -9,8 +9,8 @@ upscaling product for a working CLI friendly image and video upscaling program.
 ## Why It Matters
 For these reasons:
 
-1. **low-cost image/video AI upscaling software** - without cost a bomb at the
-   financial side just to use an AI solution.
+1. **Low-cost image/video AI upscaling software** - run locally in your laptop
+   with an AI solution.
 2. **I urgently need a video upscaling technologies to work locally** -
    for both image and video without any GUI overheads.
 3. **Programmable** - when you upscale an album or a video, the AI program has
