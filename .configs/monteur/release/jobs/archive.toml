@@ -1,0 +1,69 @@
+[Metadata]
+Name = 'Archives'
+Description = """
+Release Upscaler's .zip packages to hosting repository.
+"""
+Type = 'archive'
+
+
+
+
+[Variables]
+
+[FMTVariables]
+
+
+
+
+[[Dependencies]]
+
+
+
+
+[Releases]
+Target = '{{- .RootDir -}}/releases'
+Checksum = 'sha512'
+
+[Releases.Data]
+Path = '{{- .RootDir -}}/releases'
+Format = 'toml'
+
+[Releases.Packages.all-all-upscaler]
+OS = [ "all" ]
+Arch = [ "all" ]
+Source = '{{- .PackageDir -}}/upscaler-{{- .App.Version -}}.zip'
+
+[Releases.Packages.all-all-upscaler-GPG]
+OS = [ "all" ]
+Arch = [ "all" ]
+Source = '{{- .PackageDir -}}/upscaler-{{- .App.Version -}}.zip.asc'
+
+[Releases.Packages.all-all-tests]
+OS = [ "all" ]
+Arch = [ "all" ]
+Source = '{{- .PackageDir -}}/upscaler-tests-{{- .App.Version -}}.zip'
+
+[Releases.Packages.all-all-upscaler-tests-GPG]
+OS = [ "all" ]
+Arch = [ "all" ]
+Source = '{{- .PackageDir -}}/upscaler-tests-{{- .App.Version -}}.zip.asc'
+
+[Releases.Packages.all-all-upscaler-models]
+OS = [ "all" ]
+Arch = [ "all" ]
+Source = '{{- .PackageDir -}}/upscaler-models-{{- .App.Version -}}.zip'
+
+[Releases.Packages.all-all-upscaler-models-GPG]
+OS = [ "all" ]
+Arch = [ "all" ]
+Source = '{{- .PackageDir -}}/upscaler-models-{{- .App.Version -}}.zip.asc'
+
+
+
+
+[[CMD]]
+Name = "Placeholder"
+Type = 'placeholder'
+Condition = [ 'all-all' ]
+Source = ''
+Target = ''
