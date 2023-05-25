@@ -1,8 +1,7 @@
 # Holloway's Upscaler - for Image and Video
 [![Holloway's Upscaler](artworks/logo-1200x630.svg)](https://github.com/hollowaykeanho/Upscaler)
-This project is a consolidation of various compiled open-source AI image
-upscaler products for a working CLI friendly image and video upscaling program.
-It is configured to be ready for work right at the get-go.
+This project is a consolidation of various compiled open-source AI image/video
+upscaling product for a working CLI friendly image and video upscaling program.
 
 
 
@@ -10,44 +9,24 @@ It is configured to be ready for work right at the get-go.
 ## Why It Matters
 For these reasons:
 
-1. **I urgently need a video upscaling technologies to work locally** -
+1. **low-cost image/video AI upscaling software** - without cost a bomb at the
+   financial side just to use an AI solution.
+2. **I urgently need a video upscaling technologies to work locally** -
    for both image and video without any GUI overheads.
-2. **Programmable** - when you want to upscale an album or a video, the AI
-   program has to be programmable and not restricted by any GUI's design.
-3. **Reliabily working on big subject** - larger video requires streaming
-   approach to prevent its upscaling processing efforts from consuming too much
-   resources from the system (e.g. disk space, RAM, and vRAM).
+3. **Programmable** - when you upscale an album or a video, the AI program has
+   to be programmable and not restricted by any GUI's design.
+4. **Reliabily working on big subject** - video files are usually large and
+   require streaming algorithm approach for preventing uncontrollable
+   resources consumption for a simple OS system (e.g. disk space, RAM, and
+   vRAM).
 
-
-
-
-## Source Codes
-This is a binaries assembled repository. You may find the source codes from the
-original contributors here:
-
-1. [Tencent's NCNN](https://github.com/Tencent/ncnn)
-2. [Nihui](https://github.com/nihui)
-3. [Xintao](https://github.com/xinntao)
-4. [Upscayl (Nayam Amarshe & TGS963)](https://github.com/upscayl/upscayl/tree/main)
-
-Test sample video in the `tests/` directory was supplied by
-[Igrid North](https://www.pexels.com/video/the-sun-illuminating-earth-s-surface-1851190/)
-from
-[Pexels](https://www.pexels.com/). Original 4k sized video is also available at
-origin for upscaling comparison.
 
 
 ### Contributors
 This repository was made possible by the following contributors:
 
 1. [Joly0](https://github.com/Joly0) - Windows support via PowerShell
-
-
-
-
-## License
-This project is licensed under
-[BSD-3-Clause "New or "Revised" License](LICENSE.txt).
+2. [Cory Galyna](https://github.com/corygalyna) - repository and CI management.
 
 
 
@@ -181,8 +160,7 @@ is created. If we follow the example above, it should be
 
 ### Upscale a Video
 Unless you're working on 8 seconds 8MB sized video, you would want to follow the
-instructions below to make sure your video upscaling project are always
-in-tact and resumeable.
+instructions below to make sure your project are always in-tact and resumeable.
 
 
 #### (1) Budget Your Hardware Storage
@@ -296,11 +274,18 @@ In case you need to contribute back:
 
 
 
-
-## Benchmarks
+### Benchmarks
 Results of benchmarks running `tests/benchmark.sh` at the root of the
 repository. Please leave the system dedicated to only running the benchmark
-and not doing something else for maintaining results consistencies.
+and not doing something else for maintaining results consistencies. These
+benchmarks serve 2 purposes:
+
+1. To test the repository's programs are running properly for both video and
+   image upscaling.
+2. To identify what platform, OS, and hardware capable of running this project.
+   (good for determining usability before procurement).
+3. To know about its statistical performances.
+
 
 
 ### Debian AMD64 CPU, 12GB Memory, 2GB VRAM, NVIDIA GeForce MX150
@@ -312,3 +297,28 @@ and not doing something else for maintaining results consistencies.
 |`v0.3.0`     | `TBD`   |
 |`v0.2.0`     | `TBD`   |
 |`v0.1.0`     | `TBD`   |
+
+
+
+
+## Upstream and Source Codes
+This is a binaries assembled repository. You may find the source codes from the
+original contributors here:
+
+1. [Tencent's NCNN](https://github.com/Tencent/ncnn)
+2. [Nihui](https://github.com/nihui)
+3. [Xintao](https://github.com/xinntao)
+4. [Upscayl (Nayam Amarshe & TGS963)](https://github.com/upscayl/upscayl/tree/main)
+
+Test sample video in the `tests/` directory was supplied by
+[Igrid North](https://www.pexels.com/video/the-sun-illuminating-earth-s-surface-1851190/)
+from
+[Pexels](https://www.pexels.com/). Original 4k sized video is also available at
+origin for upscaling comparison.
+
+
+
+
+## License
+This project is aligned to its upstream sources and is licensed under
+[BSD-3-Clause "New or "Revised" License](LICENSE.txt).
