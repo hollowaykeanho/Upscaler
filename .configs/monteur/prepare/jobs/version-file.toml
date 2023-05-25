@@ -1,0 +1,56 @@
+[Metadata]
+Name = 'Version File Scripting'
+Description = """
+Generating repository's version ID into the specified file.
+"""
+Type = 'manual'
+
+
+
+
+[Variables]
+Prefix = ''
+
+[FMTVariables]
+Filepath = '{{- .RootDir -}}/VERSION'
+Content = """
+{{- .Prefix -}}
+{{- .App.Version -}}
+"""
+
+
+
+[[Dependencies]]
+
+
+
+
+[Changelog]
+LineBreak = "\n"
+Regex = ''
+
+
+
+
+[Packages.001]
+OS = [ 'all' ]
+Arch = [ 'all' ]
+Distribution = [
+	'stable',
+]
+
+
+
+
+[[CMD]]
+Name = 'Delete Version File'
+Type = 'delete-quiet'
+Condition = [ 'all-all' ]
+Source = '{{- .Filepath -}}'
+
+[[CMD]]
+Name = 'Script Version File'
+Type = 'script'
+Condition = [ 'all-all' ]
+Source = '{{- .Content -}}'
+Target = '{{- .Filepath -}}'
