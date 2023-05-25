@@ -123,7 +123,7 @@ $ git clone https://github.com/hollowaykeanho/Upscaler.git
 ```
 
 
-### Setup Pathing for Comamnd Calls [OPTIONAL, 1-Time]
+### Setup Pathing for Command [OPTIONAL, 1-Time]
 We advise you to symlink the `start.cmd` into `$PATH` or `%PATH%` directory
 depending on your operating system. Example, on `Debian Linux`:
 
