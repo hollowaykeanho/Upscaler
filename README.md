@@ -40,7 +40,7 @@ Here are the tested hardware and operating system:
 |:-------------------|:------------|:------------------------|
 | `debian-amd64` (linux) | `PASS`      | `NVIDIA GeForce MX150`, `Intel(R) UHD Graphics 620 (KBL GT2)` |
 | `darwin-amd64` (macOS) | `FAILED`    | Binary failed to use `Intel Iris Graphics` iGPU and CPU. |
-| `windows-amd64` (windows) | `TBD`    | **Help Needed** - pending benchmark results from `tests/benchmark.cmd` |
+| `windows-amd64` (windows) | `PASS`    | `Nvidia Quadro T600` |
 
 > **IMPORTANT NOTES**
 >
@@ -328,14 +328,27 @@ repository. These data serves few purposes:
 
 ### Debian AMD64 CPU, 12GB Memory, 2GB VRAM, NVIDIA GeForce MX150
 
-| Version     | Sample 1 (Video)                                           |
-|:------------|:-----------------------------------------------------------|
-| `v0.5.0`    | `(real) 153m12.182s (user) 178m30.323s (sys) 18m29.955s`   |
-|`v0.4.0`     | `(real) 171m56.165s (user) 257m51.602s (sys) 19m24.107s`   |
-|`v0.3.0`     | `TBD`   |
-|`v0.2.0`     | `TBD`   |
-|`v0.1.0`     | `TBD`   |
+| Version      | Sample 1 (Video)  |
+|:-------------|:------------------|
+| `v0.6.0`     | `9260 seconds`    |
+| `v0.5.0`     | `9192 seconds`    |
+| `v0.4.0`     | `10316 seconds`   |
+| `v0.3.0`     | `N/A`             |
+| `v0.2.0`     | `N/A`             |
+| `v0.1.0`     | `N/A`             |
 
+
+
+### Windows AMD64 Ryzen 9 7950x CPU, 22GB Memory, 4GB VRAM, Nvidia Quadro T600 (GTX 1650 equivalent)
+
+| Version      | Sample 1 (Video)  |
+|:-------------|:------------------|
+| `v0.6.0`     | `3649 seconds`    |
+| `v0.5.0`     | `N/A`             |
+| `v0.4.0`     | `N/A`             |
+| `v0.3.0`     | `N/A`             |
+| `v0.2.0`     | `N/A`             |
+| `v0.1.0`     | `N/A`             |
 
 
 
