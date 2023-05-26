@@ -305,16 +305,24 @@ In case you need to contribute back:
 
 
 ### Benchmarks
-Results of benchmarks running `tests/benchmark.sh` at the root of the
-repository. Please leave the system dedicated to only running the benchmark
-and not doing something else for maintaining results consistencies. These
-benchmarks serve 2 purposes:
+Submit results of benchmarks running `tests/benchmark.cmd` at the root of the
+repository. These data serves few purposes:
 
 1. To test the repository's programs are running properly for both video and
    image upscaling.
 2. To identify what platform, OS, and hardware capable of running this project.
    (good for determining usability before procurement).
 3. To know about its statistical performances.
+
+> **IMPORTANT NOTE**
+>
+> The `benchmark.cmd` captures wall-clock timing. Hence, please leave the system
+> dedicated to only running the benchmark and not doing something else for
+> maintaining results consistencies. We're capturing wall-clock timing for
+> real time use (e.g. subjected to OS and background processes interferences).
+>
+> Our recommendation is to leave it run overnight before you sleep (~400 frames)
+> so it takes some time.
 
 
 
