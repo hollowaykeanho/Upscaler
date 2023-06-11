@@ -1,7 +1,7 @@
 # Holloway's Upscaler - Image & Video
 [![Holloway's Upscaler](artworks/logo-1200x630.svg)](https://github.com/hollowaykeanho/Upscaler)
 This project is a consolidation of various compiled open-source AI image/video
-upscaling product for a working CLI friendly image and video upscaling program.
+upscaling product for a working CLI-friendly image and video upscaling program.
 
 
 
@@ -13,10 +13,9 @@ For these reasons:
    with an AI solution.
 2. **Programmable** - when you upscale an album or a video, the AI program has
    to be programmable and not restricted by any GUI's design.
-3. **Reliabily working on big subject** - video files are usually large and
-   require streaming algorithm approach for preventing uncontrollable
-   resources consumption for a simple OS system (e.g. disk space, RAM, and
-   vRAM).
+3. **Reliabily working for big subject** - video files are usually large and
+   require streaming algorithm approach to prevent uncontrollable resources
+   consumption in a simple OS system (e.g. disk space, RAM, and vRAM).
 4. **I urgently need a video upscaling technologies to work locally** -
    for both image and video without any GUI overheads.
 
@@ -67,9 +66,9 @@ Here are the tested hardware and operating system:
 > (4)
 >
 > Re-packaging efforts are unlikely because currently it's a bad investment.
-> It's either I spend the time study NCNN implementations and write the whole
-> XinTao's RealESRGAN-Vulcan program as my own codes from scratch or glued the
-> existing programs together. At the moment, I do not have the resources to rewrite
+> It's either I spend the time study NCNN and write the whole XinTao's
+> RealESRGAN-Vulcan program as my own codes from scratch or glued some existing
+> programs together. At the moment, I do not have the resources to rewrite
 > or study the NCNN (yet).
 
 
@@ -105,7 +104,7 @@ versions:
 #### `>= v0.6.0`
 You can download the latest version of the `upscaler-[VERSION].zip`
 package from https://github.com/hollowaykeanho/Upscaler/releases
-and unzip it to an appropriate version. Note that the models are already
+and then unzip it to an appropriate location. Note that the models are already
 included in this package.
 
 For those who wants to just update the models, the
@@ -114,7 +113,8 @@ the `models/` directory's contents in the software.
 
 For those who wants to run test and benchmarks for the repository, the
 `upscaler-tests-[VERSION].zip` is made available for you. Simply integrate
-the `tests/` directory into your existing software program.
+the `tests/` directory into your existing software program (the unpacked
+`upscaler-[VERSION].zip`).
 
 
 #### `< v0.6.0`
@@ -178,8 +178,8 @@ $ ./start.cmd \
         --input my-image.jpg
 ```
 
-To determine the available models, their respective scale limits, and output
-formats, simple execute the `--help` and look for: `AVAILABLE MODELS` and
+To determine the available models, their respective scale limits, and their
+output formats, simple execute the `--help` and look for: `AVAILABLE MODELS` and
 `AVAILABLE FORMATS` respectively.
 
 If done correctly, an image based on orginal filename with a suffix `-upscaled`
@@ -199,8 +199,8 @@ the job depending on the video frame rate, frame size, color schemes and etc.
 The minimum 3x is due to:
 
 1. 1 set is your original video.
-2. 1 set is for all the upscaled images (can be lot bigger since we're doing it
-   frame by frame losing the video compression effect).
+2. 1 set is for all the upscaled images (can be a lot bigger since we're doing
+   it frame by frame; losing the video compression effect).
 3. 1 set is your output video (bigger than original of course).
 
 Hence, please plan out your storage budget before starting a video upscaling
@@ -210,7 +210,7 @@ project.
 >
 > **Know your hardware limitations** before determining the scaling factor. A
 > scale of 4x on a 1090p for a 12GB memory laptop can crash the entire OS (I'm
-> talking about the very stable Debian OS) during the video re-assembly phase
+> referring the very stable Debian OS) during the video re-assembly phase
 > with FFMPEG due to memory starvation.
 
 
@@ -264,7 +264,7 @@ values. You can inspect the frame images while Upscaler is at work as long as
 you're viewing the frame that it is working on.
 
 I recommend you inpect the frames first for determining whether the AI model is
-suitable or otherwise. If it's not, please stop the process and execute the next
+suitable or otherwise. Otherwise, please stop the process and execute the next
 step.
 
 
@@ -274,8 +274,8 @@ from start, you can delete the `[FILENAME]-workspace` directory inside the
 project directory. This will force the program to restart everything all over
 again.
 
-The project intentionally left the workspace as it is for those who want to
-do frame extractions for other purposes (e.g. getting thumbnail).
+The project is set to intentionally leave the workspace as it is in case you
+need to use the frames for other purposes (e.g. thumbnail).
 
 
 
@@ -326,7 +326,7 @@ repository. These data serves few purposes:
 
 
 
-### Debian AMD64 CPU, 12GB Memory, 2GB VRAM, NVIDIA GeForce MX150
+### Debian-AMD64; Intel Xeon E3-1200 v6/7th Gen CPU; 12GB RAM; 2GB VRAM; NVIDIA GeForce MX150
 
 | Version      | Sample 1 (Video)  |
 |:-------------|:------------------|
@@ -339,7 +339,7 @@ repository. These data serves few purposes:
 
 
 
-### Windows AMD64 Ryzen 9 7950x CPU, 22GB Memory, 4GB VRAM, Nvidia Quadro T600 (GTX 1650 equivalent)
+### Windows-AMD64; AMD Ryzen 9 7950x CPU, 22GB RAM; 4GB VRAM; Nvidia Quadro T600
 
 | Version      | Sample 1 (Video)  |
 |:-------------|:------------------|
