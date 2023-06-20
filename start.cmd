@@ -58,13 +58,13 @@ set _parameters=%*
 set _parameters=!_parameters:--=-!
 set _parameters=!_parameters:input=path!
 set _parameters=!_parameters:"=\"!
-call Powershell.exe -NoProfile -Command "& '%location%' %_parameters%"
+call Powershell.exe -NoProfile -executionpolicy bypass -Command "& '%location%' %_parameters%"
 EXIT /B
 
 :empty
 set location=%~dp0init\windows.ps1
 set location="%location%"
-call Powershell.exe -NoProfile -Command "& '%location%'"
+call Powershell.exe -NoProfile -executionpolicy bypass -Command "& '%location%'"
 ::##############################################################################
 :: Windows Main Codes                                                          #
 ::##############################################################################
