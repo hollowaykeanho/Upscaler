@@ -338,12 +338,10 @@ repository. These data serves few purposes:
 
 | Version      | Sample 1 (Video)  |
 |:-------------|:------------------|
+| `v0.7.0`     | `9587 seconds`    |
 | `v0.6.0`     | `9260 seconds`    |
 | `v0.5.0`     | `9192 seconds`    |
 | `v0.4.0`     | `10316 seconds`   |
-| `v0.3.0`     | `N/A`             |
-| `v0.2.0`     | `N/A`             |
-| `v0.1.0`     | `N/A`             |
 
 
 
@@ -352,11 +350,7 @@ repository. These data serves few purposes:
 | Version      | Sample 1 (Video)  |
 |:-------------|:------------------|
 | `v0.6.0`     | `3649 seconds`    |
-| `v0.5.0`     | `N/A`             |
-| `v0.4.0`     | `N/A`             |
-| `v0.3.0`     | `N/A`             |
-| `v0.2.0`     | `N/A`             |
-| `v0.1.0`     | `N/A`             |
+
 
 
 
