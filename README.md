@@ -89,6 +89,14 @@ reassembling a video file.
 You can proceed to install them in 1 go at: https://ffmpeg.org/
 
 
+#### Windows User
+You need to install Microsoft Visual C++ Redistributable Package from their
+[official website](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170)
+if you haven't do so. Usually other software may automatically include a version
+installed already. Please check your "Add/Remove Program" control panel to
+verify.
+
+
 
 
 ## User Manual
