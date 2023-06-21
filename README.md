@@ -39,7 +39,7 @@ Here are the tested hardware and operating system:
 |:-------------------|:------------|:------------------------|
 | `debian-amd64` (linux) | `PASS`      | `NVIDIA GeForce MX150`, `Intel(R) UHD Graphics 620 (KBL GT2)` |
 | `darwin-amd64` (macOS) | `FAILED`    | Binary failed to use `Intel Iris Graphics` iGPU and CPU. |
-| `windows-amd64` (windows) | `PASS`    | `Nvidia Quadro T600` |
+| `windows-amd64` (windows) | `PASS`    | `Nvidia Quadro T600`, `Intel Iris Xe Graphics` |
 
 > **IMPORTANT NOTES**
 >
@@ -333,8 +333,7 @@ repository. These data serves few purposes:
 > so it takes some time.
 
 
-
-### Debian-AMD64; Intel Xeon E3-1200 v6/7th Gen CPU; 12GB RAM; 2GB VRAM; NVIDIA GeForce MX150
+#### Debian-AMD64; Intel Xeon E3-1200 v6/7th Gen CPU; 12GB RAM; 2GB VRAM; NVIDIA GeForce MX150
 
 | Version      | Sample 1 (Video)  |
 |:-------------|:------------------|
@@ -344,16 +343,14 @@ repository. These data serves few purposes:
 | `v0.4.0`     | `10316 seconds`   |
 
 
-
-### Windows-AMD64; AMD Ryzen 9 7950x CPU, 22GB RAM; 4GB VRAM; Nvidia Quadro T600
+#### Windows-AMD64; AMD Ryzen 9 7950x CPU; 22GB RAM; 4GB VRAM; Nvidia Quadro T600
 
 | Version      | Sample 1 (Video)  |
 |:-------------|:------------------|
 | `v0.6.0`     | `3649 seconds`    |
 
 
-
-### Windows-AMD64; Intel i5-1235U CPU; 16GB RAM; 128MB VRAM; Intel Iris Xe Graphics
+#### Windows-AMD64; Intel i5-1235U CPU; 16GB RAM; 128MB VRAM; Intel Iris Xe Graphics
 
 | Version      | Sample 1 (Video)  |
 |:-------------|:------------------|
