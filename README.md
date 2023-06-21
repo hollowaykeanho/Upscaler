@@ -353,6 +353,14 @@ repository. These data serves few purposes:
 
 
 
+### Windows-AMD64; Intel i5-1235U CPU; 16GB RAM; 128MB VRAM; Intel Iris Xe Graphics
+
+| Version      | Sample 1 (Video)  |
+|:-------------|:------------------|
+| `v0.7.0`     | `11633 seconds`   |
+
+
+
 
 ## Upstream and Source Codes
 This is a binaries assembled repository. You may find the source codes from the
