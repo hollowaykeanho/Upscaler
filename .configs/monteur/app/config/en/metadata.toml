@@ -2,7 +2,7 @@
 Name = 'Upscaler'
 Command = 'upscaler'
 ID = 'upscaler'
-Version = 'v0.7.0' # version number
+Version = 'v0.8.0' # version number
 Category = 'devel' # software category
 Suite = ''         # software suite (e.g. MSFT Office for MSFT Word)
 Abstract = "Holloway's Upscaler - for Image and Video"
