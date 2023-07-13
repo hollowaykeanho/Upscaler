@@ -40,7 +40,8 @@ repo="${repo%%init/unix.sh}"
 action='run'
 model="${UPSCALER_MODEL:-""}"
 scale="${UPSCALER_SCALE:-0}"
-input=""
+parallel=1
+source_file=""
 output=""
 format=""
 
@@ -55,6 +56,7 @@ subject_ext=''
 subject_dir=''
 subject_suffix="${UPSCALER_SUFFIX:-"upscaled"}"
 workspace=''
+phase=0
 
 
 
@@ -95,12 +97,15 @@ _print_status() {
                 ;;
         esac
 
+
         if [ $(tput colors) -ge 8 ]; then
                 __msg="${__start_color}${__msg}${__stop_color}"
         fi
 
+
         1>&2 printf "${__msg}"
         unset __status_mode __msg __start_color __stop_color
+
 
         return 0
 }
@@ -115,9 +120,10 @@ $ ./start.cmd \\
         --model MODEL_NAME \\
         --scale SCALE_FACTOR \\
         --format FORMAT \\
-        --video \\
+        --parallel TOTAL_WORKING_THREADS  # only for video upscaling \\
+        --video                           # only for video upscaling \\
         --input PATH_TO_FILE \\
-        --output PATH_TO_FILE_OR_DIR    # optional
+        --output PATH_TO_FILE_OR_DIR      # optional
 
 EXAMPLES
 
@@ -138,6 +144,7 @@ $ ./start.cmd \\
         --model ultrasharp \\
         --scale 4 \\
         --format png \\
+        --parallel 1 \\
         --video \\
         --input my-video.mp4 \\
         --output my-video-upscaled.mp4
@@ -146,6 +153,7 @@ $ ./start.cmd \\
         --model ultrasharp \\
         --scale 4 \\
         --format png \\
+        --parallel 1 \\
         --input video/frames/input \\
         --output video/frames/output
 
@@ -156,6 +164,7 @@ AVAILABLE FORMATS:
 
 AVAILABLE MODELS:
 """
+
 
         for model_type in "${repo}/models"/*.sh; do
                 . "$model_type"
@@ -185,11 +194,13 @@ _check_os() {
                 ;;
         esac
 
+
         return 0
 }
 
 _check_arch() {
         program="${program}-amd64"
+
 
         return 0
 }
@@ -200,6 +211,7 @@ _check_program_existence() {
                 return 1
         fi
 
+
         return 0
 }
 
@@ -208,6 +220,7 @@ _check_model_and_scale() {
                 _print_status error "unspecified model.\n"
                 return 1
         fi
+
 
         if [ -z $scale ]; then
                 _print_status error "unspecified scaling factor.\n"
@@ -257,7 +270,7 @@ _check_format() {
                 if [ $video_mode -gt 0 ]; then
                         format='png'
                 else
-                        format="${input##*/}"
+                        format="${source_file##*/}"
                         format="${format#*.}"
                 fi
         fi
@@ -283,18 +296,18 @@ _check_format() {
 }
 
 _check_io() {
-        if [ "$input" = "" ]; then
+        if [ "$source_file" = "" ]; then
                 _print_status error "missing input.\n"
                 return 1
         fi
 
-        if [ ! -e "$input" ]; then
-                _print_status error "input does not exist: '${input}'.\n"
+        if [ ! -e "$source_file" ]; then
+                _print_status error "input does not exist: '${source_file}'.\n"
                 return 1
         fi
 
-        subject_name="${input##*/}"
-        subject_dir="${input%/*}"
+        subject_name="${source_file##*/}"
+        subject_dir="${source_file%/*}"
         subject_ext="${subject_name#*.}"
         subject_name="${subject_name%%.*}"
 
@@ -308,23 +321,112 @@ _check_io() {
                         _print_status error "missing required ffprobe program for video.\n"
                         return 1
                 fi
+
+                if [ ! $parallel -eq $parallel 2> /dev/null ]; then
+                        _print_status error "unknown parallel value: ${parallel}.\n"
+                        return 1
+                fi
+
+                if [ $parallel -lt 1 ]; then
+                        _print_status error "parallel must be 1 and above: ${parallel}.\n"
+                        return 1
+                fi
         fi
 
         return 0
 }
 
-_exec_upscale_program() {
+____save_workspace_controller() {
+        # ARG1 = Phase ID
+        printf """\
+#!/bin/bash
+phase=${1}
+source_file="${source_file}"
+total_frames=${total_frames}
+frame_rate="${frame_rate}"
+video_codec="${video_codec}"
+audio_codec="${audio_codec}"
+input_frame_size="${input_frame_size}"
+""" > "$control"
+        if [ $? -ne 0 ]; then
+                 _print_status error
+                return 1
+        fi
+
+
+        return 0
+}
+
+____exec_upscale_program() {
         $program -i "$1" \
                 -o "$2" \
                 -s "$scale" \
                 -m "${repo}/models" \
                 -n "$model" \
                 -f "$format"
+
+
         return $?
 }
 
-_exec_program() {
-        # (0) printout job info
+___generate_frame_input_name() {
+        printf "${workspace}/frames/input_0${1}.${format}"
+}
+
+___generate_frame_output_name() {
+        printf "${workspace}/frames/output_0${1}.${format}"
+}
+
+___generate_frame_output_naming_pattern() {
+        printf "${workspace}/frames/output_0%%d.${format}"
+}
+
+___generate_frame_working_name() {
+        printf "${workspace}/frames/working-0${1}"
+}
+
+___generate_frame_done_name() {
+        printf "${workspace}/frames/done-0${1}"
+}
+
+___generate_frame_error_name() {
+        printf "${workspace}/frames/error-0${1}"
+}
+
+___upscale_a_frame_in_parallel() {
+        # ARG1: input path
+        # ARG2: output path
+        # ARG3: working flag path
+        # ARG4: done flag path
+        # ARG5: error flag path
+
+
+        # denote working status
+        mkdir -p "$3"
+
+
+        # perform upscale
+        ____exec_upscale_program "$1" "$2"
+        if [ $? -ne 0 ]; then
+                mkdir -p "$5"
+                rm -rf "$3"
+                return 1
+        fi
+
+
+        # remove working status
+        rm -rf "$3"
+
+
+        # denote done status
+        mkdir -p "$4"
+
+
+        # end process
+        return 0
+}
+
+__print_job_info() {
         __output_format="$format"
         ___video_mode="No"
         if [ $video_mode -gt 0 ]; then
@@ -332,18 +434,19 @@ _exec_program() {
                 ___video_mode="Yes"
         fi
 
+
         ___model_max_scale='unspecified'
         if [ $model_max_scale -gt 0 ]; then
                 ___model_max_scale="$model_max_scale"
         fi
 
-        _print_status info """
 
+        _print_status info """
 Upscale Model    : $model
 Upscale Scale    : $scale
 Model Max Scale  : $___model_max_scale
 Upscale Format   : $format
-Input File       : $input
+Input File       : $source_file
 Is Video Input   : $___video_mode
 
 Output Directory : $subject_dir
@@ -354,178 +457,383 @@ Output Extension : $__output_format
 
 """
         unset __output_format ___video_mode ___model_max_scale
+}
 
-        # (1) execute image upscale if it's not a video job.
+__upscale_if_image() {
         if [ $video_mode -eq 0 ]; then
                 output="${subject_dir}/${subject_name}-${subject_suffix}.${format}"
-                _exec_upscale_program "$input" "$output"
+                ____exec_upscale_program "$source_file" "$output"
                 if [ $? -eq 0 ]; then
                         _print_status success "\n"
-                        exit 0
+                        return 0
                 fi
 
-                _print_status error
-                exit 1
-        fi
 
-        # (2) setup video workspace
+                _print_status error
+                return 1
+        fi
+}
+
+__setup_video_workspace() {
+        # setup variables
         workspace="${subject_dir}/${subject_name}-${subject_suffix}_workspace"
         control="${workspace}/control.sh"
 
-        # (3) analyze input video and initialize sentinel variables
+
+        # analyze input video and initialize sentinel variables
         video_codec="$(ffprobe -v error \
                         -select_streams v:0 \
                         -show_entries stream=codec_name \
                         -of default=noprint_wrappers=1:nokey=1 \
-                        "$input"
+                        "$source_file"
         )"
         audio_codec="$(
                 ffprobe -v error \
                         -select_streams a:0 \
                         -show_entries stream=codec_name \
                         -of default=noprint_wrappers=1:nokey=1 \
-                        "$input"
+                        "$source_file"
         )"
         frame_rate="$(
                 ffprobe -v error \
                         -select_streams v \
                         -of default=noprint_wrappers=1:nokey=1 \
                         -show_entries stream=r_frame_rate \
-                        "$input"
+                        "$source_file"
         )"
-        total_frames="$(
+        total_frames="$(($(
                 ffprobe -v error \
                         -select_streams v:0 \
                         -count_frames \
                         -show_entries stream=nb_read_frames \
                         -of default=nokey=1:noprint_wrappers=1 \
-                        "$input"
-        )"
+                        "$source_file"
+        ) - 1))" # NOTE: system uses 0 as a starting point so we -1 out
         input_frame_size="$(
                 ffprobe \
                         -v error \
                         -select_streams v:0 \
                         -show_entries stream=width,height \
                         -of csv=s=x:p=0 \
-                        "$input"
+                        "$source_file"
         )"
-        pixel_format=""
-        output_frame_size=""
         current_frame=0
+        phase=0
 
-        # (4) recover from last status for job continuation if available
+
+        # recover from last status for job continuation if available
         if [ -f "$control" ]; then
-                _print_status info "Found control file ($control). Restoring...\n\n"
+                _print_status info "\nFound control file ($control).\nRestoring...\n"
                 . "$control"
+                _print_status info "COMPLETED\n\n\n"
         else
-                _print_status info "Creating workspace...\n\n"
+                _print_status info "\nCreating workspace...\n"
                 rm -rf "${workspace}" &> /dev/null
                 mkdir -p "${workspace}/frames"
-        fi
-        _print_status info """
 
+                # save settings to control file in not available
+                ____save_workspace_controller 0
+                if [ $? -ne 0 ]; then
+                         _print_status error "\n"
+                        return 1
+                fi
+
+                _print_status info "COMPLETED\n\n\n"
+        fi
+
+
+        _print_status info """
 Video Name     : ${subject_name}.${subject_ext}
 Video Codec    : ${video_codec}
 Audio Codec    : ${audio_codec}
-Pixel Format   : ${pixel_format} (empty means yet to determine)
 Input Frame    : ${input_frame_size}
-Output Frame   : ${output_frame_size} (empty means yet to determine)
 
 Frame Rate     : ${frame_rate}
-Total Frames   : ${total_frames}
-Current Frame  : ${current_frame}
-"""
-        # (5) loop through 1 frame at a time for large video upscaling
-        while [ $current_frame -lt $total_frames ]; do
-                # print status
-                _print_status info "Upscaling frame ${current_frame}/${total_frames}...\n"
+Total Frames   : $((total_frames + 1))
+Work Phase     : ${phase}
 
-                # extract 1 frame
-                img="${workspace}/sample.${format}"
+Total Threads  : ${parallel}
+
+
+"""
+
+
+        return 0
+}
+
+__generate_frames() {
+        _print_status info "PHASE 1 - FRAME EXTRACTION\n"
+
+
+        # skip if it was marked completed.
+        if [ $phase -ge 1 ]; then
+                _print_status info "COMPLETED\n\n"
+                return 0
+        fi
+
+
+        # generate each frame selectively for highest quality extraction.
+        while [ $current_frame -le $total_frames ]; do
+                # prepare output
+                output="$(___generate_frame_input_name "$current_frame")"
+                _print_status info "Extracting frame ${current_frame}/$total_frames...\r"
+
+                # extract frame
                 ffmpeg -y \
+                        -hide_banner \
+                        -loglevel error \
                         -thread_queue_size 4096 \
-                        -i "$input" \
+                        -i "$source_file" \
                         -vf select="'eq(n\,${current_frame})'" \
                         -vframes 1 \
-                        "$img" \
+                        "$output" \
                 &> /dev/null
                 if [ $? -ne 0 ]; then
                         _print_status error
-                        exit 1
+                        return 1
                 fi
-
-                # upscale the frame
-                output="${workspace}/frames/0${current_frame}.${format}"
-                _exec_upscale_program "$img" "$output"
-                if [ $? -ne 0 ]; then
-                        _print_status error
-                        exit 1
-                fi
-
-                if [ "$pixel_format" = "" ]; then
-                        pixel_format="$(ffprobe \
-                                -loglevel error \
-                                -show_entries \
-                                stream=pix_fmt \
-                                -of csv=p=0 \
-                                "${output}"
-                        )"
-                fi
-
-                if [ "$output_frame_size" = "" ]; then
-                        output_frame_size="$(ffprobe \
-                                -v error \
-                                -select_streams v:0 \
-                                -show_entries stream=width,height \
-                                -of csv=s=x:p=0 \
-                                "${output}"
-                        )"
-                fi
-
-                rm "$img" &> /dev/null
-
-                # save settings to control file for future continuation
-                printf """\
-#!/bin/bash
-total_frames=${total_frames}
-current_frame=$(($current_frame+1))
-pixel_format="${pixel_format}"
-frame_rate="${frame_rate}"
-video_codec="${video_codec}"
-audio_codec="${audio_codec}"
-input_frame_size="${input_frame_size}"
-output_frame_size="${output_frame_size}"
-""" > "$control"
-                if [ $? -ne 0 ]; then
-                        _print_status error
-                        exit 1
-                fi
-                _print_status success "frame ${current_frame}/${total_frames} upscaled.\n\n"
 
                 # increase frame count
                 current_frame=$(($current_frame + 1))
         done
+        unset input output
+        _print_status info "\n"
 
-        # (6) run ffmpeg to merge the frames to new video
+
+        # remove all done flags
+        current_frame=0
+        while [ $current_frame -lt $total_frames ]; do
+                input="$(___generate_frame_done_name "$current_frame")"
+
+                rm -rf "$input" &> /dev/null
+
+                current_frame=$(($current_frame + 1))
+        done
+        unset input current_frame
+
+
+        # save settings to control file in case of future continuation
+        ____save_workspace_controller 2
+        if [ $? -ne 0 ]; then
+                 _print_status error "\n"
+                return 1
+        fi
+
+
+        # report and return
+        _print_status info "COMPLETED\n\n"
+        return 0
+}
+
+__upscale_frames() {
+        _print_status info "PHASE 2 - FRAMES UPSCALE\n"
+
+
+        # skip if it was completed
+        if [ $phase -ge 2 ]; then
+                _print_status info "COMPLETED\n\n"
+                return 0
+        fi
+
+
+        # remove all error and working flags
+        current_frame=0
+        while [ $current_frame -lt $total_frames ]; do
+                working="$(___generate_frame_working_name "$current_frame")"
+                error="$(___generate_frame_error_name "$current_frame")"
+
+                rm -rf "$working" "$error" &> /dev/null
+
+                current_frame=$(($current_frame + 1))
+        done
+
+
+        # scan for each input and manage upscaling task in parallel
+        current_frame=0
+        done_frame=0
+        working_frame=0
+        while [ $current_frame -le $total_frames ]; do
+                input="$(___generate_frame_input_name "$current_frame")"
+                output="$(___generate_frame_output_name "$current_frame")"
+                working="$(___generate_frame_working_name "$current_frame")"
+                completed="$(___generate_frame_done_name "$current_frame")"
+                error="$(___generate_frame_error_name "$current_frame")"
+
+                # break if error flag is found
+                if [ -d "$error" ]; then
+                        _print_status error "Frame $input has error!\n"
+                        return 1
+                fi
+
+                # skip frame if working flag is found
+                if [ -d "$working" ]; then
+                        working_frame=$(($working_frame + 1))
+
+                        # increase frame count
+                        current_frame=$(($current_frame + 1))
+                        if [ $current_frame -gt $total_frames ]; then
+                                done_frame=0
+                                current_frame=0
+                                working_frame=0
+                        fi
+
+                        continue
+                fi
+
+                # skip frame if done flag is found or break loop if entirely completed
+                if [ $done_frame -gt $total_frames ]; then
+                        break
+                elif [ -d "$completed" ]; then
+                        done_frame=$(($done_frame + 1))
+
+                        # increase frame count
+                        current_frame=$(($current_frame + 1))
+
+                        continue
+                fi
+
+                # So it's not done. Assign to parallel executor when available
+                if [ $working_frame -lt $parallel ]; then
+                        _print_status info "Starting frame ${current_frame}...\n"
+                        { ___upscale_a_frame_in_parallel "$input" \
+                                                        "$output" \
+                                                        "$working" \
+                                                        "$completed" \
+                                                        "$error"
+                        } &
+
+                        working_frame=$(($working_frame + 1))
+                fi
+
+                # check if the entire upscaling process is done
+
+                # increase frame count
+                current_frame=$(($current_frame + 1))
+                if [ $current_frame -gt $total_frames ]; then
+                        done_frame=0
+                        current_frame=0
+                        working_frame=0
+                fi
+        done
+        unset done_frame current_frame working_frame input output working completed error
+
+
+        # save settings to control file in case of future continuation
+        ____save_workspace_controller 2
+        if [ $? -ne 0 ]; then
+                 _print_status error "\n"
+                return 1
+        fi
+
+
+        # report and return
+        _print_status info "COMPLETED\n\n"
+        return 0
+}
+
+__reassemble_video() {
+        _print_status info "PHASE 3 - REASSEMBLE VIDEO\n"
+
+
+        # skip if it was completed
+        if [ $phase -ge 3 ]; then
+                _print_status info "COMPLETED\n\n"
+                return 0
+        fi
+
+
+        # determine pixel format and frame size from first frame
+        output="$(___generate_frame_output_name "0")"
+        pixel_format="$(ffprobe \
+                -loglevel error \
+                -show_entries \
+                stream=pix_fmt \
+                -of csv=p=0 \
+                "${output}"
+        )"
+        output_frame_size="$(ffprobe \
+                -v error \
+                -select_streams v:0 \
+                -show_entries stream=width,height \
+                -of csv=s=x:p=0 \
+                "${output}"
+        )"
+
+
+        # reassemble video with upscaled frames
         output="${subject_dir}/${subject_name}-${subject_suffix}.${subject_ext}"
+        pattern="$(___generate_frame_output_naming_pattern)"
         ffmpeg -y \
                 -thread_queue_size 4096 \
-                -i "$input" \
+                -i "$source_file" \
                 -r "$frame_rate" \
                 -thread_queue_size 4096 \
-                -i "${workspace}/frames/0%d.${format}" \
+                -i "$pattern" \
                 -c:v "$video_codec" \
                 -pix_fmt "$pixel_format" \
                 -r "$frame_rate" \
-                -filter_complex "[0:v:0]scale=${output_frame_size}[v0];[v0][1]overlay=eof_action=pass" \
+                -filter_complex \
+                        "[0:v:0]scale=${output_frame_size}[v0];[v0][1]overlay=eof_action=pass" \
                 -c:a copy \
                 "$output"
-
-        output=$?
-        if [ $output -eq 0 ]; then
-                _print_status success "\n"
+        if [ $? -ne 0 ]; then
+                _print_status error "\n"
+                return 1
         fi
-        return $?
+        unset output pattern pixel_format output_frame_size
+
+
+        # save settings to control file in case of future continuation
+        ____save_workspace_controller 3
+        if [ $? -ne 0 ]; then
+                 _print_status error "\n"
+                return 1
+        fi
+
+
+        # report and return
+        _print_status info "COMPLETED\n\n"
+        return 0
+}
+
+_exec_program() {
+        __print_job_info
+        if [ $? -ne 0 ]; then
+                exit 1
+        fi
+
+
+        __upscale_if_image
+        if [ $? -ne 0 ]; then
+                exit 1
+        fi
+
+
+        __setup_video_workspace
+        if [ $? -ne 0 ]; then
+                exit 1
+        fi
+
+
+        __generate_frames
+        if [ $? -ne 0 ]; then
+                exit 1
+        fi
+
+
+        __upscale_frames
+        if [ $? -ne 0 ]; then
+                exit 1
+        fi
+
+
+        __reassemble_video
+        if [ $? -ne 0 ]; then
+                exit 1
+        fi
+
+
+        exit 0
 }
 
 main() {
@@ -544,6 +852,12 @@ main() {
                 --video|-vd)
                         video_mode=1
                         ;;
+                --parallel|-pa)
+                        if [ "$2" != "" ] && [ "$(printf "%.1s" "$2")" != "-" ]; then
+                                parallel="$2"
+                                shift 1
+                        fi
+                        ;;
                 --model|-m)
                         if [ "$2" != "" ] && [ "$(printf "%.1s" "$2")" != "-" ]; then
                                 model="$2"
@@ -558,7 +872,7 @@ main() {
                         ;;
                 --input|-i)
                         if [ "$2" != "" ] && [ "$(printf "%.1s" "$2")" != "-" ]; then
-                                input="$2"
+                                source_file="$2"
                                 shift 1
                         fi
                         ;;

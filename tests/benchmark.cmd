@@ -43,11 +43,12 @@ rm -rf ./tests/video/sample-1-640x360-upscaled_workspace &> /dev/null
 rm -rf ./tests/video/sample-1-640x360-upscaled.mp4 &> /dev/null
 start="$(date +%s)"
 ./start.cmd \
-	--model upscayl-ultrasharp-v2 \
-	--scale 4 \
-	--format webp \
-	--video \
-	--input tests/video/sample-1-640x360.mp4
+        --model upscayl-ultrasharp-v2 \
+        --scale 4 \
+        --format webp \
+        --video \
+        --parallel 1 \
+        --input tests/video/sample-1-640x360.mp4
 end="$(date +%s)"
 printf "Elapsed time: $(($end - $start)) seconds.\n"
 ################################################################################
