@@ -345,7 +345,6 @@ source_file="${source_file}"
 total_frames=${total_frames}
 frame_rate="${frame_rate}"
 video_codec="${video_codec}"
-audio_codec="${audio_codec}"
 input_frame_size="${input_frame_size}"
 """ > "$control"
         if [ $? -ne 0 ]; then
@@ -487,13 +486,6 @@ __setup_video_workspace() {
                         -of default=noprint_wrappers=1:nokey=1 \
                         "$source_file"
         )"
-        audio_codec="$(
-                ffprobe -v error \
-                        -select_streams a:0 \
-                        -show_entries stream=codec_name \
-                        -of default=noprint_wrappers=1:nokey=1 \
-                        "$source_file"
-        )"
         frame_rate="$(
                 ffprobe -v error \
                         -select_streams v \
@@ -545,7 +537,6 @@ __setup_video_workspace() {
         _print_status info """
 Video Name     : ${subject_name}.${subject_ext}
 Video Codec    : ${video_codec}
-Audio Codec    : ${audio_codec}
 Input Frame    : ${input_frame_size}
 
 Frame Rate     : ${frame_rate}
