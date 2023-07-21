@@ -1,5 +1,5 @@
 # Holloway's Upscaler - Image & Video
-[![Holloway's Upscaler](artworks/logo-1200x630.svg)](https://github.com/hollowaykeanho/Upscaler)
+[![Holloway's Upscaler](resources/logos/logo-1200x630.svg)](https://github.com/hollowaykeanho/Upscaler)
 This project is a consolidation of various compiled open-source AI image/video
 upscaling product for a working CLI-friendly image and video upscaling program.
 
