@@ -359,6 +359,69 @@ repository. These data serves few purposes:
 
 
 
+## Commands Help
+In case you can't access to the help details found from the `--help` command,
+here's a copy from the UNIX side:
+
+```
+u0:Upscaler$ ./start.cmd --help
+
+HOLLOWAY'S UPSCALER
+-------------------
+COMMAND:
+
+$ ./start.cmd \
+        --model MODEL_NAME \
+        --scale SCALE_FACTOR \
+        --format FORMAT \
+        --parallel TOTAL_WORKING_THREADS  # only for video upscaling (coming soon) \
+        --video                           # only for video upscaling \
+        --input PATH_TO_FILE \
+        --output PATH_TO_FILE_OR_DIR      # optional
+
+EXAMPLES
+
+$ ./start.cmd \
+        --model ultrasharp \
+        --scale 4 \
+        --format webp \
+        --input my-image.jpg
+
+$ ./start.cmd \
+        --model ultrasharp \
+        --scale 4 \
+        --format webp \
+        --input my-image.jpg \
+        --output my-image-upscaled.webp
+
+$ ./start.cmd \
+        --model ultrasharp \
+        --scale 4 \
+        --format png \
+        --parallel 1 \
+        --video \
+        --input my-video.mp4 \
+        --output my-video-upscaled.mp4
+
+$ ./start.cmd \
+        --model ultrasharp \
+        --scale 4 \
+        --format png \
+        --parallel 1 \
+        --input video/frames/input \
+        --output video/frames/output
+
+AVAILABLE FORMATS:
+(1) PNG
+(2) JPG
+(3) ...
+
+AVAILABLE MODELS:
+...
+```
+
+
+
 ## Upstream and Source Codes
 This is a binaries assembled repository. You may find the source codes from the
 original contributors here:
