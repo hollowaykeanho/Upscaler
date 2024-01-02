@@ -464,7 +464,7 @@ __upscale_if_image() {
                 ____exec_upscale_program "$source_file" "$output"
                 if [ $? -eq 0 ]; then
                         _print_status success "\n"
-                        return 0
+                        return 10
                 fi
 
 
@@ -795,9 +795,16 @@ _exec_program() {
 
 
         __upscale_if_image
-        if [ $? -ne 0 ]; then
+        case $? in
+        10)
+                exit 0
+                ;;
+        0)
+                ;;
+        *)
                 exit 1
-        fi
+                ;;
+        esac
 
 
         __setup_video_workspace
