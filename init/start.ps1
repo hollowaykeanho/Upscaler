@@ -91,6 +91,8 @@ ${env:LIBS_UPSCALER} = "${env:UPSCALER_PATH_ROOT}\${env:UPSCALER_PATH_SCRIPTS}"
 
 # import fundamental libraries
 . "${env:LIBS_UPSCALER}\services\io\strings.ps1"
+. "${env:LIBS_UPSCALER}\services\compilers\upscaler.ps1"
+. "${env:LIBS_UPSCALER}\services\i18n\error-unsupported.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\help.ps1"
 
 
@@ -152,10 +154,27 @@ for ($i = 0; $i -lt $args.Length; $i++) {
 	}}
 }
 
+
+
+
+# serve help printout and then bail out
 if ($__help -eq $true) {
 	$null = I18N-Status-Print-Help
 	exit 0
 }
 
 
+
+
+# verify host system is supported
+$__process = UPSCALER-Is-Available
+if ($__process -ne 0) {
+	$null = I18N-Status-Error-Unsupported
+	exit 1
+}
+
+
+
+
+# placeholder
 Write-Host "DEBUG: Model='${__model}' Scale='${__scale}' Format='${__format}' Parallel='${__parallel}' Video='${__video}' Input='${__input}' Output='${__output}' GPU='${__gpu}'"

@@ -83,6 +83,8 @@ export LIBS_UPSCALER="${UPSCALER_PATH_ROOT}/${UPSCALER_PATH_SCRIPTS}"
 
 # import fundamental libraries
 . "${LIBS_UPSCALER}/services/io/strings.sh"
+. "${LIBS_UPSCALER}/services/compilers/upscaler.sh"
+. "${LIBS_UPSCALER}/services/i18n/error-unsupported.sh"
 . "${LIBS_UPSCALER}/services/i18n/help.sh"
 
 
@@ -153,11 +155,29 @@ while [ -n "$1" ]; do
         shift 1
 done
 
+
+
+
+# serve help printout and then bail out
 if [ "$__help" == "true" ]; then
         I18N_Status_Print_Help
         exit 0
 fi
 
+
+
+
+# verify host system is supported
+UPSCALER_Is_Available
+if [ $? -ne 0 ]; then
+        I18N_Status_Error_Unsupported
+        exit 1
+fi
+
+
+
+
+# placeholder
 printf "DEBUG model='%s' scale='%s' format='%s' parallel='%s' video='%s' input='%s' output='%s' gpu='%s' \n" \
         "$__model" \
         "$__scale" \

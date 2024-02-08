@@ -1,6 +1,8 @@
+#!/bin/sh
+#
 # BSD 3-Clause License
 #
-# Copyright (c) 2024, (Holloway) Chew, Kean Ho
+# Copyright (c) 2023, (Holloway) Chew, Kean Ho
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -27,96 +29,30 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-function OS-Is-Command-Available {
-	param (
-		[string]$__command
-	)
-
-
-	# validate input
-	if ([string]::IsNullOrEmpty($__command)) {
-		return 1
-	}
-
-
-	# execute
-	$__program = Get-Command $__command -ErrorAction SilentlyContinue
-	if ($__program) {
-		return 0
-	}
-	return 1
-}
+. "${LIBS_UPSCALER}/services/io/os.sh"
 
 
 
 
-function OS-Exec {
-	param (
-		[string]$__command,
-		[string]$__arguments
-	)
+UPSCALER_Is_Available() {
+        case "$(OS_Host_System)" in
+        linux|darwin)
+                ;;
+        *)
+                return 1
+                ;;
+        esac
 
 
-	# validate input
-	if ([string]::IsNullOrEmpty($__command) -or [string]::IsNullOrEmpty($__arguments)) {
-		return 1
-	}
+        case "$(OS_Host_Arch)" in
+        amd64)
+                ;;
+        *)
+                return 1
+                ;;
+        esac
 
 
-	# get program
-	$__program = Get-Command $__command -ErrorAction SilentlyContinue
-	if (-not ($__program)) {
-		return 1
-	}
-
-
-	# execute command
-	$__process = Start-Process -Wait `
-				-FilePath "$__program" `
-				-NoNewWindow `
-				-ArgumentList "$__arguments" `
-				-PassThru
-	if ($__process.ExitCode -ne 0) {
-		return 1
-	}
-	return 0
-}
-
-
-
-
-function OS-Host-Arch {
-	# execute
-	switch ((Get-ComputerInfo).CsProcessors.Architecture) {
-	"Alpha" {
-		return "alpha"
-	} "ARM" {
-		return "arm"
-	} "ARM64" {
-		return "arm64"
-	} "ia64" {
-		return "ia64"
-	} "MIPs" {
-		return "mips"
-	} "PowerPC" {
-		return "powerpc"
-	} "x86" {
-		return "i386"
-	} "x64" {
-		return "amd64"
-	} Default {
-		return ""
-	}}
-}
-
-
-
-
-function OS-Host-System {
-	$__os = (Get-ComputerInfo).OsName.ToLower()
-	if (-not ($__os -match "microsoft" -or $__os -match "windows")) {
-		return ""
-	}
-
-	return "windows"
+        # report status
+        return 0
 }

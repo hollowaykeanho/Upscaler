@@ -43,3 +43,73 @@ OS_Is_Command_Available() {
         fi
         return 1
 }
+
+
+
+
+OS_Host_Arch() {
+        __arch="$(printf "$(uname -m)" | tr '[:upper:]' '[:lower:]')"
+        case "${__arch}" in
+        i686-64)
+                __arch='ia64' # Intel Itanium.
+                ;;
+        i386|i486|i586|i686)
+                __arch='i386'
+                ;;
+        x86_64)
+                __arch="amd64"
+                ;;
+        sun4u)
+                __arch='sparc'
+                ;;
+        "power macintosh")
+                __arch='powerpc'
+                ;;
+        ip*)
+                __arch='mips'
+                ;;
+        *)
+                ;;
+        esac
+        printf -- "%s" "$__arch"
+
+
+        # report status
+        if [ -z "$__arch" ]; then
+                return 1
+        fi
+
+        return 0
+}
+
+
+
+
+OS_Host_System() {
+        __os="$(echo "$(uname)" | tr '[:upper:]' '[:lower:]')"
+        case "$__os" in
+        windows*|ms-dos*)
+                __os='windows'
+                ;;
+        cygwin*|mingw*|mingw32*|msys*)
+                __os='windows'
+                ;;
+        *freebsd)
+                __os='freebsd'
+                ;;
+        dragonfly*)
+                __os='dragonfly'
+                ;;
+        *)
+                ;;
+        esac
+        printf -- "%s" "$__os"
+
+
+        # report status
+        if [ -z "$__os" ]; then
+                return 1
+        fi
+
+        return 0
+}
