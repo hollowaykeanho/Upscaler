@@ -1,0 +1,43 @@
+name: "Payment"
+description: "To report a case related to a payment transaction for the project."
+labels: [ "Payment", "Discussion" ]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: >
+        Please provide a short description of what you are looking forward to
+        have.
+      placeholder: "E.g: You forgotten to discount my noodle meal. Please amend."
+    validations:
+      required: true
+  - type: textarea
+    id: expectation
+    attributes:
+      label: Expected Behavior
+      description: >
+        Please specify the expected behavior below of your request feature.
+      placeholder: "E.g: Should be USD8.00."
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current Behavior
+      description: >
+        Please specify the any current behavior (e.g. workarounds).
+      placeholder: "E.g: Being charged USD10.00."
+    validations:
+      required: true
+  - type: textarea
+    id: attachments
+    attributes:
+      label: Associated Data Files
+      description: >
+        Please drag and drop all the necessary data files (e.g. screenshot,
+        logs, etc) into the box below. Each successful upload shall render an
+        URL link on its own.
+      placeholder: "Please drag and drop it here."
+    validations:
+      required: false

@@ -1,0 +1,53 @@
+name: "Bug & Glitch"
+description: "To report a bug or a glitch regarding about the project."
+labels: [ "Bug", "Discussion" ]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: >
+        Please provide a short description of what you had encountered.
+      placeholder: "E.g: Ginseng and white raddish together in a soup, are you crazy?!"
+    validations:
+      required: true
+  - type: textarea
+    id: expectation
+    attributes:
+      label: Expected Behavior
+      description: >
+        Please specify the expected behavior below.
+      placeholder: "E.g: split them into 2 different soup dishes and recipes."
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current Behavior
+      description: >
+        Please specify the current behavior below.
+      placeholder: "E.g: 1 recipe with those 2 are gonna be wasteful."
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce [COMPULSORY]
+      description: >
+        Please specify all the steps required to re-produce to the problem. If
+        the team are not able to reproduce the problem even a slighest symptom
+        of it, then this ticket shall be closed as "Will Not Implement".
+      placeholder: "E.g:\n1. Refer the menu. A.\n2. Order item 'Gala Soup'.\n3. Observe."
+    validations:
+      required: true
+  - type: textarea
+    id: attachments
+    attributes:
+      label: Associated Data Files
+      description: >
+        Please drag and drop all the necessary data files (e.g. screenshot,
+        logs, etc) into the box below. Each successful uploads shall render an
+        URL link on its own.
+      placeholder: "Please drag and drop it here."
+    validations:
+      required: false
