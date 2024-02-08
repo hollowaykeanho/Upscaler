@@ -1,0 +1,51 @@
+name: "Documentations"
+description: "To report something about the project's documentation."
+labels: [ "Documentation", "Discussion" ]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: >
+        Please provide a short description of what you had encountered.
+      placeholder: "E.g: I saw a typo at Section 2.1.3 - 'glicth' should be 'glitch'."
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Page URL Address
+      description: >
+        Please provide the documentation link if applicable.
+      placeholder: "E.g: https://www.github.com/hollowaykeanho"
+    validations:
+      required: false
+  - type: textarea
+    id: expectation
+    attributes:
+      label: Expected Presentation
+      description: >
+        Please specify the expected presentation below.
+      placeholder: "E.g: ... report a glitch at ..."
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current Behavior
+      description: >
+        Please specify the current presentation below.
+      placeholder: "E.g: Section 2.1.3 -> ... report a glicth at ..."
+    validations:
+      required: true
+  - type: textarea
+    id: attachments
+    attributes:
+      label: Associated Data Files
+      description: >
+        Please drag and drop all the necessary data files (e.g. screenshot,
+        logs, etc) into the box below. Each successful uploads shall render an
+        URL link on its own.
+      placeholder: "Please drag and drop it here."
+    validations:
+      required: false

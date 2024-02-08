@@ -1,4 +1,5 @@
 # Prologue
+
 **We DO NOT ACCEPT ANY PULL/MERGE REQUEST FOR THIS REPOSITORY**.
 
 The right procedure for contributing back via these platform services ARE:
@@ -12,6 +13,7 @@ The right procedure for contributing back via these platform services ARE:
 
 
 # Why?
+
 We want to:
 
 1. **Retaining all changes and information inside git log ONLY**; and
@@ -35,6 +37,7 @@ identified supply-chain threat.
 
 
 # What is Required in Your Commit Messages
+
 **Write the whole ESSAY of the issue ticket you are working on**. Remember the
 goal is to capture your commitment from problem to why we should apply your
 patch.
@@ -84,6 +87,7 @@ reviewers know where to digest them.
 
 
 ## GPG Signature for Commit Signature
+
 **Optional but highly recommended** since we are doing manual code-review and
 automated CI testing internally on our side with our own automation tools.
 
@@ -94,6 +98,7 @@ you internally in the future.
 
 
 # To Generate Patches
+
 To create your patches, please use any of the following `git` command:
 
 ```bash
@@ -123,6 +128,7 @@ $ git format-patch <STARTING_COMMIT_ID>^..<END_COMMIT_ID> --stdout > my.patch
 
 
 # Epilogue
+
 That's all from us. Your pull request **SHALL BE REJECTED WITH PERJUDICE** if
 you choose to ignore this message.
 

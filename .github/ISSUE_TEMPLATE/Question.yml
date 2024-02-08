@@ -1,0 +1,28 @@
+name: "Question"
+description: "To query something about the project."
+labels: [ "Question", "Discussion" ]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: >
+        Please provide a short description of your query.
+      placeholder: "E.g: what's that delicious meat in the meal?"
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current Researched Artifacts [COMPULSORY]
+      description: >
+        Please list out all your research artifacts that you did (e.g. link,
+        blog post, documentations, and etc) for us to gauge your context and
+        current efforts. You can drag and drop all the necessary data files
+        (e.g. screenshot, logs, etc) into the box as well. Each successful
+        upload shall render an URL link on its own. **NOTE: We may not reply
+        you and will close the ticket with perjuidice if this section remains
+        empty or unconvincing**.
+      placeholder: "E.g: I did a lab report as attached. They can't tell."
+    validations:
+      required: true

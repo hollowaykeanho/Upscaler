@@ -1,0 +1,43 @@
+name: "Sponsorship"
+description: "To report a case solely related to the project's sponsorship."
+labels: [ "Sponsorship", "Discussion" ]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: >
+        Please provide a short description of what you are looking forward to
+        have.
+      placeholder: "E.g: I want to sponsor your brand!"
+    validations:
+      required: true
+  - type: textarea
+    id: expectation
+    attributes:
+      label: Expected Behavior
+      description: >
+        Please specify the expected behavior below of your request feature.
+      placeholder: "E.g: Let's talk business, like ads, materials, etc."
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current Behavior
+      description: >
+        Please specify the any current behavior (e.g. workarounds).
+      placeholder: "E.g: I see potential future in your business."
+    validations:
+      required: true
+  - type: textarea
+    id: attachments
+    attributes:
+      label: Associated Data Files
+      description: >
+        Please drag and drop all the necessary data files (e.g. screenshot,
+        logs, etc) into the box below. Each successful upload shall render an
+        URL link on its own.
+      placeholder: "Please drag and drop it here."
+    validations:
+      required: false

@@ -1,0 +1,39 @@
+name: on Git Push
+run-name: CI Run upon Git Push.
+on:
+  push:
+    branches:
+      - main
+      - stable
+      - next
+      - testing
+      - staging
+      - edge
+      - experimental
+jobs:
+  develop_on:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    env:
+        TERM: xterm-256color
+        CONTAINER_USERNAME: ${{ secrets.CONTAINER_USERNAME }}
+        CONTAINER_PASSWORD: ${{ secrets.CONTAINER_PASSWORD }}
+        TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+        PROJECT_SIMULATE_RELEASE_REPO: true
+    steps:
+      - name: Checking out designated commit - GITHUB ACTIONS
+        id: git_check_out
+        uses: actions/checkout@v4
+      - name: Initialize - GITHUB ACTIONS
+        id: git_initialize
+        run: |
+          git config --global user.email "github.actions.runner@github.com"
+          git config --global user.name "Github Action Automated Runner"
+      - name: Execute Upscaler's Help Mode - HELP
+        id: upscaler_help
+        run: |
+          ./init/start.sh.ps1 help

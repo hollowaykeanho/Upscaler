@@ -1,0 +1,45 @@
+name: "Art Directive"
+description: "To report a case related to artwork and art direction."
+labels: [ "Artwork", "Discussion" ]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: >
+        Please provide a short description of what you are looking forward to
+        have.
+      placeholder: "E.g: I want a soup to be presented as smiling kitty cat face."
+    validations:
+      required: true
+  - type: textarea
+    id: expectation
+    attributes:
+      label: Expected Behavior
+      description: >
+        Please specify the expected behavior below of your request feature. You
+        may upload your associated artwork presentations here.
+      placeholder: "E.g: something like this one (attached sketch file)."
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current Behavior
+      description: >
+        Please specify the any current behavior. You may upload the current
+        artwork presentation here.
+      placeholder: "E.g: no art. A bit boring."
+    validations:
+      required: true
+  - type: textarea
+    id: attachments
+    attributes:
+      label: Associated Data Files
+      description: >
+        Please drag and drop all other necessary data files (e.g. screenshot,
+        logs, etc) into the box below. Each successful upload shall render an
+        URL link on its own.
+      placeholder: "Please drag and drop it here."
+    validations:
+      required: false
