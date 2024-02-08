@@ -36,4 +36,4 @@ jobs:
       - name: Execute Upscaler's Help Mode - HELP
         id: upscaler_help
         run: |
-          ./init/start.sh.ps1 help
+          ./tests/00_test_help.sh.ps1

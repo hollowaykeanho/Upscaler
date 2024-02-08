@@ -72,7 +72,7 @@ else
 
         if [ ! -f "${UPSCALER_PATH_ROOT}/${UPSCALER_PATH_SCRIPTS}/start.sh" ]; then
                 1>&2 printf "[ ERROR ] Missing root directory.\n"
-                exit 1
+                return 1
         fi
 fi
 
@@ -161,7 +161,7 @@ done
 # serve help printout and then bail out
 if [ "$__help" == "true" ]; then
         I18N_Status_Print_Help
-        exit 0
+        return 0
 fi
 
 
@@ -171,7 +171,7 @@ fi
 UPSCALER_Is_Available
 if [ $? -ne 0 ]; then
         I18N_Status_Error_Unsupported
-        exit 1
+        return 1
 fi
 
 

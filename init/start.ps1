@@ -80,7 +80,7 @@ if (Test-Path ".\start.ps1") {
 
 	if (-not (Test-Path "${env:UPSCALER_PATH_ROOT}\${env:UPSCALER_PATH_SCRIPTS}\start.ps1")) {
 		Write-Error "[ ERROR ] Missing root directory.`n`n"
-		exit 1
+		return 1
 	}
 }
 
@@ -160,7 +160,7 @@ for ($i = 0; $i -lt $args.Length; $i++) {
 # serve help printout and then bail out
 if ($__help -eq $true) {
 	$null = I18N-Status-Print-Help
-	exit 0
+	return 0
 }
 
 
@@ -170,7 +170,7 @@ if ($__help -eq $true) {
 $__process = UPSCALER-Is-Available
 if ($__process -ne 0) {
 	$null = I18N-Status-Error-Unsupported
-	exit 1
+	return 1
 }
 
 
