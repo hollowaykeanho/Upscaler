@@ -92,6 +92,7 @@ ${env:LIBS_UPSCALER} = "${env:UPSCALER_PATH_ROOT}\${env:UPSCALER_PATH_SCRIPTS}"
 # import fundamental libraries
 . "${env:LIBS_UPSCALER}\services\io\strings.ps1"
 . "${env:LIBS_UPSCALER}\services\compilers\upscaler.ps1"
+. "${env:LIBS_UPSCALER}\services\i18n\error-gpu-unsupported.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-input-unknown.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-input-unsupported.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-model-unknown.ps1"
@@ -223,6 +224,22 @@ switch ($__mime) {
 	$null = I18N-Status-Error-Input-Unspported "${__mime}"
 	return 1
 }}
+
+
+
+
+# process gpu
+if ((STRINGS-Is-Empty "${__gpu}") -eq 0) {
+	$__gpu = 0
+}
+if ((STRINGS-Is-Empty "${env:UPSCALER_TEST_MODE}") -eq "0") {
+	$___process = UPSCALER-GPU-Verify "${__gpu}"
+	if ($___process -ne 0) {
+		$null = I18N-Status-Error-GPU-Unsupported "${__gpu}"
+		return 1
+	}
+}
+
 
 
 

@@ -31,36 +31,87 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 . "${LIBS_UPSCALER}/services/io/os.sh"
 . "${LIBS_UPSCALER}/services/io/fs.sh"
+. "${LIBS_UPSCALER}/services/io/strings.sh"
+
+
+
+
+UPSCALER_GPU_Scan() {
+        # validate input
+        ___program="$(UPSCALER_Program_Get)"
+        if [ "$(STRINGS_Is_Empty "$___program")" = "0" ]; then
+                printf -- ""
+                return 1
+        fi
+
+
+        # Create a dummy PNG file for upscale
+        ___filename="${UPSCALER_PATH_ROOT}/.dummy.png"
+        ___target="${UPSCALER_PATH_ROOT}/.dummy-upscaled.png"
+        ___header='\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15\xc4\x89\x00\x00\x00\x0aIDAT\x08\x96\x96\x96\x96\x00\x00\x00\x00\x01\x74\x52\x47\x42\x00\xae\xce\x1c\xe9\x00\x00\x00\x00IEND\xaeB`\x82'
+        FS_Remove_Silently "$___filename"
+        FS_Remove_Silently "$___target"
+        dd if=/dev/zero bs=1 count=1  2>/dev/null \
+                | printf '%b' "$___header" \
+                | cat > "${___filename}"
+        printf -- "%b" "$(2>&1 "${___program}" -s 1 -i "$___filename" -o "$___target")"
+        FS_Remove_Silently "$___filename"
+        FS_Remove_Silently "$___target"
+
+
+        # report status
+        return 0
+}
+
+
+
+
+UPSCALER_GPU_Verify() {
+        #___gpu="$1"
+
+
+        # validate input
+        if [ "$(STRINGS_Is_Empty "$1")" = "0" ]; then
+                return 1
+        fi
+
+
+        # execute
+        ___term="$(UPSCALER_GPU_Scan)"
+        ___verdict="1"
+        ___old_IFS="$IFS"
+        while IFS="" read -r __line || [ -n "$__line" ]; do
+                if [ ! "$(printf -- "%.1b" "$__line")" = "[" ]; then
+                        continue
+                fi
+
+                __line="${__line%%] *}"
+                __line="${__line#*[}"
+                if [ "$1" = "${__line%% *}" ]; then
+                        ___verdict="0"
+                        break
+                fi
+        done <<EOF
+${___term}
+EOF
+        IFS="$___old_IFS" && unset ___old_IFS
+
+
+        # report status
+        if [ "$___verdict" = "0" ]; then
+                return 0
+        fi
+
+        return 1
+}
 
 
 
 
 UPSCALER_Is_Available() {
-        case "$(OS_Host_System)" in
-        linux)
-                ___program="${UPSCALER_PATH_ROOT}/bin/linux"
-                ;;
-        darwin)
-                ___program="${UPSCALER_PATH_ROOT}/bin/mac"
-                ;;
-        *)
-                return 1
-                ;;
-        esac
-
-
-        case "$(OS_Host_Arch)" in
-        amd64)
-                ___program="${___program}-amd64"
-                ;;
-        *)
-                return 1
-                ;;
-        esac
-
-
-        FS_Is_Target_Exist "$___program"
-        if [ $? -ne 0 ]; then
+        # execute
+        ___program="$(UPSCALER_Program_Get)"
+        if [ "$(STRINGS_Is_Empty "$___program")" = "0" ]; then
                 return 1
         fi
 
@@ -108,6 +159,48 @@ UPSCALER_Model_Get() {
         # report status
         printf -- ""
         return 1
+}
+
+
+
+
+UPSCALER_Program_Get() {
+        # execute
+        case "$(OS_Host_System)" in
+        linux)
+                ___program="${UPSCALER_PATH_ROOT}/bin/linux"
+                ;;
+        darwin)
+                ___program="${UPSCALER_PATH_ROOT}/bin/mac"
+                ;;
+        *)
+                printf -- ""
+                return 1
+                ;;
+        esac
+
+
+        case "$(OS_Host_Arch)" in
+        amd64)
+                ___program="${___program}-amd64"
+                ;;
+        *)
+                printf -- ""
+                return 1
+                ;;
+        esac
+
+
+        FS_Is_Target_Exist "$___program"
+        if [ $? -ne 0 ]; then
+                printf -- ""
+                return 1
+        fi
+        printf -- "%b" "$___program"
+
+
+        # report status
+        return 0
 }
 
 

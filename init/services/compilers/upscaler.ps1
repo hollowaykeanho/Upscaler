@@ -34,16 +34,93 @@
 
 
 
+function UPSCALER-GPU-Scan {
+	# validate input
+	$___program = UPSCALER-Program-Get
+	if ((STRINGS-Is-Empty "${___program}") -eq 0) {
+		return ""
+	}
+
+
+	# create a dummy PNG file for upscale
+	$___filename = "${env:UPSCALER_PATH_ROOT}\.dummy.png"
+	$___target = "${env:UPSCALER_PATH_ROOT}\.dummy-upscaled.png"
+	$___header = @(
+		0x89,  0x50,  0x4E,  0x47,  0x0D,  0x0A,  0x1A,  0x0A,
+		0x00,  0x00,  0x00,  0x0D,  0x49,  0x48,  0x44,  0x52,
+		0x00,  0x00,  0x00,  0x01,  0x00,  0x00,  0x00,  0x01,
+		0x08,  0x06,  0x00,  0x00,  0x00,  0x1F,  0x15,  0xC4,
+		0x89,  0x00,  0x00,  0x00,  0x0A,  0x49,  0x44,  0x41,
+		0x54,  0x78,  0x9C,  0x63,  0x00,  0x01,  0x74,  0x52,
+		0x47,  0x42,  0x00,  0xAE,  0xCE,  0x1C,  0xE9,  0x00,
+		0x00,  0x00,  0x04,  0x67,  0x41,  0x4D,  0x41,  0x00,
+		0x00,  0xAF,  0xC8,  0x37,  0x05,  0x8A,  0xE9,  0x00,
+		0x00,  0x00,  0x00,  0x49,  0x45,  0x4E,  0x44,  0xAE,
+		0x42,  0x60,  0x82
+	)
+	$___bytes = [byte[]]$___header
+	$null = FS-Remove-Silently "${___filename}"
+	$null = FS-Remove-Silently "${___target}"
+	[System.IO.File]::WriteAllBytes($___filename, $___bytes)
+	$___result = & $___program -s 1 -i $___filename -o $___target  2>&1
+	$null = FS-Remove-Silently "${___filename}"
+	$null = FS-Remove-Silently "${___target}"
+	return $___result
+}
+
+
+
+
+function UPSCALER-GPU-Verify {
+	param(
+		[string]$___gpu
+	)
+
+
+	# validate input
+	if ((STRINGS-Is-Empty "${___gpu}") -eq 0) {
+		return 1
+	}
+
+
+	# execute
+	$___term = UPSCALER-GPU-Scan
+	$___verdict = $false
+	$___lines = $___term -split "`n"
+	foreach ($___line in $___lines) {
+		if ($___line -notmatch '^\[') {
+			continue
+		}
+
+		$___line = $___line -replace '\]\s*$', ''
+		$___line = $___line -replace '^\[\s*', ''
+		$___id = $___line.Split(' ',  2)[0]
+
+		if ($___gpu -eq $___id) {
+			$___verdict = $true
+			break
+		}
+	}
+
+
+	# report status
+	if ($___verdict) {
+		return 0
+	}
+
+	return 1
+}
+
+
+
+
 function UPSCALER-Is-Available {
-	if (-not (OS-Host-System -eq "windows")) {
+	$___process = UPSCALER-Program-Get
+	if ((STRINGS-Is-Empty "${___process}") -eq 0) {
 		return 1
 	}
 
-	if (-not (OS-Host-Arch -eq "amd64")) {
-		return 1
-	}
-
-	$___process = FS-Is-Target-Exist "${env:UPSCALER_PATH_ROOT}/bin/windows-amd64.exe"
+	$___process = FS-Is-Target-Exist "${___process}"
 	if ($___process -ne 0) {
 		return 1
 	}
@@ -110,6 +187,21 @@ function UPSCALER-Model-Get {
 
 	# report status
 	return ""
+}
+
+
+
+
+function UPSCALER-Program-Get {
+	if (-not (OS-Host-System -eq "windows")) {
+		return ""
+	}
+
+	if (-not (OS-Host-Arch -eq "amd64")) {
+		return ""
+	}
+
+	return "${env:UPSCALER_PATH_ROOT}/bin/windows-amd64.exe"
 }
 
 

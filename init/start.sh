@@ -84,6 +84,7 @@ export LIBS_UPSCALER="${UPSCALER_PATH_ROOT}/${UPSCALER_PATH_SCRIPTS}"
 # import fundamental libraries
 . "${LIBS_UPSCALER}/services/io/strings.sh"
 . "${LIBS_UPSCALER}/services/compilers/upscaler.sh"
+. "${LIBS_UPSCALER}/services/i18n/error-gpu-unsupported.sh"
 . "${LIBS_UPSCALER}/services/i18n/error-input-unknown.sh"
 . "${LIBS_UPSCALER}/services/i18n/error-input-unsupported.sh"
 . "${LIBS_UPSCALER}/services/i18n/error-model-unknown.sh"
@@ -227,6 +228,19 @@ inode/directory)
         return 1
         ;;
 esac
+
+
+
+
+# process gpu
+__gpu="${__gpu:-0}"
+if [ "$(STRINGS_Is_Empty "$UPSCALER_TEST_MODE")" = "0" ]; then
+        UPSCALER_GPU_Verify "$__gpu"
+        if [ $? -ne 0 ]; then
+                I18N_Status_Error_GPU_Unsupported "$__gpu"
+                return 1
+        fi
+fi
 
 
 
