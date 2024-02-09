@@ -179,6 +179,32 @@ FS_Extension_Replace() {
 
 
 
+FS_Get_MIME() {
+        #__target="$1"
+
+
+        # validate input
+        if [ -z "$1" ]; then
+                return 1
+        fi
+
+
+        # execute
+        ___output="$(file --mime-type "$1")"
+        if [ $? -eq 0 ]; then
+                printf -- "%b" "${___output##* }"
+                return 0
+        fi
+
+
+        # report status
+        printf -- ""
+        return 1
+}
+
+
+
+
 FS_Is_Directory() {
         #__target="$1"
 
@@ -236,7 +262,13 @@ FS_Is_Target_Exist() {
 
 
         # perform checking
-        if [ -f "$1" ]; then
+        FS_Is_Directory "$1"
+        if [ $? -eq 0 ]; then
+                return 0
+        fi
+
+        FS_Is_File "$1"
+        if [ $? -eq 0 ]; then
                 return 0
         fi
 

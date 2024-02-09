@@ -92,9 +92,11 @@ ${env:LIBS_UPSCALER} = "${env:UPSCALER_PATH_ROOT}\${env:UPSCALER_PATH_SCRIPTS}"
 # import fundamental libraries
 . "${env:LIBS_UPSCALER}\services\io\strings.ps1"
 . "${env:LIBS_UPSCALER}\services\compilers\upscaler.ps1"
-. "${env:LIBS_UPSCALER}\services\i18n\error-unsupported.ps1"
+. "${env:LIBS_UPSCALER}\services\i18n\error-input-unknown.ps1"
+. "${env:LIBS_UPSCALER}\services\i18n\error-input-unsupported.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-model-unknown.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-scale-unknown.ps1"
+. "${env:LIBS_UPSCALER}\services\i18n\error-unsupported.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\help.ps1"
 
 
@@ -106,7 +108,8 @@ $__model = ""
 $__scale = ""
 $__format = ""
 $__parallel = ""
-$__video = $false
+$__video = 0
+$__batch = 0
 $__input = ""
 $__output = ""
 $__gpu = ""
@@ -136,7 +139,7 @@ for ($i = 0; $i -lt $args.Length; $i++) {
 			$i++
 		}
 	} "--video" {
-		$__video = $true
+		$__video = 1
 	} "--input" {
 		if (-not ($args[$i + 1] -match "^--")) {
 			$__input = $args[$i + 1]
@@ -198,7 +201,32 @@ if (($__scale -le 0) -or ($__scale -gt 4)) {
 
 
 
+# process input
+$___process = FS-Is-Target-Exist "${__input}"
+if ($___process -ne 0) {
+	$null = I18N-Status-Error-Input-Unknown
+	return 1
+}
+
+
+$__mime = FS-Get-MIME "${__input}"
+switch ($__mime) {
+{ $_ -in "image/jpeg", "image/png" } {
+	$__batch = 0
+	$__video = 0
+} { $_ -in "video/mp4" } {
+	$__batch = 0
+	$__video = 1
+} "inode/directory" {
+	$__batch = 1
+} default {
+	$null = I18N-Status-Error-Input-Unspported "${__mime}"
+	return 1
+}}
+
+
+
 # placeholder
-Write-Host "DEBUG: Model='${__model}' Scale='${__scale}' Format='${__format}' Parallel='${__parallel}' Video='${__video}' Input='${__input}' Output='${__output}' GPU='${__gpu}'"
+Write-Host "DEBUG: Model='${__model}' Scale='${__scale}' Format='${__format}' Parallel='${__parallel}' Video='${__video}' Batch='${__batch}' Input='${__input}' Output='${__output}' GPU='${__gpu}'"
 
 return 0

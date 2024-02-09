@@ -175,6 +175,60 @@ function FS-Extension-Replace {
 
 
 
+function FS-Get-MIME {
+	param(
+		[string]$___target
+	)
+
+
+	# validate input
+	if ((FS-Is-Target-Exist $___target) -ne 0) {
+		return ""
+	}
+
+
+	# execute
+	$___process = FS-Is-Directory "${___target}"
+	if ($___process -eq 0) {
+		return "inode/directory"
+	}
+
+
+	switch ((Get-ChildItem $___target).Extension.ToLower()) {
+	".avif" {
+		return "image/avif"
+	} ".gif" {
+		return "image/gif"
+	} ".gzip" {
+		return "application/x-gzip"
+	} { $_ -in ".jpg", ".jpeg" } {
+		return "image/jpeg"
+	} ".json" {
+		return "application/json"
+	} ".mkv" {
+		return "video/mkv"
+	} ".mp4" {
+		return "video/mp4"
+	} ".png" {
+		return "image/png"
+	} ".rar" {
+		return "application/x-rar-compressed"
+	} ".tiff" {
+		return "image/tiff"
+	} ".webp" {
+		return "image/webp"
+	} ".xml" {
+		return "application/xml"
+	} ".zip" {
+		return "application/zip"
+	} default {
+		return ""
+	}}
+}
+
+
+
+
 function FS-Is-Directory {
 	param (
 		[string]$__target
@@ -235,13 +289,18 @@ function FS-Is-Target-Exist {
 
 
 	# perform checking
-	$__process = Test-Path -Path "${__target}" -ErrorAction SilentlyContinue
+	$__process = FS-Is-Directory "${__target}"
+	if ($__process -eq 0) {
+		return 0
+	}
+
+	$__process = FS-Is-File "${__target}"
+	if ($__process -eq 0) {
+		return 0
+	}
 
 
 	# report status
-	if ($__process) {
-		return 0
-	}
 	return 1
 }
 

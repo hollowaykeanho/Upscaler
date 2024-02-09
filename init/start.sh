@@ -84,9 +84,11 @@ export LIBS_UPSCALER="${UPSCALER_PATH_ROOT}/${UPSCALER_PATH_SCRIPTS}"
 # import fundamental libraries
 . "${LIBS_UPSCALER}/services/io/strings.sh"
 . "${LIBS_UPSCALER}/services/compilers/upscaler.sh"
-. "${LIBS_UPSCALER}/services/i18n/error-unsupported.sh"
+. "${LIBS_UPSCALER}/services/i18n/error-input-unknown.sh"
+. "${LIBS_UPSCALER}/services/i18n/error-input-unsupported.sh"
 . "${LIBS_UPSCALER}/services/i18n/error-model-unknown.sh"
 . "${LIBS_UPSCALER}/services/i18n/error-scale-unknown.sh"
+. "${LIBS_UPSCALER}/services/i18n/error-unsupported.sh"
 . "${LIBS_UPSCALER}/services/i18n/help.sh"
 
 
@@ -98,7 +100,8 @@ __model=""
 __scale=""
 __format=""
 __parallel=""
-__video="false"
+__video="0"
+__batch="0"
 __input=""
 __output=""
 __gpu=""
@@ -133,7 +136,7 @@ while [ -n "$1" ]; do
                 fi
                 ;;
         --video)
-                __video="true"
+                __video="1"
                 ;;
         --input)
                 if [ ! -z "$2" ] && [ "$(printf "%.1s" "$2")" != "-" ]; then
@@ -198,13 +201,44 @@ fi
 
 
 
+
+# process input
+FS_Is_Target_Exist "$__input"
+if [ $? -ne 0 ]; then
+        I18N_Status_Error_Input_Unknown
+        return 1
+fi
+
+__mime="$(FS_Get_MIME "$__input")"
+case "$__mime" in
+image/jpeg|image/png)
+        __batch="0"
+        __video="0"
+        ;;
+video/mp4)
+        __batch="0"
+        __video="1"
+        ;;
+inode/directory)
+        __batch="1"
+        ;;
+*)
+        I18N_Status_Error_Input_Unsupported "$__mime"
+        return 1
+        ;;
+esac
+
+
+
+
 # placeholder
-printf "DEBUG model='%s' scale='%s' format='%s' parallel='%s' video='%s' input='%s' output='%s' gpu='%s' \n" \
+printf "DEBUG model='%s' scale='%s' format='%s' parallel='%s' video='%s' batch='%s' input='%s' output='%s' gpu='%s' \n" \
         "$__model" \
         "$__scale" \
         "$__format" \
         "$__parallel" \
         "$__video" \
+        "$__batch" \
         "$__input" \
         "$__output" \
         "$__gpu"
