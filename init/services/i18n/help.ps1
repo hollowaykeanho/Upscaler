@@ -42,59 +42,60 @@ HOLLOWAY'S UPSCALER
 -------------------
 
 Befehl:
-        $ ./start.sh.ps1 `
-                --model MODELLBEZEICHNUNG `
-                --scale EINTEILUNGSFAKTOR `
-                --format FORMAT `
-                --parallel GESAMTE ARBEITSFÄDEN               # Nur für Video `
-                --video                                       # Nur für Video `
-                --input PFAD_ZUR_DATEI `
-                --output PFAD_ZUR_DATEI_ODER_ZUM_VERZEICHNIS  # wahlfrei `
-                --gpu GPU_ID                                  # wahlfrei (erfordert 1 Lauf für ID)
+	$ .\start.sh.ps1 `
+		--model MODELLBEZEICHNUNG `
+		--scale EINTEILUNGSFAKTOR `
+		--format FORMAT `
+		--parallel GESAMTE ARBEITSFÄDEN               # Nur für Video `
+		--video                                       # Nur für Video `
+		--input PFAD_ZUR_DATEI `
+		--output PFAD_ZUR_DATEI_ODER_ZUM_VERZEICHNIS  # wahlfrei `
+		--gpu GPU_ID                                  # wahlfrei (erfordert 1 Lauf für ID)
 
 BEISPIELE:
-        # skalieren Sie nur hoch, ohne eine codierung zu verwenden.
-        $ ./start.sh.ps1 `
-                --model ultrasharp `
-                --scale 4 `
-                --input my-image.jpg
+	# skalieren Sie nur hoch, ohne eine codierung zu verwenden.
+	$ .\start.sh.ps1 `
+		--model ultrasharp `
+		--scale 4 `
+		--input my-image.jpg
 
 
-        # hochskalieren, aber in etwas anderes formatieren und unter einem
-        # anderen Namen speichern
-        $ ./start.sh.ps1 `
-                --model ultrasharp `
-                --scale 4 `
-                --format webp `
-                --input my-image.jpg `
-                --output my-image-bigger.webp
+	# hochskalieren, aber in etwas anderes formatieren und unter einem
+	# anderen Namen speichern
+	$ .\start.sh.ps1 `
+		--model ultrasharp `
+		--scale 4 `
+		--format webp `
+		--input my-image.jpg `
+		--output my-image-bigger.webp
 
 
-        # grundlegendes video-upscaling ohne verwendung von codierung
-        $ ./start.sh.ps1 `
-                --model ultrasharp `
-                --scale 4 `
-                --video `
-                --input my-video.mp4
+	# grundlegendes video-upscaling ohne verwendung von codierung
+	$ .\start.sh.ps1 `
+		--model ultrasharp `
+		--scale 4 `
+		--video `
+		--input my-video.mp4
 
 
-        # video hochskalieren, aber anderes Bildformat verwenden
-        $ ./start.sh.ps1 `
-                --model ultrasharp `
-                --scale 4 `
-                --format webp `
-                --video `
-                --input my-video.mp4
+	# video hochskalieren, aber anderes Bildformat verwenden
+	$ .\start.sh.ps1 `
+		--model ultrasharp `
+		--scale 4 `
+		--format webp `
+		--video `
+		--input my-video.mp4
 
 
-# VERFÜGBARE FORMATE
-    (1) '' (Leer – Verwenden Sie das AI RAW PNG Format ohne codierung)
-    (2) PNG
-    (3) JPG
-    (4) WEBP
+VERFÜGBARE FORMATE
+	(1) '' (Leer – Verwenden Sie das AI RAW PNG Format ohne codierung)
+	(2) PNG
+	(3) JPG
+	(4) WEBP
 
 
 VERFÜGBARE MODELLE:
+
 "@
 		foreach ($__model in (Get-ChildItem `
 			-Path "${env:UPSCALER_PATH_ROOT}\models" `
@@ -123,9 +124,10 @@ VERFÜGBARE MODELLE:
 				}
 
 				$null = I18N-Status-Print "info" @"
+
 	ID		: ${__model_ID}
 	Name		: ${__model_NAME}
-	Max Scale	: ${__model_SCALE_MAX}
+	Max. Skalierung	: ${__model_SCALE_MAX}
 
 "@
 		}
@@ -137,55 +139,55 @@ HOLLOWAY'S UPSCALER
 -------------------
 
 COMMAND:
-        $ .\start.sh.ps1 `
-                --model MODEL_NAME `
-                --scale SCALE_FACTOR `
-                --format FORMAT `
-                --parallel TOTAL_WORKING_THREADS  # only for video `
-                --video                           # only for video `
-                --input PATH_TO_FILE `
-                --output PATH_TO_FILE_OR_DIR      # optional `
-                --gpu GPU_ID                      # optional (requires 1 run for ID) `
+	$ .\start.sh.ps1 `
+		--model MODEL_NAME `
+		--scale SCALE_FACTOR `
+		--format FORMAT `
+		--parallel TOTAL_WORKING_THREADS  # only for video `
+		--video                           # only for video `
+		--input PATH_TO_FILE `
+		--output PATH_TO_FILE_OR_DIR      # optional `
+		--gpu GPU_ID                      # optional (requires 1 run for ID) `
 
 EXAMPLES:
-        # upscale only without using any encoding.
-        $ .\start.sh.ps1 `
-                --model ultrasharp `
-                --scale 4 `
-                --input my-image.jpg
+	# upscale only without using any encoding.
+	$ .\start.sh.ps1 `
+		--model ultrasharp `
+		--scale 4 `
+		--input my-image.jpg
 
 
-        # upscale but format to something else and save with different name
-        $ .\start.sh.ps1 `
-                --model ultrasharp `
-                --scale 4 `
-                --format webp `
-                --input my-image.jpg `
-                --output my-image-bigger.webp
+	# upscale but format to something else and save with different name
+	$ .\start.sh.ps1 `
+		--model ultrasharp `
+		--scale 4 `
+		--format webp `
+		--input my-image.jpg `
+		--output my-image-bigger.webp
 
 
-        # basic video upscaling without using any encoding
-        $ .\start.sh.ps1 `
-                --model ultrasharp `
-                --scale 4 `
-                --video `
-                --input my-video.mp4
+	# basic video upscaling without using any encoding
+	$ .\start.sh.ps1 `
+		--model ultrasharp `
+		--scale 4 `
+		--video `
+		--input my-video.mp4
 
 
-        # upscale video but use other image format
-        $ .\start.sh.ps1 `
-                --model ultrasharp `
-                --scale 4 `
-                --format webp `
-                --video `
-                --input my-video.mp4
+	# upscale video but use other image format
+	$ .\start.sh.ps1 `
+		--model ultrasharp `
+		--scale 4 `
+		--format webp `
+		--video `
+		--input my-video.mp4
 
 
 AVAILABLE FORMATS
-    (1) '' (Empty - Use AI raw png format without encoding)
-    (2) PNG
-    (3) JPG
-    (4) WEBP
+	(1) '' (Empty - Use AI raw png format without encoding)
+	(2) PNG
+	(3) JPG
+	(4) WEBP
 
 
 AVAILABLE MODELS:
