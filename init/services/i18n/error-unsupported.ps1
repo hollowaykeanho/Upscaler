@@ -37,10 +37,12 @@ function I18N-Status-Error-Unsupported {
 	switch (${env:UPSCALER_LANG}) {
 	{ $_ -in "DE", "de" } {
 		# german
-		$null = I18N-Status-Print "error" "OS / Arch wird nicht unterstützt.`n"
+		$null = I18N-Status-Print "error" `
+		"Betriebssystem|Arch wird nicht unterstützt ODER die Binärdatei fehlt.`n"
 	} default {
 		# fallback to default english
-		$null = I18N-Status-Print "error" "OS / Arch is unsupported.`n"
+		$null = I18N-Status-Print "error" `
+		"OS|Arch is unsupported OR binary is missing.`n"
 	}}
 
 

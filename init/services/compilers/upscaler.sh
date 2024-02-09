@@ -30,13 +30,18 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 . "${LIBS_UPSCALER}/services/io/os.sh"
+. "${LIBS_UPSCALER}/services/io/fs.sh"
 
 
 
 
 UPSCALER_Is_Available() {
         case "$(OS_Host_System)" in
-        linux|darwin)
+        linux)
+                ___program="${UPSCALER_PATH_ROOT}/bin/linux"
+                ;;
+        darwin)
+                ___program="${UPSCALER_PATH_ROOT}/bin/mac"
                 ;;
         *)
                 return 1
@@ -46,11 +51,18 @@ UPSCALER_Is_Available() {
 
         case "$(OS_Host_Arch)" in
         amd64)
+                ___program="${___program}-amd64"
                 ;;
         *)
                 return 1
                 ;;
         esac
+
+
+        FS_Is_Target_Exist "$___program"
+        if [ $? -ne 0 ]; then
+                return 1
+        fi
 
 
         # report status

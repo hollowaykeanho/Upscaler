@@ -28,6 +28,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 . "${env:LIBS_UPSCALER}\services\io\os.ps1"
+. "${env:LIBS_UPSCALER}\services\io\fs.ps1"
 
 
 
@@ -37,7 +38,12 @@ function UPSCALER-Is-Available {
 		return 1
 	}
 
-	if (-not (OS-Host-Arch -eq "windows")) {
+	if (-not (OS-Host-Arch -eq "amd64")) {
+		return 1
+	}
+
+	$___process = FS-Is-Target-Exist "${UPSCALER_PATH_ROOT}/bin/windows-amd64.exe"
+	if ($___process -ne 0) {
 		return 1
 	}
 

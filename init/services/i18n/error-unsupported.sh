@@ -37,11 +37,12 @@ I18N_Status_Error_Unsupported() {
         case "$UPSCALER_LANG" in
         DE|de)
                 # German
-                I18N_Status_Print "error" "OS / Arch wird nicht unterstützt.\n"
+                I18N_Status_Print "error" \
+                "Betriebssystem|Arch wird nicht unterstützt ODER die Binärdatei fehlt.\n"
                 ;;
         *)
                 # fallback to default english
-                I18N_Status_Print "error" "OS / Arch is unsupported.\n"
+                I18N_Status_Print "error" "OS|Arch is unsupported OR binary is missing.\n"
                 ;;
         esac
 
