@@ -36,6 +36,45 @@
 
 
 
+UPSCALER_Format_Validate() {
+        #___format="$1"
+
+
+        # validate input
+        if [ "$(STRINGS_Is_Empty "$1")" = "0" ]; then
+                printf -- ""
+                return 1
+        fi
+
+
+        # execute
+        case "$(STRINGS_To_Lowercase "$1")" in
+        jpeg|jpg)
+                printf -- "jpg"
+                ;;
+        png)
+                printf -- "png"
+                ;;
+        webp)
+                printf -- "webp"
+                ;;
+        native)
+                printf -- "native"
+                ;;
+        *)
+                printf -- ""
+                return 1
+                ;;
+        esac
+
+
+        # report status
+        return 0
+}
+
+
+
+
 UPSCALER_GPU_Scan() {
         # validate input
         ___program="$(UPSCALER_Program_Get)"

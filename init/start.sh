@@ -84,6 +84,7 @@ export LIBS_UPSCALER="${UPSCALER_PATH_ROOT}/${UPSCALER_PATH_SCRIPTS}"
 # import fundamental libraries
 . "${LIBS_UPSCALER}/services/io/strings.sh"
 . "${LIBS_UPSCALER}/services/compilers/upscaler.sh"
+. "${LIBS_UPSCALER}/services/i18n/error-format-unsupported.sh"
 . "${LIBS_UPSCALER}/services/i18n/error-gpu-unsupported.sh"
 . "${LIBS_UPSCALER}/services/i18n/error-input-unknown.sh"
 . "${LIBS_UPSCALER}/services/i18n/error-input-unsupported.sh"
@@ -252,6 +253,16 @@ if [ "$__parallel" -eq "$__parallel" ]  2>/dev/null; then
         :
 else
         I18N_Status_Error_Parallel_Unsupported "$__parallel"
+        return 1
+fi
+
+
+
+
+# process format
+__format="$(UPSCALER_Format_Validate "${__format:-native}")"
+if [ "$(STRINGS_Is_Empty "$__format")" = "0" ]; then
+        I18N_Status_Error_Format_Unsupported
         return 1
 fi
 

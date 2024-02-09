@@ -92,6 +92,7 @@ ${env:LIBS_UPSCALER} = "${env:UPSCALER_PATH_ROOT}\${env:UPSCALER_PATH_SCRIPTS}"
 # import fundamental libraries
 . "${env:LIBS_UPSCALER}\services\io\strings.ps1"
 . "${env:LIBS_UPSCALER}\services\compilers\upscaler.ps1"
+. "${env:LIBS_UPSCALER}\services\i18n\error-format-unsupported.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-gpu-unsupported.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-input-unknown.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-input-unsupported.ps1"
@@ -250,6 +251,19 @@ if ((STRINGS-Is-Empty "${__parallel}") -eq 0) {
 }
 if (-not ($__parallel -match "^[\d]+$")) {
 	$null = I18N-Status-Error-Parallel-Unsupported "${__parallel}"
+	return 1
+}
+
+
+
+
+# process format
+if ((STRINGS-Is-Empty "${__format}") -eq 0) {
+	$__format = "native"
+}
+$__format = UPSCALER-Format-Validate "${__format}"
+if ((STRINGS-Is-Empty "${__format}") -eq 0) {
+	$null = I18N-Status-Error-Format-Unsupported
 	return 1
 }
 

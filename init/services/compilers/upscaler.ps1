@@ -34,6 +34,36 @@
 
 
 
+function UPSCALER-Format-Validate {
+	param(
+		[string]$___format
+	)
+
+
+	# valdiate input
+	if ((STRINGS-Is-Empty "${___format}") -eq 0) {
+		return ""
+	}
+
+
+	# execute
+	switch ($(STRINGS-To-Lowercase "${___format}")) {
+	{ $_ -in "jpeg", "jpg" } {
+		return "jpg"
+	} "png" {
+		return "png"
+	} "webp" {
+		return "webp"
+	} "native" {
+		return "native"
+	} default {
+		return ""
+	}}
+}
+
+
+
+
 function UPSCALER-GPU-Scan {
 	# validate input
 	$___program = UPSCALER-Program-Get
