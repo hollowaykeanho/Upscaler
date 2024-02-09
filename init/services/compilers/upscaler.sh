@@ -75,6 +75,79 @@ UPSCALER_Format_Validate() {
 
 
 
+UPSCALER_Output_Filename_Image() {
+        #___output="$1"
+        #___input="$2"
+        #___format="$3"
+
+
+        # validate input
+        if [ ! -z "$1" ]; then
+                printf -- "%b" "$1"
+                return 0
+        fi
+
+        if [ -z "$2" ]; then
+                printf -- ""
+                return 1
+        fi
+
+
+        # execute
+        ___output="$(FS_Extension_Remove "${2##*/}" "*")"
+        ___output="${2%/*}/${___output}-upscaled"
+
+        case "$3" in
+        jpg)
+                ___output="${___output}.jpg"
+                ;;
+        webp)
+                ___output="${___output}.webp"
+                ;;
+        *)
+                ___output="${___output}.png"
+                ;;
+        esac
+        printf -- "%b" "$___output"
+
+
+        # report status
+        return 0
+}
+
+
+
+
+UPSCALER_Output_Filename_Video() {
+        #___output="$1"
+        #___input="$2"
+
+
+        # validate input
+        if [ ! -z "$1" ]; then
+                printf -- "%b" "$1"
+                return 0
+        fi
+
+        if [ -z "$2" ]; then
+                printf -- ""
+                return 1
+        fi
+
+
+        # execute
+        ___output="$(FS_Extension_Remove "${2##*/}" "*")"
+        ___output="${2%/*}/${___output}-upscaled.${2##*.}"
+        printf -- "%b" "$___output"
+
+
+        # report status
+        return 0
+}
+
+
+
+
 UPSCALER_GPU_Scan() {
         # validate input
         ___program="$(UPSCALER_Program_Get)"

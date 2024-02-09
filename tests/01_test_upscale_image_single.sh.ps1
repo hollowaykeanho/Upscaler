@@ -84,7 +84,8 @@ $__process = . "${env:LIBS_UPSCALER}\start.ps1" `
 		"--model" "upscayl-nmkd-4x-superscale-sd-178000-g" `
 		"--scale" "4" `
 		"--parallel" "2" `
-		"--input" "${env:UPSCALER_PATH_ROOT}/tests/image/sample-01.jpeg"
+		"--input" "${env:UPSCALER_PATH_ROOT}\tests\image\sample-01.jpeg" `
+		"--output" "${env:UPSCALER_PATH_ROOT}\tmp\test-01\sample-01-upscaled.png"
 if ($__process -ne 0) {
 	$null = I18N-Status-Print "error" "Failed.`n`n"
 	$__verdict = $false
@@ -172,7 +173,8 @@ I18N_Status_Print "note" "test single image upscale...\n"
 	--model upscayl-nmkd-4x-superscale-sd-178000-g \
 	--scale 4 \
 	--parallel 2 \
-	--input "${UPSCALER_PATH_ROOT}/tests/image/sample-01.jpeg"
+	--input "${UPSCALER_PATH_ROOT}/tests/image/sample-01.jpeg" \
+	"--output" "${UPSCALER_PATH_ROOT}/tmp/test-01/sample-01-upscaled.png"
 if [ $? -ne 0 ]; then
 	I18N_Status_Print "error" "Failed.\n\n"
 	__verdict=1

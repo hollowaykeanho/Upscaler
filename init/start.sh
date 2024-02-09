@@ -269,6 +269,17 @@ fi
 
 
 
+# execute
+if [ "$__video" = "0" ] && [ "$__batch" = "0" ]; then
+        __output="$(UPSCALER_Output_Filename_Image "$__output" "$__input" "$__format")"
+elif [ "$__video" = "1" ]; then
+        __output="$(UPSCALER_Output_Filename_Video "$__output" "$__input")"
+elif [ "$__batch" = "1" ]; then
+        :
+fi
+
+
+
 # placeholder
 printf "DEBUG model='%s' scale='%s' format='%s' parallel='%s' video='%s' batch='%s' input='%s' output='%s' gpu='%s' \n" \
         "$__model" \

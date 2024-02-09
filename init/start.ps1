@@ -270,6 +270,16 @@ if ((STRINGS-Is-Empty "${__format}") -eq 0) {
 
 
 
+# execute
+if ((${__video} -eq 0) -and (${__batch} -eq 0)) {
+	$__output = UPSCALER-Output-Filename-Image "${__output}" "${__input}" "${__format}"
+} elseif (${__video} -eq 1) {
+	$__output = UPSCALER-Output-Filename-Video "${__output}" "${__input}"
+} elseif (${__batch} -eq 1) {
+}
+
+
+
 # placeholder
 Write-Host "DEBUG: Model='${__model}' Scale='${__scale}' Format='${__format}' Parallel='${__parallel}' Video='${__video}' Batch='${__batch}' Input='${__input}' Output='${__output}' GPU='${__gpu}'"
 

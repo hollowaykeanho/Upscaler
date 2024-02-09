@@ -64,6 +64,71 @@ function UPSCALER-Format-Validate {
 
 
 
+function UPSCALER-Output-Filename-Image {
+	param(
+		[string]$___output,
+		[string]$___input,
+		[string]$___format
+	)
+
+
+	# validate input
+	if ((STRINGS-IS-Empty "${___output}") -ne 0) {
+		return "${___output}"
+	}
+
+	if ((STRINGS-IS-Empty "${___input}") -eq 0) {
+		return ""
+	}
+
+
+	# execute
+	$___output = FS-Extension-Remove "$(Split-Path -Leaf -Path "${___input}")" "*"
+	$___output = "$(Split-Path -Parent -Path "${___input}")\${___output}-upscaled"
+
+	switch ($___format) {
+	"jpg" {
+		$___output = "${___output}.jpg"
+	} "webp" {
+		$___output = "${___output}.webp"
+	} default {
+		$___output = "${___output}.png"
+	}}
+
+	return $___output
+}
+
+
+
+
+function UPSCALER-Output-Filename-Video {
+	param(
+		[string]$___output,
+		[string]$___input
+	)
+
+
+	# validate input
+	if ((STRINGS-IS-Empty "${___output}") -ne 0) {
+		return "${___output}"
+	}
+
+	if ((STRINGS-IS-Empty "${___input}") -eq 0) {
+		return ""
+	}
+
+
+	# execute
+	$___output = FS-Extension-Remove "$(Split-Path -Leaf -Path "${___input}" "*")" "*"
+	$___output = "$(Split-Path -Parent -Path "${___input}")\${___output}-upscaled"
+	$___output = "${___output}.$((Split-Path -Path ${___input} -Leaf).Split(".")[1])"
+
+	return $___output
+}
+
+
+
+
 function UPSCALER-GPU-Scan {
 	# validate input
 	$___program = UPSCALER-Program-Get
