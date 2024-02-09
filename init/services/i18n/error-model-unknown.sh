@@ -1,8 +1,6 @@
-#!/bin/sh
-#
 # BSD 3-Clause License
 #
-# Copyright (c) 2023, (Holloway) Chew, Kean Ho
+# Copyright (c) 2024 (Holloway) Chew, Kean Ho
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -29,83 +27,25 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-. "${LIBS_UPSCALER}/services/io/os.sh"
-. "${LIBS_UPSCALER}/services/io/fs.sh"
+. "${LIBS_UPSCALER}/services/i18n/__printer.sh"
 
 
 
 
-UPSCALER_Is_Available() {
-        case "$(OS_Host_System)" in
-        linux)
-                ___program="${UPSCALER_PATH_ROOT}/bin/linux"
-                ;;
-        darwin)
-                ___program="${UPSCALER_PATH_ROOT}/bin/mac"
+I18N_Status_Error_Model_Unknown() {
+        # execute
+        case "$UPSCALER_LANG" in
+        DE|de)
+                # German
+                I18N_Status_Print "error" "Unbekanntes Modell. Ist die angegebene ID korrekt?\n"
                 ;;
         *)
-                return 1
+                # fallback to default english
+                I18N_Status_Print "error" "Unknown model. Is the given ID correct?\n"
                 ;;
         esac
-
-
-        case "$(OS_Host_Arch)" in
-        amd64)
-                ___program="${___program}-amd64"
-                ;;
-        *)
-                return 1
-                ;;
-        esac
-
-
-        FS_Is_Target_Exist "$___program"
-        if [ $? -ne 0 ]; then
-                return 1
-        fi
 
 
         # report status
         return 0
-}
-
-
-
-
-UPSCALER_Model_Get() {
-        #___id="$1"
-
-
-        # validate input
-        if [ -z "$1" ]; then
-                printf -- ""
-                return 1
-        fi
-
-
-        # execute
-        for ___model in "${UPSCALER_PATH_ROOT}/models"/*.sh; do
-                ___model_ID="${___model##*/}"
-                ___model_ID="${___model_ID%%.*}"
-
-                if [ ! "$1" = "$___model_ID" ]; then
-                        continue
-                fi
-
-                # given ID is a valid model
-                . "$___model"
-                ___model_NAME="${model_name}"
-                ___model_SCALE_MAX="any"
-                if [ "$model_max_scale" -gt 0 ]; then
-                         ___model_SCALE_MAX="${model_max_scale}"
-                fi
-
-                printf "%b│%b│%b" "$___model_ID" "$___model_SCALE_MAX" "$___model_NAME"
-                return 0
-        done
-
-
-        # report status
-        printf -- ""
-        return 1
 }

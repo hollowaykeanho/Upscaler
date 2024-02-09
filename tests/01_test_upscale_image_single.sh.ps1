@@ -79,44 +79,13 @@ $null = I18N-Status-Print "note" "RUNNING HELP TEST SUITE`n`n`n"
 $__verdict = $true
 
 
-$null = I18N-Status-Print "note" "test --help argument...`n"
-$__process = . "${env:LIBS_UPSCALER}\start.ps1" "--help"
+$null = I18N-Status-Print "note" "test single image upscale...`n"
+$__process = . "${env:LIBS_UPSCALER}\start.ps1" `
+		"--model" `
+		"upscayl-nmkd-4x-superscale-sd-178000-g"
 if ($__process -ne 0) {
 	$null = I18N-Status-Print "error" "Failed.`n`n"
 	$__verdict = $false
-} else {
-	$null = I18N-Status-Print "note" "Passed.`n`n"
-}
-
-
-$null = I18N-Status-Print "note" "test help argument...`n"
-$__process = . "${env:LIBS_UPSCALER}\start.ps1" "help"
-if ($__process -ne 0) {
-	$null = I18N-Status-Print "error" "Failed.`n`n"
-	$__verdict = $false
-} else {
-	$null = I18N-Status-Print "note" "Passed.`n`n"
-}
-
-
-$null = I18N-Status-Print "note" "test -h argument...`n"
-$__process = . "${env:LIBS_UPSCALER}\start.ps1" "-h"
-if ($__process -ne 0) {
-	$null = I18N-Status-Print "error" "Failed.`n`n"
-	$__verdict = $false
-} else {
-	$null = I18N-Status-Print "note" "Passed.`n`n"
-}
-
-
-$null = I18N-Status-Print "note" "test German (DE) language...`n"
-${env:UPSCALER_LANG} = "DE"
-$__process = . "${env:LIBS_UPSCALER}\start.ps1" "help"
-if ($__process -ne 0) {
-	$null = I18N-Status-Print "error" "Failed.`n`n"
-	$__verdict = $false
-} else {
-	$null = I18N-Status-Print "note" "Passed.`n`n"
 }
 
 
@@ -196,35 +165,8 @@ I18N_Status_Print "note" "RUNNING HELP TEST SUITE\n\n\n"
 __verdict=0
 
 
-I18N_Status_Print "note" "test --help argument...\n"
-. "${LIBS_UPSCALER}"/start.sh --help
-if [ $? -ne 0 ]; then
-	I18N_Status_Print "error" "Failed.\n\n"
-	__verdict=1
-fi
-I18N_Status_Print "note" "Passed.\n\n"
-
-
-I18N_Status_Print "note" "test help argument...\n"
-. "${LIBS_UPSCALER}"/start.sh help
-if [ $? -ne 0 ]; then
-	I18N_Status_Print "error" "Failed.\n\n"
-	__verdict=1
-fi
-I18N_Status_Print "note" "Passed.\n\n"
-
-
-I18N_Status_Print "note" "test -h argument...\n"
-. "${LIBS_UPSCALER}"/start.sh -h
-if [ $? -ne 0 ]; then
-	I18N_Status_Print "error" "Failed.\n\n"
-	__verdict=1
-fi
-I18N_Status_Print "note" "Passed.\n\n"
-
-
-I18N_Status_Print "note" "test German (DE) language...\n"
-UPSCALER_LANG="DE" . "${LIBS_UPSCALER}"/start.sh help
+I18N_Status_Print "note" "test single image upscale...\n"
+. "${LIBS_UPSCALER}"/start.sh --model upscayl-nmkd-4x-superscale-sd-178000-g
 if [ $? -ne 0 ]; then
 	I18N_Status_Print "error" "Failed.\n\n"
 	__verdict=1

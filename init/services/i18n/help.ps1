@@ -103,19 +103,23 @@ VERFÜGBARE MODELLE:
 				$__model_NAME = ""
 				$__model_SCALE_MAX = "any"
 				foreach ($__line in $(Get-Content "$($__model.FullName)")) {
-					if ($__line.Substring(0, 1) -match "[A-Za-z]") {
-						$__pos = $__line.IndexOf("=")
-						$__left = ($__line.Substring(0, $__pos)).Trim()
-						$__right = (($__line.Substring($__pos+1)).Trim()).Trim('"')
-						switch ($__left) {
-						"model_name" {
-							$__model_NAME = $__right
-						} "model_max_scale" {
-							$__model_SCALE_MAX = $__right
-						} default {
-							# unknown - do nothing
-						}}
+					$___line = $___line -replace '#.*', ''
+
+					if ((STRINGS-Is-Empty "${___line}") -eq 0) {
+						continue
 					}
+
+					$___key, $___value = $___line -split '=', 2
+					$___key = $___key.Trim() -replace '^''|''$|^"|"$'
+					$___value = $___value.Trim() -replace '^''|''$|^"|"$'
+					switch ($___key) {
+					"model_name" {
+						$___model_NAME = $___value
+					} "model_max_scale" {
+						$___model_SCALE_MAX = $___value
+					} default {
+						# unknown - do nothing
+					}}
 				}
 
 				$null = I18N-Status-Print "info" @"
@@ -195,19 +199,23 @@ AVAILABLE MODELS:
 				$__model_NAME = ""
 				$__model_SCALE_MAX = "any"
 				foreach ($__line in $(Get-Content "$($__model.FullName)")) {
-					if ($__line.Substring(0, 1) -match "[A-Za-z]") {
-						$__pos = $__line.IndexOf("=")
-						$__left = ($__line.Substring(0, $__pos)).Trim()
-						$__right = (($__line.Substring($__pos+1)).Trim()).Trim('"')
-						switch ($__left) {
-						"model_name" {
-							$__model_NAME = $__right
-						} "model_max_scale" {
-							$__model_SCALE_MAX = $__right
-						} default {
-							# unknown - do nothing
-						}}
+					$___line = $___line -replace '#.*', ''
+
+					if ((STRINGS-Is-Empty "${___line}") -eq 0) {
+						continue
 					}
+
+					$___key, $___value = $___line -split '=', 2
+					$___key = $___key.Trim() -replace '^''|''$|^"|"$'
+					$___value = $___value.Trim() -replace '^''|''$|^"|"$'
+					switch ($___key) {
+					"model_name" {
+						$___model_NAME = $___value
+					} "model_max_scale" {
+						$___model_SCALE_MAX = $___value
+					} default {
+						# unknown - do nothing
+					}}
 				}
 
 				$null = I18N-Status-Print "info" @"

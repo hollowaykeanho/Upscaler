@@ -19,11 +19,7 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     env:
         TERM: xterm-256color
-        CONTAINER_USERNAME: ${{ secrets.CONTAINER_USERNAME }}
-        CONTAINER_PASSWORD: ${{ secrets.CONTAINER_PASSWORD }}
-        TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
-        PROJECT_SIMULATE_RELEASE_REPO: true
+        UPSCALER_TEST_MODE: "true"
     steps:
       - name: Checking out designated commit - GITHUB ACTIONS
         id: git_check_out
@@ -37,3 +33,7 @@ jobs:
         id: upscaler_help
         run: |
           ./tests/00_test_help.sh.ps1
+      - name: Execute Upscaler's Single Image Upscale
+        id: upscaler_image_unscale_single
+        run: |
+          ./tests/01_test_upscale_image_single.sh.ps1

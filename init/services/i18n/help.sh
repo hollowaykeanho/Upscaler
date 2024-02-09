@@ -104,7 +104,7 @@ VERFÜGBARE MODELLE:
                         __model_NAME="${model_name}"
                         __model_SCALE_MAX="any"
                         if [ "$model_max_scale" -gt 0 ]; then
-                                __model_SCALE_MAX="${__model_SCALE_MAX}"
+                                __model_SCALE_MAX="$model_max_scale"
                         fi
 
 
@@ -184,7 +184,7 @@ AVAILABLE MODELS:
                         __model_NAME="${model_name}"
                         __model_SCALE_MAX="any"
                         if [ "$model_max_scale" -gt 0 ]; then
-                                __model_SCALE_MAX="${__model_SCALE_MAX}"
+                                __model_SCALE_MAX="$model_max_scale"
                         fi
 
 

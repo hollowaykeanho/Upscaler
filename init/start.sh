@@ -85,6 +85,7 @@ export LIBS_UPSCALER="${UPSCALER_PATH_ROOT}/${UPSCALER_PATH_SCRIPTS}"
 . "${LIBS_UPSCALER}/services/io/strings.sh"
 . "${LIBS_UPSCALER}/services/compilers/upscaler.sh"
 . "${LIBS_UPSCALER}/services/i18n/error-unsupported.sh"
+. "${LIBS_UPSCALER}/services/i18n/error-model-unknown.sh"
 . "${LIBS_UPSCALER}/services/i18n/help.sh"
 
 
@@ -173,6 +174,20 @@ if [ $? -ne 0 ]; then
         I18N_Status_Error_Unsupported
         return 1
 fi
+
+
+
+
+# process model requirements
+___process="$(UPSCALER_Model_Get "$__model")"
+if [ -z "$___process" ]; then
+        I18N_Status_Error_Model_Unknown
+        return 1
+fi
+__model="${___process%%│*}"
+__model_name="${___process##*│}"
+___process="${___process#*│}"
+___scale_limit="${___process%%│*}"
 
 
 

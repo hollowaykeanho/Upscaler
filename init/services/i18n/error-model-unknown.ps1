@@ -1,6 +1,6 @@
 # BSD 3-Clause License
 #
-# Copyright (c) 2024, (Holloway) Chew, Kean Ho
+# Copyright (c) 2024 (Holloway) Chew, Kean Ho
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -27,87 +27,25 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-. "${env:LIBS_UPSCALER}\services\io\os.ps1"
-. "${env:LIBS_UPSCALER}\services\io\fs.ps1"
-. "${env:LIBS_UPSCALER}\services\io\strings.ps1"
+. "${env:LIBS_UPSCALER}\services\i18n\__printer.ps1"
 
 
 
 
-function UPSCALER-Is-Available {
-	if (-not (OS-Host-System -eq "windows")) {
-		return 1
-	}
-
-	if (-not (OS-Host-Arch -eq "amd64")) {
-		return 1
-	}
-
-	$___process = FS-Is-Target-Exist "${env:UPSCALER_PATH_ROOT}/bin/windows-amd64.exe"
-	if ($___process -ne 0) {
-		return 1
-	}
+function I18N-Status-Error-Model-Unknown {
+	# execute
+	switch (${env:UPSCALER_LANG}) {
+	{ $_ -in "DE", "de" } {
+		# german
+		$null = I18N-Status-Print "error" `
+		"Unbekanntes Modell. Ist die angegebene ID korrekt?`n"
+	} default {
+		# fallback to default english
+		$null = I18N-Status-Print "error" `
+		"Unknown model. Is the given ID correct?`n"
+	}}
 
 
 	# report status
 	return 0
-}
-
-
-
-
-function UPSCALER-Model-Get {
-	param(
-		[string]$___id
-	)
-
-
-	# validate input
-	if ((STRINGS-Is-Empty "${___id}") -eq 0) {
-		return ""
-	}
-
-
-	# execute
-	foreach ($___model in (Get-ChildItem `
-		-Path "${env:UPSCALER_PATH_ROOT}\models" `
-		-Filter *.sh)) {
-		$___model_ID = $___model.Name -replace '\.sh$'
-		if ($___model_ID -ne $___id) {
-			continue
-		}
-
-
-		# given ID is a valid model
-		$___model_NAME = ""
-		$___model_SCALE_MAX = "any"
-
-		foreach ($___line in $(Get-Content "$($___model.FullName)")) {
-			$___line = $___line -replace '#.*', ''
-
-			if ((STRINGS-Is-Empty "${___line}") -eq 0) {
-				continue
-			}
-
-			$___key, $___value = $___line -split '=', 2
-			$___key = $___key.Trim() -replace '^''|''$|^"|"$'
-			$___value = $___value.Trim() -replace '^''|''$|^"|"$'
-			switch ($___key) {
-			"model_name" {
-				$___model_NAME = $___value
-			} "model_max_scale" {
-				$___model_SCALE_MAX = $___value
-			} default {
-				# unknown - do nothing
-			}}
-		}
-
-
-		# print out
-		return "${___model_ID}│${___model_SCALE_MAX}│${___model_NAME}"
-	}
-
-
-	# report status
-	return ""
 }
