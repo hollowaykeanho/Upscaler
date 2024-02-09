@@ -88,6 +88,7 @@ export LIBS_UPSCALER="${UPSCALER_PATH_ROOT}/${UPSCALER_PATH_SCRIPTS}"
 . "${LIBS_UPSCALER}/services/i18n/error-input-unknown.sh"
 . "${LIBS_UPSCALER}/services/i18n/error-input-unsupported.sh"
 . "${LIBS_UPSCALER}/services/i18n/error-model-unknown.sh"
+. "${LIBS_UPSCALER}/services/i18n/error-parallel-unsupported.sh"
 . "${LIBS_UPSCALER}/services/i18n/error-scale-unknown.sh"
 . "${LIBS_UPSCALER}/services/i18n/error-unsupported.sh"
 . "${LIBS_UPSCALER}/services/i18n/help.sh"
@@ -240,6 +241,18 @@ if [ "$(STRINGS_Is_Empty "$UPSCALER_TEST_MODE")" = "0" ]; then
                 I18N_Status_Error_GPU_Unsupported "$__gpu"
                 return 1
         fi
+fi
+
+
+
+
+# process parallelism
+__parallel="${__parallel:-1}"
+if [ "$__parallel" -eq "$__parallel" ]  2>/dev/null; then
+        :
+else
+        I18N_Status_Error_Parallel_Unsupported "$__parallel"
+        return 1
 fi
 
 

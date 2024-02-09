@@ -96,6 +96,7 @@ ${env:LIBS_UPSCALER} = "${env:UPSCALER_PATH_ROOT}\${env:UPSCALER_PATH_SCRIPTS}"
 . "${env:LIBS_UPSCALER}\services\i18n\error-input-unknown.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-input-unsupported.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-model-unknown.ps1"
+. "${env:LIBS_UPSCALER}\services\i18n\error-parallel-unsupported.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-scale-unknown.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-unsupported.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\help.ps1"
@@ -238,6 +239,18 @@ if ((STRINGS-Is-Empty "${env:UPSCALER_TEST_MODE}") -eq "0") {
 		$null = I18N-Status-Error-GPU-Unsupported "${__gpu}"
 		return 1
 	}
+}
+
+
+
+
+# process parallelism
+if ((STRINGS-Is-Empty "${__parallel}") -eq 0) {
+	$__parallel = 1
+}
+if (-not ($__parallel -match "^[\d]+$")) {
+	$null = I18N-Status-Error-Parallel-Unsupported "${__parallel}"
+	return 1
 }
 
 
