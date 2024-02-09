@@ -111,3 +111,67 @@ function UPSCALER-Model-Get {
 	# report status
 	return ""
 }
+
+
+
+
+function UPSCALER-Scale-Get {
+	param(
+		[string]$___limit,
+		[string]$___input
+	)
+
+
+	# validate input
+	if (
+		((STRINGS-Is-Empty "${___limit}") -eq 0) -or
+		((STRINGS-Is-Empty "${___input}") -eq 0)) {
+		return 0
+	}
+
+
+	# execute
+	switch ($___limit) {
+	"any" {
+		switch ($___input) {
+		"1" {
+			return 1
+		} "2" {
+			return 2
+		} "3" {
+			return 3
+		} "4" {
+			return 4
+		} default {
+		}}
+	} "1" {
+		switch ($___input) {
+		"1" {
+			return 1
+		} default {
+		}}
+	} "2" {
+		switch ($___input) {
+		"2" {
+			return 2
+		} default {
+		}}
+	} "3" {
+		switch ($___input) {
+		"3" {
+			return 3
+		} default {
+		}}
+	} "4" {
+		switch ($___input) {
+		"4" {
+			return 4
+		} default {
+		}}
+	} default {
+	}}
+
+
+	# report status
+	return 0
+}

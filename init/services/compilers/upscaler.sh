@@ -109,3 +109,80 @@ UPSCALER_Model_Get() {
         printf -- ""
         return 1
 }
+
+
+
+
+UPSCALER_Scale_Get() {
+        #___limit="$1"
+        #___input="$2"
+
+
+        # validate input
+        if [ -z "$1" ]; then
+                printf -- ""
+                return 1
+        fi
+
+
+        # execute
+        case "$1" in
+        any)
+                case "$2" in
+                1|2|3|4)
+                        printf -- "%b" "$2"
+                        return 0
+                        ;;
+                *)
+                        ;;
+                esac
+                ;;
+        1)
+                case "$2" in
+                1)
+                        printf -- "1"
+                        return 0
+                        ;;
+                *)
+                        ;;
+                esac
+                ;;
+        2)
+                case "$2" in
+                2)
+                        printf -- "2"
+                        return 0
+                        ;;
+                *)
+                        ;;
+                esac
+                ;;
+        3)
+                case "$2" in
+                3)
+                        printf -- "3"
+                        return 0
+                        ;;
+                *)
+                        ;;
+                esac
+                ;;
+        4)
+                case "$2" in
+                4)
+                        printf -- "4"
+                        return 0
+                        ;;
+                *)
+                        ;;
+                esac
+                ;;
+        *)
+                ;;
+        esac
+
+
+        # report status
+        printf -- ""
+        return 1
+}

@@ -94,6 +94,7 @@ ${env:LIBS_UPSCALER} = "${env:UPSCALER_PATH_ROOT}\${env:UPSCALER_PATH_SCRIPTS}"
 . "${env:LIBS_UPSCALER}\services\compilers\upscaler.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-unsupported.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-model-unknown.ps1"
+. "${env:LIBS_UPSCALER}\services\i18n\error-scale-unknown.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\help.ps1"
 
 
@@ -185,14 +186,19 @@ if ((STRINGS-Is-Empty "${___process}") -eq 0) {
 }
 $___process = $___process -split "│"
 $__model = $___process[0]
-$__scale_limit = $___process[1]
 $__model_name = $___process[2]
+
+
+$__scale = UPSCALER-Scale-Get $___process[1] $__scale
+if (($__scale -le 0) -or ($__scale -gt 4)) {
+	$null = I18N-Status-Error-Scale-Unknown
+	return 1
+}
 
 
 
 
 # placeholder
-Write-Host "DEBUG: |${__model}|${__scale_limit}|${__model_name}|"
 Write-Host "DEBUG: Model='${__model}' Scale='${__scale}' Format='${__format}' Parallel='${__parallel}' Video='${__video}' Input='${__input}' Output='${__output}' GPU='${__gpu}'"
 
 return 0

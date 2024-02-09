@@ -86,6 +86,7 @@ export LIBS_UPSCALER="${UPSCALER_PATH_ROOT}/${UPSCALER_PATH_SCRIPTS}"
 . "${LIBS_UPSCALER}/services/compilers/upscaler.sh"
 . "${LIBS_UPSCALER}/services/i18n/error-unsupported.sh"
 . "${LIBS_UPSCALER}/services/i18n/error-model-unknown.sh"
+. "${LIBS_UPSCALER}/services/i18n/error-scale-unknown.sh"
 . "${LIBS_UPSCALER}/services/i18n/help.sh"
 
 
@@ -187,8 +188,13 @@ fi
 __model="${___process%%│*}"
 __model_name="${___process##*│}"
 ___process="${___process#*│}"
-___scale_limit="${___process%%│*}"
 
+
+__scale="$(UPSCALER_Scale_Get "${___process%%│*}" "$__scale")"
+if [ -z "$__scale" ]; then
+        I18N_Status_Error_Scale_Unknown
+        return 1
+fi
 
 
 
