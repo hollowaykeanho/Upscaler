@@ -302,6 +302,14 @@ function UPSCALER-Program-Get {
 
 
 
+function UPSCALER-Run-Image {
+	# report status
+	return 0
+}
+
+
+
+
 function UPSCALER-Scale-Get {
 	param(
 		[string]$___limit,

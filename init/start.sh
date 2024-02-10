@@ -93,6 +93,8 @@ export LIBS_UPSCALER="${UPSCALER_PATH_ROOT}/${UPSCALER_PATH_SCRIPTS}"
 . "${LIBS_UPSCALER}/services/i18n/error-scale-unknown.sh"
 . "${LIBS_UPSCALER}/services/i18n/error-unsupported.sh"
 . "${LIBS_UPSCALER}/services/i18n/help.sh"
+. "${LIBS_UPSCALER}/services/i18n/report-info.sh"
+. "${LIBS_UPSCALER}/services/i18n/report-success.sh"
 
 
 
@@ -272,23 +274,58 @@ fi
 # execute
 if [ "$__video" = "0" ] && [ "$__batch" = "0" ]; then
         __output="$(UPSCALER_Output_Filename_Image "$__output" "$__input" "$__format")"
+
+
+        # report task info
+        I18N_Report_Info \
+                "${__batch}" \
+                "${__video}" \
+                "${__model}" \
+                "${__scale}" \
+                "${__format}" \
+                "${__parallel}" \
+                "${__gpu}" \
+                "${__input}" \
+                "${__output}"
+
+
+        # begin processing
+        UPSCALER_Run_Image \
+                "${__model}" \
+                "${__scale}" \
+                "${__format}" \
+                "${__parallel}" \
+                "${__gpu}" \
+                "${__input}" \
+                "${__output}"
+        if [ $? -eq 0 ]; then
+                I18N_Report_Success
+                return 0
+        fi
 elif [ "$__video" = "1" ]; then
         __output="$(UPSCALER_Output_Filename_Video "$__output" "$__input")"
+
+
+        # report task info
+        I18N_Report_Info \
+                "${__batch}" \
+                "${__video}" \
+                "${__model}" \
+                "${__scale}" \
+                "${__format}" \
+                "${__parallel}" \
+                "${__gpu}" \
+                "${__input}" \
+                "${__output}"
+
+
+        # execute
+        if [ $? -eq 0 ]; then
+                I18N_Report_Success
+                return 0
+        fi
 elif [ "$__batch" = "1" ]; then
         :
 fi
 
-
-
-# placeholder
-printf "DEBUG model='%s' scale='%s' format='%s' parallel='%s' video='%s' batch='%s' input='%s' output='%s' gpu='%s' \n" \
-        "$__model" \
-        "$__scale" \
-        "$__format" \
-        "$__parallel" \
-        "$__video" \
-        "$__batch" \
-        "$__input" \
-        "$__output" \
-        "$__gpu"
-
+return 1

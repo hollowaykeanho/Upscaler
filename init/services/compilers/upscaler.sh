@@ -318,6 +318,14 @@ UPSCALER_Program_Get() {
 
 
 
+UPSCALER_Run_Image() {
+        # report status
+        return 0
+}
+
+
+
+
 UPSCALER_Scale_Get() {
         #___limit="$1"
         #___input="$2"
