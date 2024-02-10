@@ -295,7 +295,6 @@ if ((${__video} -eq 0) -and (${__batch} -eq 0)) {
 			"${__model}" `
 			"${__scale}" `
 			"${__format}" `
-			"${__parallel}" `
 			"${__gpu}" `
 			"${__input}" `
 			"${__output}"

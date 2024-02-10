@@ -30,6 +30,7 @@
 . "${env:LIBS_UPSCALER}\services\io\os.ps1"
 . "${env:LIBS_UPSCALER}\services\io\fs.ps1"
 . "${env:LIBS_UPSCALER}\services\io\strings.ps1"
+. "${env:LIBS_UPSCALER}\services\i18n\report-simulation.ps1"
 
 
 
@@ -303,8 +304,65 @@ function UPSCALER-Program-Get {
 
 
 function UPSCALER-Run-Image {
+	param(
+		[string]$___model,
+		[string]$___scale,
+		[string]$___format,
+		[string]$___gpu,
+		[string]$___input,
+		[string]$___output
+	)
+
+
+	# validate input
+	if (((STRINGS-Is-Empty "${___model}") -eq 0) -or
+		((STRINGS-Is-Empty "${___scale}") -eq 0) -or
+		((STRINGS-Is-Empty "${___format}") -eq 0) -or
+		((STRINGS-Is-Empty "${___gpu}") -eq 0) -or
+		((STRINGS-Is-Empty "${___input}") -eq 0) -or
+		((STRINGS-Is-Empty "${___output}") -eq 0)) {
+		return 1
+	}
+
+
+	if ((STRINGS-Is-Empty "$(UPSCALER-Program-Get)") -eq 0) {
+		return 1
+	}
+
+
+	# construct arugment
+	$___cmd = "-i '${___input}' -o '${___output}'"
+	$___cmd = "${___cmd} -m '${env:UPSCALER_PATH_ROOT}/models/' -n '${___model}'"
+	$___cmd = "${___cmd} -s '${___scale}' -g '${___gpu}'"
+	switch ($___format) {
+	"jpg" {
+		$___cmd = "${___cmd} -f jpg"
+	} "webp" {
+		$___cmd = "${___cmd} -f webp"
+	} default {
+		# do nothing - maintain png
+	}}
+
+
+	# execute
+	$null = FS-Make-Housing-Directory "${___output}"
+	$null = FS-Remove-Silently "${___output}"
+	if ((STRINGS-Is-Empty "${env:UPSCALER_TEST_MODE}") -ne 0) {
+		$null = I18N-Report-Simulation "$(UPSCALER-Program-Get) ${___cmd}"
+		$___process = FS-Copy-File "${___input}" "${___output}"
+		if ($___process -eq 0) {
+			return 0
+		}
+	} else {
+		$___process = OS-Exec "$(UPSCALER-Program-Get)" "${___cmd}"
+		if ($___process -eq 0) {
+			return 0
+		}
+	}
+
+
 	# report status
-	return 0
+	return 1
 }
 
 

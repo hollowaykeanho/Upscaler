@@ -294,7 +294,6 @@ if [ "$__video" = "0" ] && [ "$__batch" = "0" ]; then
                 "${__model}" \
                 "${__scale}" \
                 "${__format}" \
-                "${__parallel}" \
                 "${__gpu}" \
                 "${__input}" \
                 "${__output}"

@@ -29,6 +29,7 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+. "${LIBS_UPSCALER}/services/i18n/report-simulation.sh"
 . "${LIBS_UPSCALER}/services/io/os.sh"
 . "${LIBS_UPSCALER}/services/io/fs.sh"
 . "${LIBS_UPSCALER}/services/io/strings.sh"
@@ -319,8 +320,63 @@ UPSCALER_Program_Get() {
 
 
 UPSCALER_Run_Image() {
+        #___model="$1"
+        #___scale="$2"
+        #___format="$3"
+        #___gpu="$4"
+        #___input="$5"
+        #___output="$6"
+
+
+        # validate input
+        if [ "$(STRINGS_Is_Empty "$1")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$2")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$3")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$4")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$5")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$6")" = "0" ]; then
+                return 1
+        fi
+
+        if [ "$(STRINGS_Is_Empty "$(UPSCALER_Program_Get)")" = "0" ]; then
+                return 1
+        fi
+
+
+        # construct argument
+        ___cmd="-i '${5}' -o '${6}'"
+        ___cmd="${___cmd} -m '${UPSCALER_PATH_ROOT}/models/' -n '${1}' -s ${2} -g ${4}"
+        case "${3}" in
+        jpg)
+                ___args="${___args} -f jpg"
+                ;;
+        webp)
+                ___args="${___args} -f webp"
+                ;;
+        *)
+                ;;
+        esac
+
+
+        # execute
+        FS_Make_Housing_Directory "$6"
+        FS_Remove_Silently "$6"
+        if [ ! "$(STRINGS_Is_Empty "$UPSCALER_TEST_MODE")" = "0" ]; then
+                I18N_Report_Simulation "$(UPSCALER_Program_Get) ${___cmd}"
+                FS_Copy_File "$5" "$6"
+                if [ $? -eq 0 ]; then
+                        return 0
+                fi
+        else
+                eval "$(UPSCALER_Program_Get) $___cmd"
+                if [ $? -eq 0 ]; then
+                        return 0
+                fi
+        fi
+
+
         # report status
-        return 0
+        return 1
 }
 
 

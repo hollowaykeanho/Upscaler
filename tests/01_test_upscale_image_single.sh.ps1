@@ -87,10 +87,14 @@ $__process = . "${env:LIBS_UPSCALER}\start.ps1" `
 		"--input" "${env:UPSCALER_PATH_ROOT}\tests\image\sample-01.jpeg" `
 		"--output" "${env:UPSCALER_PATH_ROOT}\tmp\test-01\sample-01-upscaled.png"
 if ($__process -ne 0) {
-	$null = I18N-Status-Print "error" "Failed.`n`n"
+	$null = I18N-Status-Print "error" "Failed - bad processing.`n`n"
 	$__verdict = $false
 }
 
+if (-not (Test-Path -Path "${env:UPSCALER_PATH_ROOT}\tmp\test-01\sample-01-upscaled.png")) {
+	$null = I18N-Status-Print "error" "Failed - missing output.`n`n"
+	$__verdict = $false
+}
 
 
 
@@ -176,11 +180,14 @@ I18N_Status_Print "note" "test single image upscale...\n"
 	--input "${UPSCALER_PATH_ROOT}/tests/image/sample-01.jpeg" \
 	"--output" "${UPSCALER_PATH_ROOT}/tmp/test-01/sample-01-upscaled.png"
 if [ $? -ne 0 ]; then
-	I18N_Status_Print "error" "Failed.\n\n"
+	I18N_Status_Print "error" "Failed - bad processing.\n\n"
 	__verdict=1
 fi
-I18N_Status_Print "note" "Passed.\n\n"
 
+if [ ! -f "${UPSCALER_PATH_ROOT}/tmp/test-01/sample-01-upscaled.png" ]; then
+	I18N_Status_Print "error" "Failed - missing output.\n\n"
+	__verdict=1
+fi
 
 
 
