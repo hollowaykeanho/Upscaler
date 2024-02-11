@@ -91,6 +91,7 @@ ${env:LIBS_UPSCALER} = "${env:UPSCALER_PATH_ROOT}\${env:UPSCALER_PATH_SCRIPTS}"
 
 # import fundamental libraries
 . "${env:LIBS_UPSCALER}\services\io\strings.ps1"
+. "${env:LIBS_UPSCALER}\services\compilers\ffmpeg.ps1"
 . "${env:LIBS_UPSCALER}\services\compilers\upscaler.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-format-unsupported.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-gpu-unsupported.ps1"
@@ -100,6 +101,8 @@ ${env:LIBS_UPSCALER} = "${env:UPSCALER_PATH_ROOT}\${env:UPSCALER_PATH_SCRIPTS}"
 . "${env:LIBS_UPSCALER}\services\i18n\error-parallel-unsupported.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-scale-unknown.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-unsupported.ps1"
+. "${env:LIBS_UPSCALER}\services\i18n\error-video-setup.ps1"
+. "${env:LIBS_UPSCALER}\services\i18n\error-video-upscale.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\help.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\report-info.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\report-success.ps1"
@@ -303,7 +306,45 @@ if ((${__video} -eq 0) -and (${__batch} -eq 0)) {
 		return 0
 	}
 } elseif (${__video} -eq 1) {
+	$___process = FFMPEG-Is-Available
+	if ($___process -ne 0) {
+		$null = I18N-Error-FFMPEG-Unavailable
+		return 1
+	}
+
 	$__output = UPSCALER-Output-Filename-Video "${__output}" "${__input}"
+
+
+	# attempt to parse workspace
+	$___process = UPSCALER-Batch-Load "${__video}" `
+		"${__model}" `
+		"${__scale}" `
+		"${__format}" `
+		"${__parallel}" `
+		"${__gpu}" `
+		"${__input}" `
+		"${__output}"
+	if ($___process -ne 0) {
+		$___process = FFMPEG-Video-Dissect "${__input}" "${__output}"
+		if ($___process -ne 0) {
+			$null = I18N-Error-FFMPEG-Dissect
+			return 1
+		}
+
+
+		$___process = UPSCALER-Batch-Setup "${__video}" `
+			"${__model}" `
+			"${__scale}" `
+			"${__format}" `
+			"${__parallel}" `
+			"${__gpu}" `
+			"${__input}" `
+			"${__output}"
+		if ($___process -ne 0) {
+			$null = I18N-Error-Video-Setup
+			return 1
+		}
+	}
 
 
 	# report task info
@@ -320,6 +361,22 @@ if ((${__video} -eq 0) -and (${__batch} -eq 0)) {
 
 
 	# execute
+	$___process = UPSCALER-Batch-Run "${__video}" `
+		"${__model}" `
+		"${__scale}" `
+		"${__format}" `
+		"${__parallel}" `
+		"${__gpu}" `
+		"${__input}" `
+		"${__output}"
+	if ($___process -ne 0) {
+		$null = I18N-Error-Video-Upscale
+		return 1
+	}
+
+
+	# assemble back to video
+	$___process = FFMPEG-Video-Reassemble "${__input}" "${__output}"
 	if ($___process -eq 0) {
 		$null = I18N-Report-Success
 		return 0

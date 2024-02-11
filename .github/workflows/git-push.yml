@@ -37,3 +37,7 @@ jobs:
         id: upscaler_image_unscale_single
         run: |
           ./tests/01_test_upscale_image_single.sh.ps1
+      - name: Execute Upscaler's Single Video Upscale
+        id: upscaler_video_unscale_single
+        run: |
+          ./tests/02_test_upscale_video_single.sh.ps1

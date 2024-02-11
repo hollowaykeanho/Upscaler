@@ -27,10 +27,131 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+. "${env:LIBS_UPSCALER}\services\i18n\report-simulation.ps1"
 . "${env:LIBS_UPSCALER}\services\io\os.ps1"
 . "${env:LIBS_UPSCALER}\services\io\fs.ps1"
 . "${env:LIBS_UPSCALER}\services\io\strings.ps1"
-. "${env:LIBS_UPSCALER}\services\i18n\report-simulation.ps1"
+
+
+
+
+function UPSCALER-Batch-Load {
+	param(
+		[string]$___video,
+		[string]$___model,
+		[string]$___scale,
+		[string]$___format,
+		[string]$___parallel,
+		[string]$___gpu,
+		[string]$___input,
+		[string]$___output
+	)
+
+
+	# validate input
+	if ( ((STRINGS-Is-Empty "${___video}") -eq 0) -or
+		((STRINGS-Is-Empty "${___model}") -eq 0) -or
+		((STRINGS-Is-Empty "${___scale}") -eq 0) -or
+		((STRINGS-Is-Empty "${___format}") -eq 0) -or
+		((STRINGS-Is-Empty "${___parallel}") -eq 0) -or
+		((STRINGS-Is-Empty "${___gpu}") -eq 0) -or
+		((STRINGS-Is-Empty "${___input}") -eq 0) -or
+		((STRINGS-Is-Empty "${___output}") -eq 0)) {
+		return 1
+	}
+
+
+	if ((STRINGS-Is-Empty "$(UPSCALER-Program-Get)") -eq 0) {
+		return 1
+	}
+
+
+	# report status
+	return 0
+}
+
+
+
+
+function UPSCALER-Batch-Run {
+	param(
+		[string]$___video,
+		[string]$___model,
+		[string]$___scale,
+		[string]$___format,
+		[string]$___parallel,
+		[string]$___gpu,
+		[string]$___input,
+		[string]$___output
+	)
+
+
+	# validate input
+	if ( ((STRINGS-Is-Empty "${___video}") -eq 0) -or
+		((STRINGS-Is-Empty "${___model}") -eq 0) -or
+		((STRINGS-Is-Empty "${___scale}") -eq 0) -or
+		((STRINGS-Is-Empty "${___format}") -eq 0) -or
+		((STRINGS-Is-Empty "${___parallel}") -eq 0) -or
+		((STRINGS-Is-Empty "${___gpu}") -eq 0) -or
+		((STRINGS-Is-Empty "${___input}") -eq 0) -or
+		((STRINGS-Is-Empty "${___output}") -eq 0)) {
+		return 1
+	}
+
+
+	# execute
+	if ((STRINGS-Is-Empty "${env:UPSCALER_TEST_MODE}") -ne 0) {
+		$null = I18N-Report-Simulation "$(UPSCALER-Program-Get) ${___cmd}"
+		$null = FS-Make-Housing-Directory "${___output}"
+		$null = FS-Remove-Silently "${___output}"
+		$___process = FS-Copy-File "${___input}" "${___output}"
+		if ($___process -eq 0) {
+			return 0
+		}
+	}
+
+
+	# report status
+	return 0
+}
+
+
+
+
+function UPSCALER-Batch-Setup {
+	param(
+		[string]$___video,
+		[string]$___model,
+		[string]$___scale,
+		[string]$___format,
+		[string]$___parallel,
+		[string]$___gpu,
+		[string]$___input,
+		[string]$___output
+	)
+
+
+	# validate input
+	if ( ((STRINGS-Is-Empty "${___video}") -eq 0) -or
+		((STRINGS-Is-Empty "${___model}") -eq 0) -or
+		((STRINGS-Is-Empty "${___scale}") -eq 0) -or
+		((STRINGS-Is-Empty "${___format}") -eq 0) -or
+		((STRINGS-Is-Empty "${___parallel}") -eq 0) -or
+		((STRINGS-Is-Empty "${___gpu}") -eq 0) -or
+		((STRINGS-Is-Empty "${___input}") -eq 0) -or
+		((STRINGS-Is-Empty "${___output}") -eq 0)) {
+		return 1
+	}
+
+
+	if ((STRINGS-Is-Empty "$(UPSCALER-Program-Get)") -eq 0) {
+		return 1
+	}
+
+
+	# report status
+	return 0
+}
 
 
 

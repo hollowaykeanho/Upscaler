@@ -37,6 +37,123 @@
 
 
 
+UPSCALER_Batch_Load() {
+        #___video="$1"
+        #___model="$2"
+        #___scale="$3"
+        #___format="$4"
+        #___parallel="$5"
+        #___gpu="$6"
+        #___input="$7"
+        #___output="$8"
+
+
+        # validate input
+        if [ "$(STRINGS_Is_Empty "$1")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$2")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$3")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$4")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$5")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$6")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$7")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$8")" = "0" ]; then
+                return 1
+        fi
+
+        if [ "$(STRINGS_Is_Empty "$(UPSCALER_Program_Get)")" = "0" ]; then
+                return 1
+        fi
+
+
+        # report status
+        return 0
+}
+
+
+
+
+UPSCALER_Batch_Run() {
+        #___video="$1"
+        #___model="$2"
+        #___scale="$3"
+        #___format="$4"
+        #___parallel="$5"
+        #___gpu="$6"
+        #___input="$7"
+        #___output="$8"
+
+
+        # validate input
+        if [ "$(STRINGS_Is_Empty "$1")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$2")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$3")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$4")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$5")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$6")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$7")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$8")" = "0" ]; then
+                return 1
+        fi
+
+        if [ "$(STRINGS_Is_Empty "$(UPSCALER_Program_Get)")" = "0" ]; then
+                return 1
+        fi
+
+
+        # execute
+        if [ ! "$(STRINGS_Is_Empty "$UPSCALER_TEST_MODE")" = "0" ]; then
+                I18N_Report_Simulation "$(UPSCALER_Program_Get) ${___cmd}"
+                FS_Make_Housing_Directory "$8"
+                FS_Remove_Silently "$8"
+                FS_Copy_File "$7" "$8"
+                if [ $? -eq 0 ]; then
+                        return 0
+                fi
+        fi
+
+
+        # report status
+        return 0
+}
+
+
+
+
+UPSCALER_Batch_Setup() {
+        #___video="$1"
+        #___model="$2"
+        #___scale="$3"
+        #___format="$4"
+        #___parallel="$5"
+        #___gpu="$6"
+        #___input="$7"
+        #___output="$8"
+
+
+        # validate input
+        if [ "$(STRINGS_Is_Empty "$1")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$2")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$3")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$4")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$5")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$6")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$7")" = "0" ] ||
+                [ "$(STRINGS_Is_Empty "$8")" = "0" ]; then
+                return 1
+        fi
+
+        if [ "$(STRINGS_Is_Empty "$(UPSCALER_Program_Get)")" = "0" ]; then
+                return 1
+        fi
+
+
+        # report status
+        return 0
+}
+
+
+
+
 UPSCALER_Format_Validate() {
         #___format="$1"
 
