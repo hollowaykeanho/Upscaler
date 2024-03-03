@@ -206,7 +206,11 @@ function UPSCALER-Output-Filename-Image {
 
 	# execute
 	$___output = FS-Extension-Remove "$(Split-Path -Leaf -Path "${___input}")" "*"
-	$___output = "$(Split-Path -Parent -Path "${___input}")\${___output}-upscaled"
+	if ($(Split-Path -Parent -Path "${___input}") -ne "${___input}") {
+		$___output = "$(Split-Path -Parent -Path "${___input}")\${___output}-upscaled"
+	} else {
+		$___output = ".\${___output}-upscaled"
+	}
 
 	switch ($___format) {
 	"jpg" {

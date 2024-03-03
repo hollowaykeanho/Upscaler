@@ -213,7 +213,11 @@ UPSCALER_Output_Filename_Image() {
 
         # execute
         ___output="$(FS_Extension_Remove "${2##*/}" "*")"
-        ___output="${2%/*}/${___output}-upscaled"
+        if [ ! "${2%/*}" = "$2" ]; then
+                ___output="${2%/*}/${___output}-upscaled"
+        else
+                ___output="./${___output}-upscaled"
+        fi
 
         case "$3" in
         jpg)
