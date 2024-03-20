@@ -311,6 +311,10 @@ _check_io() {
         subject_ext="${subject_name#*.}"
         subject_name="${subject_name%%.*}"
 
+        if [ "${subject_dir}" = "${input}" ]; then
+                subject_dir="${subject_name}"
+        fi
+
         if [ $video_mode -gt 0 ]; then
                 if [ "$(type -p ffmpeg)" = "" ]; then
                         _print_status error "missing required ffmpeg program for video.\n"
