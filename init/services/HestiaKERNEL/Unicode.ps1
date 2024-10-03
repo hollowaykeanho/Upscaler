@@ -1,4 +1,4 @@
-# Copyright (c) 2024, (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
+# Copyright (c) 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
 # BSD 3-Clause License

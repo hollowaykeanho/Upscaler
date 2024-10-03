@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2024, (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
+# Copyright (c) 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
 # BSD 3-Clause License
@@ -127,8 +127,3 @@ HestiaKERNEL_To_UTF8_From_Unicode() {
         # report status
         printf -- "%s" "${___converted%, }"
 }
-################################################################################
-# Unix Main Codes                                                              #
-################################################################################
-return 0
-#>

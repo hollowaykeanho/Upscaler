@@ -1,4 +1,4 @@
-# Copyright (c) 2024, (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
+# Copyright (c) 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
 # BSD 3-Clause License
@@ -42,12 +42,6 @@ function HestiaKERNEL-To-UTF8-From-Unicode {
         # execute
         [System.Collections.Generic.List[uint8]]$___converted = @()
         foreach ($___char in $___content) {
-                if (-not ($___char -is [uint32])) {
-                        # error - invalid data type within the Runes array
-                        return [uint8[]]@()
-                }
-
-
                 # convert to UTF-8 bytes list
                 # IMPORTANT NOTICE
                 #   (1) using single code-point algorithm (not the 2 16-bits).
