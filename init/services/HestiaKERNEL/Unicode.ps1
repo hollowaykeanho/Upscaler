@@ -32,9 +32,14 @@
 
 
 # Data type
-class String {
-        [uint32[]] $Runes
-}
+# PowerShell cannot directly declare a new data type with primitive data type
+# (in this case, uint32[]). Declaring a new class is redundant. Hence, it's
+# better to place a notice here specify that the Hestia String is actually
+# an array of Runes (Unicode codepoint) which is fundamentally an 'uint32[]'
+# array.
+#
+# type Rune   : uint32
+# type String : []Rune || []uint32
 
 
 
