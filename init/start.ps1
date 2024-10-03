@@ -266,7 +266,7 @@ if (-not ($__parallel -match "^[\d]+$")) {
 
 
 # process format
-if ($__format) -eq "") {
+if ($__format -eq "") {
         $__format = "native"
 }
 
