@@ -32,10 +32,12 @@ echo \" <<'RUN_AS_POWERSHELL' >/dev/null # " | Out-Null
 ################################################################################
 # Windows POWERSHELL Codes                                                     #
 ################################################################################
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Endian.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Error_Codes.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Get_String_Encoder.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Unicode.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Run_Parallel_Sentinel.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\To_String_From_Unicode.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\To_Unicode_From_String.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\To_UTF8_From_Unicode.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\To_UTF16_From_Unicode.ps1"
@@ -54,10 +56,12 @@ RUN_AS_POWERSHELL
 ################################################################################
 # Unix Main Codes                                                              #
 ################################################################################
+. "${LIBS_HESTIA}/HestiaKERNEL/Endian.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Get_String_Encoder.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Is_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Run_Parallel_Sentinel.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/To_String_From_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/To_Unicode_From_String.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/To_UTF8_From_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/To_UTF16_From_Unicode.sh"

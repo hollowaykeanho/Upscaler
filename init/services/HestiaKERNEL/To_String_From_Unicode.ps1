@@ -1,4 +1,3 @@
-#!/bin/sh
 # Copyright (c) 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
@@ -28,33 +27,46 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Get_String_Encoder.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\To_UTF8_From_Unicode.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\To_UTF16_From_Unicode.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\To_UTF32_From_Unicode.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode.ps1"
 
 
 
 
-# Data type
-# IMPORTANT NOTICE: POSIX Shell does not have class or type declarations so we
-#                   will have to be smart about it.
+function HestiaKERNEL-To-String-From-Unicode {
+        param (
+                [uint32[]]$___unicode
+        )
 
 
+        # validate input
+        if ($___unicode.Length -eq 0) {
+                return ""
+        }
 
 
-# BOM type
-HestiaKERNEL_UTF_NO_BOM=0       # default
-HestiaKERNEL_UTF_BOM=1
+        # execute
+        # process HestiaKERNEL.Unicode data type as the last resort
+        switch (HestiaKERNEL-Get-String-Encoder) {
+        ${env:HestiaKERNEL_UTF8} {
+                $___utf = HestiaKERNEL-To-UTF8-From-Unicode $___unicode
+        } ${env:HestiaKERNEL_UTF16BE} {
+                $___utf = HestiaKERNEL-To-UTF16-From-Unicode $___unicode
+        } ${env:HestiaKERNEL_UTF32BE} {
+                $___utf = HestiaKERNEL-To-UTF32-From-Unicode $___unicode
+        } default {
+                return ""
+        }
+
+        $___converted = ""
+        foreach ($___byte in $___utf) {
+                $___converted = "${___converted}$([string][char]$___byte)"
+        }
 
 
-
-
-# UTF encoding type
-HestiaKERNEL_UTF8=0             # default
-HestiaKERNEL_UTF8_BOM=1
-HestiaKERNEL_UTF16BE=2          # default
-HestiaKERNEL_UTF16BE_BOM=3
-HestiaKERNEL_UTF16LE=4
-HestiaKERNEL_UTF16LE_BOM=5
-HestiaKERNEL_UTF32BE=6          # default
-HestiaKERNEL_UTF32BE_BOM=7
-HestiaKERNEL_UTF32LE=8
-HestiaKERNEL_UTF32LE_BOM=9
-HestiaKERNEL_UTF_UNKNOWN=255
+        # report status
+        return $___converted
+}

@@ -28,7 +28,9 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+. "${LIBS_HESTIA}/HestiaKERNEL/Endian.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/Unicode.sh"
 
 
 
@@ -55,9 +57,9 @@ HestiaKERNEL_To_UTF16_From_Unicode() {
 
         # execute
         ___converted=""
-        if [ ! "$2" = "" ]; then
+        if [ "$2" = "$HestiaKERNEL_UTF_BOM" ]; then
                 case "$3" in
-                "le"|"LE"|"little"|"Little"|"LITTLE")
+                "$HestiaKERNEL_ENDIAN_LITTLE")
                         # UTF16LE BOM - 0xFF, 0xFE
                         ___converted="255, 254"
                         ;;
@@ -84,7 +86,7 @@ HestiaKERNEL_To_UTF16_From_Unicode() {
                 if [ $___char -lt 200000 ]; then
                         # char < 0x10000
                         case "$3" in
-                        "le"|"LE"|"little"|"Little"|"LITTLE")
+                        "$HestiaKERNEL_ENDIAN_LITTLE")
                                 ___register=$(($___char & 0xFF))
                                 ___converted="${___converted}$(printf -- "%d" "$___register"), "
 
@@ -109,7 +111,7 @@ HestiaKERNEL_To_UTF16_From_Unicode() {
                         ___register16=$(($___register16 & 0x3FF))
                         ___register16=$(($___register16 + 0xD800))
                         case "$3" in
-                        "le"|"LE"|"little"|"Little"|"LITTLE")
+                        "$HestiaKERNEL_ENDIAN_LITTLE")
                                 ___register=$(($___register16 & 0xFF))
                                 ___converted="${___converted}$(printf -- "%d" "$___register"), "
 
@@ -130,7 +132,7 @@ HestiaKERNEL_To_UTF16_From_Unicode() {
                         ___register16=$(($___char & 0x3FF))
                         ___register16=$(($___register16 + 0xDC00))
                         case "$3" in
-                        "le"|"LE"|"little"|"Little"|"LITTLE")
+                        "$HestiaKERNEL_ENDIAN_LITTLE")
                                 ___register=$(($___register16 & 0xFF))
                                 ___converted="${___converted}$(printf -- "%d" "$___register"), "
 

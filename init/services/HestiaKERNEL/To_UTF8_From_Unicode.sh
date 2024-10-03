@@ -29,6 +29,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 . "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/Unicode.sh"
 
 
 
@@ -54,7 +55,7 @@ HestiaKERNEL_To_UTF8_From_Unicode() {
 
         # execute
         ___converted=""
-        if [ ! "$2" = "" ]; then
+        if [ "$2" = "$HestiaKERNEL_UTF_BOM" ]; then
                 # UTF-8 BOM - 0xEF, 0xBB, 0xBF
                 ___converted="239, 187, 191"
         fi

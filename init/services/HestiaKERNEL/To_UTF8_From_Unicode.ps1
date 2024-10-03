@@ -27,20 +27,33 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode.ps1"
+
+
+
+
 function HestiaKERNEL-To-UTF8-From-Unicode {
         param (
-                [uint32[]]$___content
+                [uint32[]]$___content,
+                [string]$___bom
         )
 
 
         # validate input
-        if ($___content) {
+        if ($___content.Length -eq 0) {
                 return [uint8[]]@()
         }
 
 
         # execute
         [System.Collections.Generic.List[uint8]]$___converted = @()
+        if ($___bom -eq ${env:HestiaKERNEL_UTF_BOM}) {
+                # UTF-8 BOM - 0xEF, 0xBB, 0xBF
+                $null = $___converted.Add(0xEF)
+                $null = $___converted.Add(0xBB)
+                $null = $___converted.Add(0xBF)
+        }
+
         foreach ($___char in $___content) {
                 # convert to UTF-8 bytes list
                 # IMPORTANT NOTICE

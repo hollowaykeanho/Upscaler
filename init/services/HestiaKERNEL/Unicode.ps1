@@ -44,6 +44,13 @@
 
 
 
+# BOM type
+${env:HestiaKERNEL_UTF_NO_BOM} = 0      # default
+${env:HestiaKERNEL_UTF_BOM} = 1
+
+
+
+
 # UTF encoding type
 ${env:HestiaKERNEL_UTF8} = 0            # default
 ${env:HestiaKERNEL_UTF8_BOM} = 1

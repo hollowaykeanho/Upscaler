@@ -1,4 +1,3 @@
-#!/bin/sh
 # Copyright (c) 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
@@ -32,29 +31,6 @@
 
 
 
-# Data type
-# IMPORTANT NOTICE: POSIX Shell does not have class or type declarations so we
-#                   will have to be smart about it.
-
-
-
-
-# BOM type
-HestiaKERNEL_UTF_NO_BOM=0       # default
-HestiaKERNEL_UTF_BOM=1
-
-
-
-
-# UTF encoding type
-HestiaKERNEL_UTF8=0             # default
-HestiaKERNEL_UTF8_BOM=1
-HestiaKERNEL_UTF16BE=2          # default
-HestiaKERNEL_UTF16BE_BOM=3
-HestiaKERNEL_UTF16LE=4
-HestiaKERNEL_UTF16LE_BOM=5
-HestiaKERNEL_UTF32BE=6          # default
-HestiaKERNEL_UTF32BE_BOM=7
-HestiaKERNEL_UTF32LE=8
-HestiaKERNEL_UTF32LE_BOM=9
-HestiaKERNEL_UTF_UNKNOWN=255
+# endian type
+${env:HestiaKERNEL_ENDIAN_BIG} = 0              # default
+${env:HestiaKERNEL_ENDIAN_LITTLE} = 1

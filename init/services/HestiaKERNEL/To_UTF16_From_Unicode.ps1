@@ -27,6 +27,12 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Endian.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode.ps1"
+
+
+
+
 function HestiaKERNEL-To-UTF16-From-Unicode {
         param (
                 [uint32[]]$___content,
@@ -36,16 +42,16 @@ function HestiaKERNEL-To-UTF16-From-Unicode {
 
 
         # validate input
-        if ($___content) {
+        if ($___content.Length -eq 0) {
                 return [uint8[]]@()
         }
 
 
         # execute
         [System.Collections.Generic.List[uint8]]$___converted = @()
-        if ($___bom -ne "") {
+        if ($___bom -eq ${env:HestiaKERNEL_UTF_BOM}) {
                 switch ($___endian) {
-                { $_ -in "le", "LE", "little", "Little", "LITTLE" } {
+                ${env:HestiaKERNEL_ENDIAN_LITTLE} {
                         # UTF16LE BOM - 0xFF, 0xFE
                         $null = $___converted.Add(0xFF)
                         $null = $___converted.Add(0xFE)
@@ -63,7 +69,7 @@ function HestiaKERNEL-To-UTF16-From-Unicode {
                 if ($___char -lt 0x10000) {
                         # char < 0x10000
                         switch ($___endian) {
-                        { $_ -in "le", "LE", "little", "Little", "LITTLE" } {
+                        ${env:HestiaKERNEL_ENDIAN_LITTLE} {
                                 $___register = $___char -band 0xFF
                                 $null = $___converted.Add($___register)
 
@@ -83,7 +89,7 @@ function HestiaKERNEL-To-UTF16-From-Unicode {
                         $___register16 = $___register16 -band 0x3FF
                         $___register16 += 0xD800
                         switch ($___endian) {
-                        { $_ -in "le", "LE", "little", "Little", "LITTLE" } {
+                        ${env:HestiaKERNEL_ENDIAN_LITTLE} {
                                 $___register = $___register16 -band 0xFF
                                 $null = $___converted.Add($___register)
 
@@ -101,7 +107,7 @@ function HestiaKERNEL-To-UTF16-From-Unicode {
                         $___register16 = $___register16 -band 0x3FF
                         $___register16 += 0xDC00
                         switch ($___endian) {
-                        { $_ -in "le", "LE", "little", "Little", "LITTLE" } {
+                        ${env:HestiaKERNEL_ENDIAN_LITTLE} {
                                 $___register = $___register16 -band 0xFF
                                 $null = $___converted.Add($___register)
 

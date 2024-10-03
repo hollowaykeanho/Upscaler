@@ -27,6 +27,12 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Endian.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode.ps1"
+
+
+
+
 function HestiaKERNEL-To-UTF32-From-Unicode {
         param (
                 [uint32[]]$___content,
@@ -43,9 +49,9 @@ function HestiaKERNEL-To-UTF32-From-Unicode {
 
         # execute
         [System.Collections.Generic.List[uint8]]$___converted = @()
-        if ($___bom -ne "") {
+        if ($___bom -eq ${env:HestiaKERNEL_UTF_BOM}) {
                 switch ($___endian) {
-                { $_ -in "le", "LE", "little", "Little", "LITTLE" } {
+                ${env:HestiaKERNEL_ENDIAN_LITTLE} {
                         # UTF32LE BOM - 0xFF, 0xFE, 0x00, 0x00
                         $null = $___converted.Add(0xFF)
                         $null = $___converted.Add(0xFE)
@@ -64,7 +70,7 @@ function HestiaKERNEL-To-UTF32-From-Unicode {
                 # convert to UTF-32 bytes list
                 ## 0x00000 - 0x10000 - 0x10FFFF (surrogate pair region)
                 switch ($___endian) {
-                { $_ -in "le", "LE", "little", "Little", "LITTLE" } {
+                ${env:HestiaKERNEL_ENDIAN_LITTLE} {
                         $___register = $___char -band 0xFF
                         $null = $___converted.Add($___register)
 
