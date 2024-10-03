@@ -45,13 +45,14 @@
 
 
 # UTF encoding type
-${env:HestiaKERNEL_UTF8} = 0
+${env:HestiaKERNEL_UTF8} = 0            # default
 ${env:HestiaKERNEL_UTF8_BOM} = 1
-${env:HestiaKERNEL_UTF16BE} = 2
+${env:HestiaKERNEL_UTF16BE} = 2         # default
 ${env:HestiaKERNEL_UTF16BE_BOM} = 3
 ${env:HestiaKERNEL_UTF16LE} = 4
 ${env:HestiaKERNEL_UTF16LE_BOM} = 5
-${env:HestiaKERNEL_UTF32BE} = 6
+${env:HestiaKERNEL_UTF32BE} = 6         # default
 ${env:HestiaKERNEL_UTF32BE_BOM} = 7
 ${env:HestiaKERNEL_UTF32LE} = 8
 ${env:HestiaKERNEL_UTF32LE_BOM} = 9
+${env:HestiaKERNEL_UTF_UNKNOWN} = 255

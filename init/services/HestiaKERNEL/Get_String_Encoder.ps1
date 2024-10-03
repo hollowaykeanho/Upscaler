@@ -1,4 +1,3 @@
-#!/bin/sh
 # Copyright (c) 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
@@ -28,26 +27,21 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode.ps1"
 
 
 
 
-# Data type
-# IMPORTANT NOTICE: POSIX Shell does not have class or type declarations so we
-#                   will have to be smart about it.
-
-
-
-
-# UTF encoding type
-HestiaKERNEL_UTF8=0             # default
-HestiaKERNEL_UTF8_BOM=1
-HestiaKERNEL_UTF16BE=2          # default
-HestiaKERNEL_UTF16BE_BOM=3
-HestiaKERNEL_UTF16LE=4
-HestiaKERNEL_UTF16LE_BOM=5
-HestiaKERNEL_UTF32BE=6          # default
-HestiaKERNEL_UTF32BE_BOM=7
-HestiaKERNEL_UTF32LE=8
-HestiaKERNEL_UTF32LE_BOM=9
-HestiaKERNEL_UTF_UNKNOWN=255
+function HestiaKERNEL-Get-String-Encoder {
+        # execute
+        switch ($OutputEncoding.BodyName.ToUpper()) {
+        "UTF-8" {
+                return ${env:HestiaKERNEL_UTF8}
+        } "UTF-16" {
+                return ${env:HestiaKERNEL_UTF16BE}
+        } "UTF-32" {
+                return ${env:HestiaKERNEL_UTF32BE}
+        } "default" {
+                return ${env:HestiaKERNEL_UTF_UNKNOWN}
+        }}
+}
