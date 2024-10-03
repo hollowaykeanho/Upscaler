@@ -1,9 +1,10 @@
 #!/bin/sh
 #
-# BSD 3-Clause License
+# Copyright (c) 2024, (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
+# Copyright (c) 2024, Joly0 [https://github.com/Joly0]
 #
-# Copyright (c) 2023, (Holloway) Chew, Kean Ho
-# All rights reserved.
+#
+# BSD 3-Clause License
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:

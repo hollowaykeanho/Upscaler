@@ -26,8 +26,8 @@ echo \" <<'RUN_AS_POWERSHELL' >/dev/null # " | Out-Null
 ################################################################################
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 $OutputEncoding = [console]::InputEncoding `
-		= [console]::OutputEncoding `
-		= New-Object System.Text.UTF8Encoding
+                = [console]::OutputEncoding `
+                = New-Object System.Text.UTF8Encoding
 
 
 # Scan for fundamental pathing
@@ -35,32 +35,32 @@ ${env:UPSCALER_PATH_PWD} = Get-Location
 ${env:UPSCALER_PATH_SCRIPTS} = "init"
 
 if (Test-Path ".\start.ps1") {
-	# currently inside the automataCI directory.
-	${env:UPSCALER_PATH_ROOT} = Split-Path -Parent "${env:UPSCALER_PATH_PWD}"
+        # currently inside the automataCI directory.
+        ${env:UPSCALER_PATH_ROOT} = Split-Path -Parent ${env:UPSCALER_PATH_PWD}
 } elseif (Test-Path ".\${env:UPSCALER_PATH_SCRIPTS}\start.ps1") {
-	# current directory is the root directory.
-	${env:UPSCALER_PATH_ROOT} = "${env:UPSCALER_PATH_PWD}"
+        # current directory is the root directory.
+        ${env:UPSCALER_PATH_ROOT} = "${env:UPSCALER_PATH_PWD}"
 } else {
-	# scan from current directory - bottom to top
-	$__pathing = "${env:UPSCALER_PATH_PWD}"
-	${env:UPSCALER_PATH_ROOT} = ""
-	foreach ($__pathing in (${env:UPSCALER_PATH_PWD}.Split("\"))) {
-		if (-not [string]::IsNullOrEmpty($env:UPSCLAER_PATH_ROOT)) {
-			${env:UPSCALER_PATH_ROOT} += "\"
-		}
-		${env:UPSCALER_PATH_ROOT} += "${__pathing}"
+        # scan from current directory - bottom to top
+        $__pathing = ${env:UPSCALER_PATH_PWD}
+        ${env:UPSCALER_PATH_ROOT} = ""
+        foreach ($__pathing in (${env:UPSCALER_PATH_PWD}.Split("\"))) {
+                if (-not [string]::IsNullOrEmpty($env:UPSCLAER_PATH_ROOT)) {
+                        ${env:UPSCALER_PATH_ROOT} += "\"
+                }
+                ${env:UPSCALER_PATH_ROOT} += $__pathing
 
-		if (Test-Path -Path `
-			"${env:UPSCALER_PATH_ROOT}\${env:UPSCALER_PATH_SCRIPTS}\start.ps1") {
-			break
-		}
-	}
-	$null = Remove-Variable -Name __pathing
+                if (Test-Path -Path `
+                        "${env:UPSCALER_PATH_ROOT}\${env:UPSCALER_PATH_SCRIPTS}\start.ps1") {
+                        break
+                }
+        }
+        $null = Remove-Variable -Name __pathing
 
-	if (-not (Test-Path "${env:UPSCALER_PATH_ROOT}\${env:UPSCALER_PATH_SCRIPTS}\start.ps1")) {
-		Write-Error "[ ERROR ] Missing root directory.`n`n"
-		exit 1
-	}
+        if (-not (Test-Path "${env:UPSCALER_PATH_ROOT}\${env:UPSCALER_PATH_SCRIPTS}\start.ps1")) {
+                Write-Error "[ ERROR ] Missing root directory.`n`n"
+                exit 1
+        }
 }
 
 
