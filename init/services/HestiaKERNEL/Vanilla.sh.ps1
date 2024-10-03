@@ -33,7 +33,9 @@ echo \" <<'RUN_AS_POWERSHELL' >/dev/null # " | Out-Null
 # Windows POWERSHELL Codes                                                     #
 ################################################################################
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Error_Codes.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Unicode.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Run_Parallel_Sentinel.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode.ps1"
 ################################################################################
 # Windows POWERSHELL Codes                                                     #
 ################################################################################
@@ -48,7 +50,9 @@ RUN_AS_POWERSHELL
 # Unix Main Codes                                                              #
 ################################################################################
 . "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/Is_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Run_Parallel_Sentinel.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/Unicode.sh"
 ################################################################################
 # Unix Main Codes                                                              #
 ################################################################################
