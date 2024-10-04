@@ -80,6 +80,7 @@ call start.cmd ^
 	--scale 4 ^
 	--format webp ^
 	--video ^
+	--parallel 1 ^
 	--input tests\video\sample-1-640x360.mp4
 set endTime=%time%
 

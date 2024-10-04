@@ -55,16 +55,30 @@ IF "%*"=="" ( goto :empty )
 set location=%~dp0init\windows.ps1
 set location="%location%"
 set _parameters=%*
-set _parameters=!_parameters: --input= --path!
+
+:replace_tabs
+:: Replace all tabs with single spaces
+set "_parameters=%_parameters:	= %"
+if "%_parameters%" neq "%_parameters:	= %" goto replace_tabs
+
+:clean_spaces_before_double_dash
+:: Replace any number of spaces before double dashes with a single space
+set "_parameters=%_parameters:   --= --%"
+set "_parameters=%_parameters:  --= --%"
+set "_parameters=%_parameters: --= --%"
+:: Repeat if needed
+if "%_parameters%" neq "%_parameters:  --= --%" goto clean_spaces_before_double_dash
+
+set _parameters=!_parameters:--input=--path!
 set _parameters=!_parameters:--=-!
 set _parameters=!_parameters:"=\"!
-call Powershell.exe -NoProfile -executionpolicy bypass -Command "& '%location%' %_parameters%"
+call Pwsh.exe -NoProfile -executionpolicy bypass -Command "& '%location%' %_parameters%"
 EXIT /B
 
 :empty
 set location=%~dp0init\windows.ps1
 set location="%location%"
-call Powershell.exe -NoProfile -executionpolicy bypass -Command "& '%location%'"
+call Pwsh.exe -NoProfile -executionpolicy bypass -Command "& '%location%'"
 ::##############################################################################
 :: Windows Main Codes                                                          #
 ::##############################################################################
