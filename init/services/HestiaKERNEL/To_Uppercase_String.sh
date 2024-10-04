@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
+# Copyright 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
 # BSD 3-Clause License
@@ -29,17 +29,16 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 . "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/Get_String_Encoder.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/To_UTF8_From_Unicode.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/To_UTF16_From_Unicode.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/To_UTF32_From_Unicode.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/Unicode.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/To_Upppercase_Unicode.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/To_Unicode_From_String.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/To_String_From_Unicode.sh"
 
 
 
 
-HestiaKERNEL_To_String_From_Unicode() {
-        #___unicode="$1"
+HestiaKERNEL_To_Uppercase_String() {
+        #___input="$1"
+        #___locale="$2"
 
 
         # validate input
@@ -48,51 +47,22 @@ HestiaKERNEL_To_String_From_Unicode() {
                 return $HestiaKERNEL_ERROR_DATA_EMPTY
         fi
 
-        case "$1" in
-        *[!0123456789\ \,]*)
-                printf -- ""
-                return $HestiaKERNEL_ERROR_DATA_INVALID
-                ;;
-        esac
-
 
         # execute
-        # process HestiaKERNEL.Unicode data type
-        ___utf=""
-        case "$(HestiaKERNEL_Get_String_Encoder)" in
-        "$HestiaKERNEL_UTF8")
-                ___utf="$(HestiaKERNEL_To_UTF8_From_Unicode "$1")"
-                ;;
-        "$HestiaKERNEL_UTF16BE")
-                ___utf="$(HestiaKERNEL_To_UTF16_From_Unicode "$1")"
-                ;;
-        "$HestiaKERNEL_UTF32BE")
-                ___utf="$(HestiaKERNEL_To_UTF32_From_Unicode "$1")"
-                ;;
-        *)
-                printf -- ""
-                return $HestiaKERNEL_ERROR_NOT_POSSIBLE
-                ;;
-        esac
-
-        if [ "$___utf" = "" ]; then
-                printf -- ""
+        ___content="$(HestiaKERNEL_To_Unicode_From_String "$1")"
+        if [ "$___content" = "" ]; then
+                printf -- "%s" "$1"
                 return $HestiaKERNEL_ERROR_DATA_INVALID
         fi
 
-
-        ___converted=""
-        while [ ! "$___utf" = "" ]; do
-                ___byte="${___utf%%, *}"
-                ___converted="${___converted}$(printf -- '\%o' "$___byte")"
-                ___utf="${___utf#"$___byte"}"
-                if [ "${___utf%"${___utf#?}"}" = "," ]; then
-                        ___utf="${___utf#, }"
-                fi
-        done
+        ___content="$(HestiaKERNEL_To_Uppercase_Unicode "$___content")"
+        if [ "$___content" = "" ]; then
+                printf -- "%s" "$1"
+                return $HestiaKERNEL_ERROR_BAD_EXEC
+        fi
 
 
         # report status
-        printf -- "%b" "$___converted"
+        printf -- "%s" "$(HestiaKERNEL_To_String_From_Unicode "$___content")"
         return $HestiaKERNEL_ERROR_OK
 }

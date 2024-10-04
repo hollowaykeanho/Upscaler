@@ -56,7 +56,7 @@ HestiaKERNEL_To_Unicode_From_String() {
 
 
         # check for data encoder
-        ___output="$(HestiaSTRING_Is_Unicode "$1")"
+        ___output="$(HestiaKERNEL_Is_Unicode "$1")"
         if [ ! "${___output#*"$HestiaKERNEL_UTF8"}" = "$___output" ] ||
                 [ ! "${___output#*"$HestiaKERNEL_UTF8_BOM"}" = "$___output" ] ||
                 [ ! "${___output#*"$HestiaKERNEL_UTF16BE"}" = "$___output" ] ||

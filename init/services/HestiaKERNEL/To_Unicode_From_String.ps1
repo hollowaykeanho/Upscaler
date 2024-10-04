@@ -41,7 +41,7 @@ function HestiaKERNEL-To-Unicode-From-String {
 
         # validate input
         if ($___content -eq "") {
-                return @()
+                return [uint32[]]@()
         }
 
 
@@ -63,7 +63,7 @@ function HestiaKERNEL-To-Unicode-From-String {
                 # UTF8, UTF16, and UTF32 are the candidates - try to parse
         } else {
                 # unsupported decoders
-                return @()
+                return [uint32[]]@()
         }
 
 
@@ -85,5 +85,5 @@ function HestiaKERNEL-To-Unicode-From-String {
 
 
         # report status
-        return [array]$___converted
+        return [uint32[]]$___converted
 }
