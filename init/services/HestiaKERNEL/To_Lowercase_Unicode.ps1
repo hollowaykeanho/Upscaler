@@ -27,12 +27,12 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-. "${env:LIBS_HESTIA}\HestiaKERNEL\rune_to_upper.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\rune_to_lower.ps1"
 
 
 
 
-function HestiaKERNEL-To-Uppercase-Unicode {
+function HestiaKERNEL-To-Lowercase-Unicode {
         param (
                 [uint32[]]$___unicode,
                 [string]$___locale
@@ -72,7 +72,7 @@ function HestiaKERNEL-To-Uppercase-Unicode {
 
 
                 # process conversion
-                $___ret = hestiakernel-rune-to-upper $___current $___next $___third "" $___locale
+                $___ret = hestiakernel-rune-to-lower $___current $___next $___third "" $___locale
                 $___scanned = $___ret -replace "].*$", ''
                 $___ret = $___ret -replace "^\[\d*\]", ''
                 while ($___ret -ne "") {

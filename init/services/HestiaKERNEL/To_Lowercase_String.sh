@@ -29,14 +29,14 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 . "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/To_Upppercase_Unicode.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/To_Lowercase_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/To_Unicode_From_String.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/To_String_From_Unicode.sh"
 
 
 
 
-HestiaKERNEL_To_Uppercase_String() {
+HestiaKERNEL_To_Lowercase_String() {
         #___input="$1"
         #___locale="$2"
 
@@ -55,7 +55,7 @@ HestiaKERNEL_To_Uppercase_String() {
                 return $HestiaKERNEL_ERROR_DATA_INVALID
         fi
 
-        ___content="$(HestiaKERNEL_To_Uppercase_Unicode "$___content")"
+        ___content="$(HestiaKERNEL_To_Lowercase_Unicode "$___content")"
         if [ "$___content" = "" ]; then
                 printf -- "%s" "$1"
                 return $HestiaKERNEL_ERROR_BAD_EXEC

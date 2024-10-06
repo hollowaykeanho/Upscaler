@@ -27,9 +27,9 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-. "${env:LIBS_HESTIA}\HestiaSTRING\To_Uppercase_Unicode.ps1"
-. "${env:LIBS_HESTIA}\HestiaSTRING\To_Unicode_From_String.ps1"
-. "${env:LIBS_HESTIA}\HestiaSTRING\To_String_From_Unicode.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\To_Uppercase_Unicode.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\To_Unicode_From_String.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\To_String_From_Unicode.ps1"
 
 
 
@@ -50,12 +50,12 @@ function HestiaKERNEL-To-Uppercase-String {
         # execute
         $___content = HestiaKERNEL-To-Unicode-From-String $___input
         if ($___content.Length -eq 0) {
-                return ""
+                return $___input
         }
 
         $___content = HestiaKERNEL-To-Uppercase-Unicode $___content
         if ($___content.Length -eq 0) {
-                return ""
+                return $___input
         }
 
 

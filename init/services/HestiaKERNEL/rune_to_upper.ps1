@@ -1,4 +1,4 @@
-# Copyright 2024 HestiaSTRING Authors
+# Copyright 2024 HestiaKERNEL Authors
 #
 #
 # BSD 3-Clause License
@@ -36,9 +36,9 @@
 
 function hestiakernel-rune-to-upper {
         param (
-                [uint8]$___char_decimal,
-                [uint8]$___next_decimal,
-                [uint8]$___third_decimal,
+                [uint32]$___char_decimal,
+                [uint32]$___next_decimal,
+                [uint32]$___third_decimal,
                 [string]$___locale
         )
 
