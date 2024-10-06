@@ -1,3 +1,4 @@
+#!/bin/sh
 # Copyright 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
@@ -27,27 +28,35 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-. "${env:LIBS_HESTIA}\HestiaKERNEL\Error_Codes.ps1"
+. "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/Is_Unicode.sh"
 
 
 
 
-function HestiaKERNEL-Is-Unicode {
-        param (
-                [uint32]$___content
-        )
+HestiaKERNEL_Is_Whitespace_Unicode() {
+        #___unicode="$1"
 
 
         # validate input
-        if ($___content -eq "") {
-                return ${env:HestiaKERNEL_ERROR_DATA_EMPTY}
-        }
+        if [ "$(HestiaKERNEL_Is_Unicode "$1")" -ne $HestiaKERNEL_ERROR_OK ]; then
+                printf -- ""
+                return $HestiaKERNEL_ERROR_DATA_INVALID
+        fi
 
 
         # execute
-        # IMPORTANT NOTICE: Powershell's uint32 parameter checking is suffice.
-
-
-        # report status
-        return ${env:HestiaKERNEL_ERROR_OK}
+        case "$1" in
+        9|10|11|12|13|32|133|160)
+                #  9    | 10   | 11   | 12   | 13   | 32   | 133  | 160
+                # 0x0009|0x000A|0x000B|0x000C|0x000D|0x0020|0x0085|0x00A0
+                # '\t'  , '\n' , '\v' , '\f' , '\r' , ' '  , NEL  , NBSP
+                printf -- "%d" $HestiaKERNEL_ERROR_OK
+                return $HestiaKERNEL_ERROR_OK
+                ;;
+        *)
+                printf -- "%d" $HestiaKERNEL_ERROR_DATA_INVALID
+                return $HestiaKERNEL_ERROR_DATA_INVALID
+                ;;
+        esac
 }

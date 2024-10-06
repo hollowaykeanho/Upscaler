@@ -1,4 +1,4 @@
-# Copyright (c) 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
+# Copyright 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
 # BSD 3-Clause License
@@ -27,7 +27,7 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-. "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Unicode.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Is_UTF.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode.ps1"
 
 
@@ -35,19 +35,19 @@
 
 function HestiaKERNEL-To-Unicode-From-String {
         param (
-                [string]$___content
+                [string]$___string
         )
 
 
         # validate input
-        if ($___content -eq "") {
+        if ($___string -eq "") {
                 return [uint32[]]@()
         }
 
 
         # execute
         # check for data encoder
-        $___output = HestiaSTRING-Is-Unicode $___content
+        $___output = HestiaKERNEL-Is-UTF $___string
         if (
                 ($($___output -replace ${env:HestiaKERNEL_UTF8}, '') -ne $___output) -or
                 ($($___output -replace ${env:HestiaKERNEL_UTF8_BOM}, '') -ne $___output) -or
@@ -72,10 +72,10 @@ function HestiaKERNEL-To-Unicode-From-String {
         # it need is converting into Unicode data type and it should be
         # sufficient for other operations.
         [System.Collections.Generic.List[uint32]]$___converted = @()
-        while ($___content -ne "") {
+        while ($___string -ne "") {
                 # get byte value
-                $___byte = $___content[0]
-                $___content = $___content.Substring(1)
+                $___byte = $___string[0]
+                $___string = $___string.Substring(1)
                 $___byte = [uint32]$___byte[0]
 
 

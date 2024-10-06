@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
+# Copyright 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
 # BSD 3-Clause License
@@ -29,14 +29,14 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 . "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/Is_Unicode.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/Is_UTF.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Unicode.sh"
 
 
 
 
 HestiaKERNEL_To_Unicode_From_String() {
-        #___content="$1"
+        #___string="$1"
 
 
         # validate input
@@ -56,7 +56,7 @@ HestiaKERNEL_To_Unicode_From_String() {
 
 
         # check for data encoder
-        ___output="$(HestiaKERNEL_Is_Unicode "$1")"
+        ___output="$(HestiaKERNEL_Is_UTF "$1")"
         if [ ! "${___output#*"$HestiaKERNEL_UTF8"}" = "$___output" ] ||
                 [ ! "${___output#*"$HestiaKERNEL_UTF8_BOM"}" = "$___output" ] ||
                 [ ! "${___output#*"$HestiaKERNEL_UTF16BE"}" = "$___output" ] ||
@@ -76,7 +76,7 @@ HestiaKERNEL_To_Unicode_From_String() {
 
 
         # begin parsing data
-        ___output=""
+        ___converted=""
         ___content="$1"
         while [ ! "$___content" = "" ]; do
                 # get byte value
@@ -140,9 +140,9 @@ HestiaKERNEL_To_Unicode_From_String() {
 
 
                 # save to output
-                ___output="${___output}${___byte}, "
+                ___converted="${___converted}${___byte}, "
         done
-        printf -- "%s" "${___output%, }"
+        printf -- "%s" "${___converted%, }"
 
 
         # report status

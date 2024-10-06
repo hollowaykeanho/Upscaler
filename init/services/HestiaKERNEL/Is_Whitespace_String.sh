@@ -1,3 +1,4 @@
+#!/bin/sh
 # Copyright 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
@@ -27,27 +28,24 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-. "${env:LIBS_HESTIA}\HestiaKERNEL\Error_Codes.ps1"
+. "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/Is_Whitespace_Unicode.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/To_Unicode_From_String.sh"
 
 
 
 
-function HestiaKERNEL-Is-Unicode {
-        param (
-                [uint32]$___content
-        )
-
-
-        # validate input
-        if ($___content -eq "") {
-                return ${env:HestiaKERNEL_ERROR_DATA_EMPTY}
-        }
+HestiaKERNEL_Is_Whitespace_String() {
+        #___rune="$1"
 
 
         # execute
-        # IMPORTANT NOTICE: Powershell's uint32 parameter checking is suffice.
+        ___unicode="$(HestiaKERNEL_To_Unicode_From_String "$1")"
+        if [ $? -ne $HestiaKERNEL_ERROR_OK ]; then
+                printf -- "%d" $HestiaKERNEL_ERROR_DATA_INVALID
+                return $HestiaKERNEL_ERROR_DATA_INVALID
+        fi
 
-
-        # report status
-        return ${env:HestiaKERNEL_ERROR_OK}
+        printf -- "%d" "$(HestiaKERNEL_Is_Whitespace_Unicode "$___unicode")"
+        return $?
 }

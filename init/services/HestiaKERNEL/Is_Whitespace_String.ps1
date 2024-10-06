@@ -28,26 +28,24 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Error_Codes.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Whitespace_Unicode.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\To_Unicode_From_String.ps1"
 
 
 
 
-function HestiaKERNEL-Is-Unicode {
+function HestiaKERNEL-Is-Whitespace-String {
         param (
-                [uint32]$___content
+                [string]$___rune
         )
 
 
         # validate input
-        if ($___content -eq "") {
-                return ${env:HestiaKERNEL_ERROR_DATA_EMPTY}
+        if ($(HestiaKERNEL-To-Unicode-From-String $___rune) -ne ${env:HestiaKERNEL_ERROR_OK}) {
+                return ${env:HestiaKERNEL_ERROR_DATA_INVALID}
         }
 
 
         # execute
-        # IMPORTANT NOTICE: Powershell's uint32 parameter checking is suffice.
-
-
-        # report status
-        return ${env:HestiaKERNEL_ERROR_OK}
+        return HestiaKERNEL-Is-Whitespace-Unicode $___rune
 }
