@@ -31,6 +31,7 @@
 . "${LIBS_HESTIA}/HestiaKERNEL/rune_to_lower.sh"
 
 . "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/Is_Unicode.sh"
 
 
 
@@ -41,17 +42,10 @@ HestiaKERNEL_To_Lowercase_Unicode() {
 
 
         # validate input
-        if [ "$1" = "" ]; then
-                printf -- ""
-                return $HestiaKERNEL_ERROR_DATA_EMPTY
-        fi
-
-        case "$1" in
-        *[!0123456789\ \,]*)
-                printf -- ""
+        if [ $(HestiaKERNEL_Is_Unicode "$1") -ne $HestiaKERNEL_ERROR_OK ]; then
+                printf -- "%s" "$1"
                 return $HestiaKERNEL_ERROR_DATA_INVALID
-                ;;
-        esac
+        fi
 
 
         # execute
@@ -113,7 +107,7 @@ HestiaKERNEL_To_Lowercase_Unicode() {
         done
 
 
-        # transform back to an actual string
+        # report status
         printf -- "%s" "${___converted%, }"
         return $HestiaKERNEL_ERROR_OK
 }

@@ -27,14 +27,15 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-. "${env:LIBS_HESTIA}\HestiaKERNEL\rune_to_lower.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\rune_to_title.ps1"
 
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Unicode.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Whitespace_Unicode.ps1"
 
 
 
 
-function HestiaKERNEL-To-Lowercase-Unicode {
+function HestiaKERNEL-To-Titlecase-Unicode {
         param (
                 [uint32[]]$___unicode,
                 [string]$___locale
@@ -53,10 +54,23 @@ function HestiaKERNEL-To-Lowercase-Unicode {
         # contents at the end of an iteration.
         [System.Collections.Generic.List[uint32]]$___converted = @()
         $___index = 0
+        $___to_title = ""
         $___length = $___unicode.Length - 1
         while ($___index -le $___length) {
                 # get current character
                 $___current = $___unicode[$___index]
+
+
+                # filter whitespace for titlecasing trigger
+                if (
+                        ($(HestiaKERNEL-Is-Whitespace-Unicode $___current) -eq ${env:HestiaKERNEL_ERROR_OK}) -and
+                        ($___converted -ne "")
+                ) {
+                        $___to_title = "true"
+                        $null = $___converted.Add($___current)
+                        $___index += 1
+                        continue
+                }
 
 
                 # get next character (look forward by 1)
@@ -74,7 +88,12 @@ function HestiaKERNEL-To-Lowercase-Unicode {
 
 
                 # process conversion
-                $___ret = hestiakernel-rune-to-lower $___current $___next $___third "" $___locale
+                $___ret = hestiakernel-rune-to-upper `
+                        $___current `
+                        $___next `
+                        $___third `
+                        $___to_title `
+                        $___locale
                 $___scanned = $___ret -replace "].*$", ''
                 $___ret = $___ret -replace "^\[\d*\]", ''
                 while ($___ret -ne "") {
@@ -85,6 +104,7 @@ function HestiaKERNEL-To-Lowercase-Unicode {
 
 
                 # prepare for next scan
+                $___to_title = ""
                 $___index += [uint32]$___scanned.Substring(1)
         }
 

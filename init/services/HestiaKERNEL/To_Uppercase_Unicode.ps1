@@ -29,6 +29,8 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 . "${env:LIBS_HESTIA}\HestiaKERNEL\rune_to_upper.ps1"
 
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Unicode.ps1"
+
 
 
 
@@ -40,7 +42,7 @@ function HestiaKERNEL-To-Uppercase-Unicode {
 
 
         # execute
-        if ($___unicode.Length -eq 0) {
+        if ($(HestiaKERNEL-Is-Unicode $___unicode) -ne ${env:HestiaKERNEL_ERROR_OK}) {
                 return $___unicode
         }
 

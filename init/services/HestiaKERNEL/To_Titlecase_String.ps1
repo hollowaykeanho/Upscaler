@@ -27,14 +27,14 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-. "${env:LIBS_HESTIA}\HestiaKERNEL\To_Lowercase_Unicode.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\To_Titlecase_Unicode.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\To_Unicode_From_String.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\To_String_From_Unicode.ps1"
 
 
 
 
-function HestiaKERNEL-To-Lowercase-String {
+function HestiaKERNEL-To-Titlecase-String {
         param (
                 [string]$___input,
                 [string]$___locale
@@ -53,7 +53,7 @@ function HestiaKERNEL-To-Lowercase-String {
                 return $___input
         }
 
-        $___content = HestiaKERNEL-To-Lowercase-Unicode $___content
+        $___content = HestiaKERNEL-To-Titlecase-Unicode $___input
         if ($___content.Length -eq 0) {
                 return $___input
         }

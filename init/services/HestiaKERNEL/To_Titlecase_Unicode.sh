@@ -28,35 +28,44 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-. "${LIBS_HESTIA}/HestiaKERNEL/rune_to_upper.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/rune_to_title.sh"
 
 . "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Is_Unicode.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/Is_Whitespace_Unicode.sh"
 
 
 
 
-HestiaKERNEL_To_Uppercase_Unicode() {
+HestiaKERNEL_To_Titlecase_Unicode() {
         #___unicode="$1"
         #___locale="$2"
 
 
-        # validate input
+        # execute
         if [ $(HestiaKERNEL_Is_Unicode "$1") -ne $HestiaKERNEL_ERROR_OK ]; then
                 printf -- "%s" "$1"
                 return $HestiaKERNEL_ERROR_DATA_INVALID
         fi
 
-
-        # execute
         ___content="$1"
         ___converted=""
+        ___to_title="true"
         while [ ! "$___content" = "" ]; do
                 # get current character
                 ___current="${___content%%, *}"
                 ___content="${___content#"$___current"}"
                 if [ "${___content%"${___content#?}"}" = "," ]; then
                         ___content="${___content#, }"
+                fi
+
+
+                # filter whitespace for titlecasing trigger
+                if [ $(HestiaKERNEL_Is_Whitespace_Unicode "$___current") -eq $HestiaKERNEL_ERROR_OK ] &&
+                        [ ! "$___converted" = "" ]; then
+                        ___to_title="true"
+                        ___converted="${___converted}${___current}, "
+                        continue
                 fi
 
 
@@ -74,7 +83,7 @@ HestiaKERNEL_To_Uppercase_Unicode() {
                                 ___third="${___third#, }"
                         fi
 
-                        ___third="${___third%%, *}"
+                        ___third="${___third#, }"
                         if [ "$___third" = "" ]; then
                                 ___third=0
                         fi
@@ -84,12 +93,19 @@ HestiaKERNEL_To_Uppercase_Unicode() {
 
 
                 # proceed to default conversion
-                ___ret="$(hestiakernel_rune_to_upper "$___current" "$___next" "$___third" "" "$2")"
+                ___ret="$(hestiakernel_rune_to_title \
+                        "$___current" \
+                        "$___next" \
+                        "$___third" \
+                        "$___to_title" \
+                        "$2" \
+                )"
                 ___scanned="${___ret%%]*}"
                 ___converted="${___converted}${___ret#*]}, "
 
 
                 # prepare for next scan
+                ___to_title=""
                 ___scanned="${___scanned#[}"
                 while [ $___scanned -gt 1 ]; do
                         if [ "$___content" = "" ]; then
@@ -97,7 +113,7 @@ HestiaKERNEL_To_Uppercase_Unicode() {
                         fi
 
                         ___current="${___content%%, *}"
-                        ___content="${___content#"$___char"}"
+                        ___content="${___content#"$___current"}"
                         if [ "${___content%"${___content#?}"}" = "," ]; then
                                 ___content="${___content#, }"
                         fi
