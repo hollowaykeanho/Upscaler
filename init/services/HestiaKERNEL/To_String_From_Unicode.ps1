@@ -1,4 +1,4 @@
-# Copyright (c) 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
+# Copyright 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
 # BSD 3-Clause License
@@ -27,10 +27,9 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Error_Codes.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Get_String_Encoder.ps1"
-. "${env:LIBS_HESTIA}\HestiaKERNEL\To_UTF8_From_Unicode.ps1"
-. "${env:LIBS_HESTIA}\HestiaKERNEL\To_UTF16_From_Unicode.ps1"
-. "${env:LIBS_HESTIA}\HestiaKERNEL\To_UTF32_From_Unicode.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Unicode.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode.ps1"
 
 
@@ -43,26 +42,14 @@ function HestiaKERNEL-To-String-From-Unicode {
 
 
         # validate input
-        if ($___unicode.Length -eq 0) {
+        if ($(HestiaKERNEL-Is-Unicode $___unicode) -ne ${env:HestiaKERNEL_ERROR_OK}) {
                 return ""
         }
 
 
         # execute
-        # process HestiaKERNEL.Unicode data type as the last resort
-        switch (HestiaKERNEL-Get-String-Encoder) {
-        ${env:HestiaKERNEL_UTF8} {
-                $___utf = HestiaKERNEL-To-UTF8-From-Unicode $___unicode
-        } ${env:HestiaKERNEL_UTF16BE} {
-                $___utf = HestiaKERNEL-To-UTF16-From-Unicode $___unicode
-        } ${env:HestiaKERNEL_UTF32BE} {
-                $___utf = HestiaKERNEL-To-UTF32-From-Unicode $___unicode
-        } default {
-                return ""
-        }
-
         $___converted = ""
-        foreach ($___byte in $___utf) {
+        foreach ($___byte in $___unicode) {
                 $___converted = "${___converted}$([string][char]$___byte)"
         }
 

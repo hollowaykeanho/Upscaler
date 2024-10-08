@@ -54,7 +54,7 @@ function HestiaKERNEL-To-Titlecase-Unicode {
         # contents at the end of an iteration.
         [System.Collections.Generic.List[uint32]]$___converted = @()
         $___index = 0
-        $___to_title = ""
+        $___to_title = "true"
         $___length = $___unicode.Length - 1
         while ($___index -le $___length) {
                 # get current character
@@ -88,7 +88,7 @@ function HestiaKERNEL-To-Titlecase-Unicode {
 
 
                 # process conversion
-                $___ret = hestiakernel-rune-to-upper `
+                $___ret = hestiakernel-rune-to-title `
                         $___current `
                         $___next `
                         $___third `
@@ -98,7 +98,7 @@ function HestiaKERNEL-To-Titlecase-Unicode {
                 $___ret = $___ret -replace "^\[\d*\]", ''
                 while ($___ret -ne "") {
                         $___byte = $___ret -replace ",\s.*$", ''
-                        $___ret = $___ret -replace "^\d*,\s", ''
+                        $___ret = $___ret -replace "^\d*\,?\s?", ''
                         $null = $___converted.Add([uint32]$___byte)
                 }
 

@@ -29,7 +29,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 . "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/To_Upppercase_Unicode.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/To_Uppercase_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/To_Unicode_From_String.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/To_String_From_Unicode.sh"
 

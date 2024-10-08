@@ -39,9 +39,9 @@
 
 function hestiakernel-rune-to-title {
         param (
-                [int]$___char_decimal,
-                [int]$___next_decimal,
-                [int]$___third_decimal,
+                [uint32]$___char_decimal,
+                [uint32]$___next_decimal,
+                [uint32]$___third_decimal,
                 [string]$___locale
         )
 
@@ -58,7 +58,7 @@ function hestiakernel-rune-to-title {
         { $_ -in "az*", "tr*" } {
                 # Turkish & Azerbaijani
                 switch ($___char_decimal) {
-                "0x0049" {
+                0x0049 {
                         switch ($___next_decimal) {
                         0x0307 {
                                 if ($___to_title -ne "") {
@@ -72,8 +72,8 @@ function hestiakernel-rune-to-title {
                                 } else {
                                         return "[1]305"
                                 }
-                        }
-                { $_ -in "0x0069", "0x0130" } {
+                        }}
+                } { $_ -in 0x0069, 0x0130 } {
                         if ($___to_title -ne "") {
                                 return "[1]304"
                         } else {

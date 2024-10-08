@@ -34,7 +34,7 @@
 
 function HestiaKERNEL-Is-UTF {
         param (
-                [uint8[]]$___byte_array
+                [byte[]]$___byte_array
         )
 
 
@@ -64,7 +64,7 @@ function HestiaKERNEL-Is-UTF {
                 # get current byte ($___content[0])
                 $___byte = $___byte_array[0]
                 $___content = $___byte_array.Substring(1)
-                $___byte = [uint8]$___byte[0]
+                $___byte = [byte]$___byte[0]
 
 
                 # save to sample positions for BOM analysis
@@ -79,7 +79,7 @@ function HestiaKERNEL-Is-UTF {
                         $___byte_3 = $___byte
                 } default {
                         # do nothing
-                }
+                }}
 
 
                 # scan UTF-8 header for its validity
@@ -150,7 +150,7 @@ function HestiaKERNEL-Is-UTF {
                         ($___byte_0 -eq 0) -and
                         ($___byte_1 -eq 0) -and
                         ($___byte_2 -eq 254) -and
-                        ($___byte_3 -eq 255) -and
+                        ($___byte_3 -eq 255)
                 ) {
                         # it's UTF32BE_BOM
                         return ${env:HestiaKERNEL_UTF32BE_BOM}

@@ -126,8 +126,8 @@ RUN_AS_POWERSHELL
 # Unix Main Codes                                                              #
 ################################################################################
 # Scan for fundamental pathing
-export UPSCALER_PATH_PWD="$PWD"
-export UPSCALER_PATH_SCRIPTS="init"
+UPSCALER_PATH_PWD="$PWD"
+UPSCALER_PATH_SCRIPTS="init"
 
 if [ -f "./start.sh" ]; then
         UPSCALER_PATH_ROOT="${PWD%/*}/"
@@ -152,7 +152,7 @@ else
                 __previous="$__pathing"
         done
         unset __pathing __previous
-        export UPSCALER_PATH_ROOT="${UPSCALER_PATH_ROOT%/*}"
+        UPSCALER_PATH_ROOT="${UPSCALER_PATH_ROOT%/*}"
 
         if [ ! -f "${UPSCALER_PATH_ROOT}/${UPSCALER_PATH_SCRIPTS}/start.sh" ]; then
                 1>&2 printf "[ ERROR ] Missing root directory.\n"
@@ -160,7 +160,7 @@ else
         fi
 fi
 
-export LIBS_UPSCALER="${UPSCALER_PATH_ROOT}/${UPSCALER_PATH_SCRIPTS}"
+LIBS_UPSCALER="${UPSCALER_PATH_ROOT}/${UPSCALER_PATH_SCRIPTS}"
 
 
 
@@ -189,12 +189,12 @@ esac
 
 
 I18N_Status_Print "note" "test single image upscale...\n"
-. "${LIBS_UPSCALER}"/start.sh \
+"${LIBS_UPSCALER}"/start.sh.ps1 \
         --model upscayl-nmkd-4x-superscale-sd-178000-g \
         --scale 4 \
         --parallel 2 \
         --input "${UPSCALER_PATH_ROOT}/tests/image/sample-01.jpeg" \
-        "--output" "${UPSCALER_PATH_ROOT}/tmp/test-01/sample-01-upscaled.png"
+        --output "${UPSCALER_PATH_ROOT}/tmp/test-01/sample-01-upscaled.png"
 if [ $? -ne 0 ]; then
         I18N_Status_Print "error" "Failed - bad processing.\n\n"
         __verdict=1

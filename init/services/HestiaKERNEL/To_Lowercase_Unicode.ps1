@@ -79,7 +79,7 @@ function HestiaKERNEL-To-Lowercase-Unicode {
                 $___ret = $___ret -replace "^\[\d*\]", ''
                 while ($___ret -ne "") {
                         $___byte = $___ret -replace ",\s.*$", ''
-                        $___ret = $___ret -replace "^\d*,\s", ''
+                        $___ret = $___ret -replace "^\d*\,?\s?", ''
                         $null = $___converted.Add([uint32]$___byte)
                 }
 

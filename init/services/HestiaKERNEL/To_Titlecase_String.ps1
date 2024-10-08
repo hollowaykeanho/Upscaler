@@ -53,7 +53,7 @@ function HestiaKERNEL-To-Titlecase-String {
                 return $___input
         }
 
-        $___content = HestiaKERNEL-To-Titlecase-Unicode $___input
+        $___content = HestiaKERNEL-To-Titlecase-Unicode $___content
         if ($___content.Length -eq 0) {
                 return $___input
         }

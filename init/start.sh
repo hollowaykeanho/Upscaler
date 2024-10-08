@@ -1,7 +1,6 @@
 #!/bin/sh
-#
-# Copyright (c) 2024, (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
-# Copyright (c) 2024, Joly0 [https://github.com/Joly0]
+# Copyright 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
+# Copyright 2024 Joly0 [https://github.com/Joly0]
 #
 #
 # BSD 3-Clause License
@@ -30,7 +29,7 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-if [ "$UPSCALER_PATH_ROOT" == "" ]; then
+if [ "$UPSCALER_PATH_ROOT" = "" ]; then
         1>&2 printf "[ ERROR ] - Please run from start.sh.ps1 instead!\n"
         exit 1
 fi
@@ -39,8 +38,10 @@ fi
 
 
 # determine UPSCALER_PATH_PWD
-export UPSCALER_PATH_PWD="$PWD"
-export UPSCALER_PATH_SCRIPTS="init"
+UPSCALER_PATH_PWD="$PWD"
+UPSCALER_PATH_SCRIPTS="init"
+
+
 
 
 # determine UPSCALER_PATH_ROOT
@@ -69,7 +70,7 @@ else
                 __previous="$__pathing"
         done
         unset __pathing __previous
-        export UPSCALER_PATH_ROOT="${UPSCALER_PATH_ROOT%/*}"
+        UPSCALER_PATH_ROOT="${UPSCALER_PATH_ROOT%/*}"
 
         if [ ! -f "${UPSCALER_PATH_ROOT}/${UPSCALER_PATH_SCRIPTS}/start.sh" ]; then
                 1>&2 printf "[ ERROR ] Missing root directory.\n"
@@ -77,9 +78,8 @@ else
         fi
 fi
 
-export LIBS_UPSCALER="${UPSCALER_PATH_ROOT}/${UPSCALER_PATH_SCRIPTS}"
-
-
+LIBS_UPSCALER="${UPSCALER_PATH_ROOT}/${UPSCALER_PATH_SCRIPTS}"
+LIBS_HESTIA="${LIBS_UPSCALER}/services"
 
 
 # import fundamental libraries
@@ -101,6 +101,14 @@ export LIBS_UPSCALER="${UPSCALER_PATH_ROOT}/${UPSCALER_PATH_SCRIPTS}"
 . "${LIBS_UPSCALER}/services/i18n/report-info.sh"
 . "${LIBS_UPSCALER}/services/i18n/report-success.sh"
 
+### TEST ZONE
+. "${LIBS_HESTIA}/HestiaKERNEL/To_Uppercase_String.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/To_Lowercase_String.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/To_Titlecase_String.sh"
+printf -- "%s\n" "$(HestiaKERNEL_To_Uppercase_String "e你feeeff你你aerg aegE你F")"
+printf -- "%s\n" "$(HestiaKERNEL_To_Lowercase_String "E你FEEEFF你你AERG AEGE你F")"
+printf -- "%s\n" "$(HestiaKERNEL_To_Titlecase_String "E你FEEEFF你你AERG AEGE你F")"
+printf -- "%s\n" "$(HestiaKERNEL_To_Titlecase_String "e你feeeff你你aerg aegE你F")"
 
 
 

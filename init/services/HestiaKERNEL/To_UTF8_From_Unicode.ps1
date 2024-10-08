@@ -1,4 +1,4 @@
-# Copyright (c) 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
+# Copyright 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
 # BSD 3-Clause License
@@ -27,26 +27,28 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Error_Codes.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Unicode.ps1"
 
 
 
 
 function HestiaKERNEL-To-UTF8-From-Unicode {
         param (
-                [uint32[]]$___content,
+                [uint32[]]$___unicode,
                 [string]$___bom
         )
 
 
         # validate input
-        if ($___content.Length -eq 0) {
-                return [uint8[]]@()
+        if ($(HestiaKERNEL-Is-Unicode $___unicode) -ne ${env:HestiaKERNEL_ERROR_OK}) {
+                return [byte[]]@()
         }
 
 
         # execute
-        [System.Collections.Generic.List[uint8]]$___converted = @()
+        [System.Collections.Generic.List[byte]]$___converted = @()
         if ($___bom -eq ${env:HestiaKERNEL_UTF_BOM}) {
                 # UTF-8 BOM - 0xEF, 0xBB, 0xBF
                 $null = $___converted.Add(0xEF)
@@ -54,7 +56,7 @@ function HestiaKERNEL-To-UTF8-From-Unicode {
                 $null = $___converted.Add(0xBF)
         }
 
-        foreach ($___char in $___content) {
+        foreach ($___char in $___unicode) {
                 # convert to UTF-8 bytes list
                 # IMPORTANT NOTICE
                 #   (1) using single code-point algorithm (not the 2 16-bits).
@@ -108,5 +110,5 @@ function HestiaKERNEL-To-UTF8-From-Unicode {
 
 
         # report status
-        return [uint8[]]$___converted
+        return [byte[]]$___converted
 }

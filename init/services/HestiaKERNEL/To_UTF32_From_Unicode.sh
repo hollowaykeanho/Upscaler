@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
+# Copyright 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
 # BSD 3-Clause License
@@ -30,6 +30,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 . "${LIBS_HESTIA}/HestiaKERNEL/Endian.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/Is_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Unicode.sh"
 
 
@@ -42,17 +43,10 @@ HestiaKERNEL_To_UTF32_From_Unicode() {
 
 
         # validate input
-        if [ "$1" = "" ]; then
-                printf -- ""
-                return $HestiaKERNEL_ERROR_DATA_EMPTY
-        fi
-
-        case "$1" in
-        *[!0123456789\ \,]*)
+        if [ "$(HestiaKERNEL_Is_Unicode "$1")" -ne $HestiaKERNEL_ERROR_OK ]; then
                 printf -- ""
                 return $HestiaKERNEL_ERROR_DATA_INVALID
-                ;;
-        esac
+        fi
 
 
         # execute

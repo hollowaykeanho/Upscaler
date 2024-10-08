@@ -34,7 +34,7 @@
 
 function HestiaKERNEL-Is-Unicode {
         param (
-                [uint32]$___content
+                [uint32[]]$___content
         )
 
 

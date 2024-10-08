@@ -79,8 +79,9 @@ function HestiaKERNEL-To-Uppercase-Unicode {
                 $___ret = $___ret -replace "^\[\d*\]", ''
                 while ($___ret -ne "") {
                         $___byte = $___ret -replace ",\s.*$", ''
-                        $___ret = $___ret -replace "^\d*,\s", ''
-                        $null = $___converted.Add([uint32]$___byte)
+                        $___ret = $___ret -replace "^\d*\,?\s?", ''
+                        $___byte = [uint32]$___byte
+                        $null = $___converted.Add($___byte)
                 }
 
 

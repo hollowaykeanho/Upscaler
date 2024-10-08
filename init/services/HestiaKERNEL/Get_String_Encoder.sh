@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
+# Copyright 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
 # BSD 3-Clause License

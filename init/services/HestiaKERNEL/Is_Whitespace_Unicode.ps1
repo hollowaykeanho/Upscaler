@@ -46,7 +46,7 @@ function HestiaKERNEL-Is-Whitespace-Unicode {
 
 
         # execute
-        switch ($___unicode) in {
+        switch ($___unicode) {
         { $_ -in 9, 10, 11, 12, 13, 32, 133, 160 } {
                 #  9    | 10   | 11   | 12   | 13   | 32   | 133  | 160
                 # 0x0009|0x000A|0x000B|0x000C|0x000D|0x0020|0x0085|0x00A0

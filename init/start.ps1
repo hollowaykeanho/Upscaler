@@ -86,6 +86,7 @@ if (Test-Path ".\start.ps1") {
 }
 
 ${env:LIBS_UPSCALER} = "${env:UPSCALER_PATH_ROOT}\${env:UPSCALER_PATH_SCRIPTS}"
+${env:LIBS_HESTIA} = "${env:LIBS_UPSCALER}\services"
 
 
 
@@ -100,6 +101,7 @@ ${env:LIBS_UPSCALER} = "${env:UPSCALER_PATH_ROOT}\${env:UPSCALER_PATH_SCRIPTS}"
 . "${env:LIBS_UPSCALER}\services\i18n\error-input-unsupported.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-model-unknown.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-parallel-unsupported.ps1"
+. "${env:LIBS_UPSCALER}\services\i18n\report-simulation.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-scale-unknown.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-unsupported.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\error-video-setup.ps1"
@@ -107,6 +109,15 @@ ${env:LIBS_UPSCALER} = "${env:UPSCALER_PATH_ROOT}\${env:UPSCALER_PATH_SCRIPTS}"
 . "${env:LIBS_UPSCALER}\services\i18n\help.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\report-info.ps1"
 . "${env:LIBS_UPSCALER}\services\i18n\report-success.ps1"
+
+### TEST ZONE
+. "${env:LIBS_HESTIA}\HestiaKERNEL\To_Uppercase_String.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\To_Lowercase_String.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\To_Titlecase_String.ps1"
+Write-Host "$(HestiaKERNEL-To-Uppercase-String "e你feeeff你你aerg aegE你F")"
+Write-Host "$(HestiaKERNEL-To-Lowercase-String "E你FEEEFF你你AERG AEGE你F")"
+Write-Host "$(HestiaKERNEL-To-Titlecase-String "e你feeeff你你aerg aegE你F")"
+Write-Host "$(HestiaKERNEL-To-Titlecase-String "E你FEEEFF你你AERG AEGE你F")"
 
 
 
@@ -310,12 +321,21 @@ if ((${__video} -eq 0) -and (${__batch} -eq 0)) {
                 return 0
         }
 } elseif ($__video -eq 1) {
-        $___process = FFMPEG-Is-Available
+        # check upscaler availabiltiy
+        if (${env:UPSCALER_TEST_MODE} -ne 0) {
+                $null = I18N-Report-Simulation "ffmpeg & ffprobe"
+                $___process = 0
+        } else {
+                $___process = FFMPEG-Is-Available
+        }
+
         if ($___process -ne 0) {
                 $null = I18N-Error-FFMPEG-Unavailable
                 return 1
         }
 
+
+        # process output filename
         $__output = UPSCALER-Output-Filename-Video $__output $__input
 
 

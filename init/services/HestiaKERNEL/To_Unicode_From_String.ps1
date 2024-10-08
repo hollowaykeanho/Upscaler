@@ -27,7 +27,6 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-. "${env:LIBS_HESTIA}\HestiaKERNEL\Is_UTF.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode.ps1"
 
 
@@ -46,28 +45,7 @@ function HestiaKERNEL-To-Unicode-From-String {
 
 
         # execute
-        # check for data encoder
-        $___output = HestiaKERNEL-Is-UTF $___string
-        if (
-                ($($___output -replace ${env:HestiaKERNEL_UTF8}, '') -ne $___output) -or
-                ($($___output -replace ${env:HestiaKERNEL_UTF8_BOM}, '') -ne $___output) -or
-                ($($___output -replace ${env:HestiaKERNEL_UTF16BE}, '') -ne $___output) -or
-                ($($___output -replace ${env:HestiaKERNEL_UTF16BE_BOM}, '') -ne $___output) -or
-                ($($___output -replace ${env:HestiaKERNEL_UTF16LE}, '') -ne $___output) -or
-                ($($___output -replace ${env:HestiaKERNEL_UTF16LE_BOM}, '') -ne $___output) -or
-                ($($___output -replace ${env:HestiaKERNEL_UTF32BE}, '') -ne $___output) -or
-                ($($___output -replace ${env:HestiaKERNEL_UTF32BE_BOM}, '') -ne $___output) -or
-                ($($___output -replace ${env:HestiaKERNEL_UTF32LE}, '') -ne $___output) -or
-                ($($___output -replace ${env:HestiaKERNEL_UTF32LE_BOM}, '') -ne $___output)
-        ) {
-                # UTF8, UTF16, and UTF32 are the candidates - try to parse
-        } else {
-                # unsupported decoders
-                return [uint32[]]@()
-        }
-
-
-        # begin parsing data
+        # IMPORTANT NOTICE
         # PowerShell is operating on UTF16 and it has a good string library. All
         # it need is converting into Unicode data type and it should be
         # sufficient for other operations.
