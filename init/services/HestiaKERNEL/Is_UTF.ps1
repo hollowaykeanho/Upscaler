@@ -55,16 +55,16 @@ function HestiaKERNEL-Is-UTF {
         $___byte_1 = $null
         $___byte_2 = $null
         $___byte_3 = $null
+        $___index = 0
         while ($___count -gt 0) {
-                if ($___byte_array -eq "") {
+                if ($___byte_array.Length -eq 0) {
                         break
                 }
 
 
                 # get current byte ($___content[0])
-                $___byte = $___byte_array[0]
-                $___content = $___byte_array.Substring(1)
-                $___byte = [byte]$___byte[0]
+                $___byte = $___byte_array[$___index]
+                $___index += 1
 
 
                 # save to sample positions for BOM analysis

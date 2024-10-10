@@ -105,6 +105,9 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 . "${LIBS_HESTIA}/HestiaKERNEL/Trim_Left_String.sh"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Left_String "e你feeeff你你aerg aegE你F" "e你a")"
 
+. "${LIBS_HESTIA}/HestiaKERNEL/To_Unicode_From_UTF8.sh"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF8 "228, 189, 160, 97, 229, 165, 189, 98")"
+### expect 20320, 97, 22909, 98
 
 
 # execute command

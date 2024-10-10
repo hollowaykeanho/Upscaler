@@ -114,6 +114,10 @@ ${env:LIBS_HESTIA} = "${env:LIBS_UPSCALER}\services"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Trim_Left_String.ps1"
 Write-Host "$(HestiaKERNEL-Trim-Left-String "e你feeeff你你aerg aegE你F" "e你a")"
 
+. "${env:LIBS_HESTIA}\HestiaKERNEL\To_Unicode_From_UTF8.ps1"
+Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF8 @(228, 189, 160, 97, 229, 165, 189, 98))"
+### expect 20320, 97, 22909, 98
+
 
 
 
