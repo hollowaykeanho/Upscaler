@@ -102,13 +102,8 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 . "${LIBS_UPSCALER}/services/i18n/report-success.sh"
 
 ### TEST ZONE
-. "${LIBS_HESTIA}/HestiaKERNEL/To_Uppercase_String.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/To_Lowercase_String.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/To_Titlecase_String.sh"
-printf -- "%s\n" "$(HestiaKERNEL_To_Uppercase_String "e你feeeff你你aerg aegE你F")"
-printf -- "%s\n" "$(HestiaKERNEL_To_Lowercase_String "E你FEEEFF你你AERG AEGE你F")"
-printf -- "%s\n" "$(HestiaKERNEL_To_Titlecase_String "E你FEEEFF你你AERG AEGE你F")"
-printf -- "%s\n" "$(HestiaKERNEL_To_Titlecase_String "e你feeeff你你aerg aegE你F")"
+. "${LIBS_HESTIA}/HestiaKERNEL/Trim_Left_String.sh"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Left_String "e你feeeff你你aerg aegE你F" "e你a")"
 
 
 

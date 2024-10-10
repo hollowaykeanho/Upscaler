@@ -51,17 +51,37 @@ HestiaKERNEL_To_String_From_Unicode() {
 
 
         # execute
+        ## ensure all unicode are valid --> replace unsupported to '?'
+        ___content="$1"
+        ___converted=""
+        while [ ! "$___content" = "" ]; do
+                # get character
+                ___codepoint="${___content%%, *}"
+                ___content="${___content#"$___codepoint"}"
+                if [ "${___content%"${___content#?}"}" = "," ]; then
+                        ___content="${___content#, }"
+                fi
+
+                # check for valid codepoint
+                if [ $___codepoint -lt 0 ]; then
+                        ___codepoint=63 # change to '?'
+                fi
+
+                ___converted="${___converted}${___codepoint}, "
+        done
+
+
         # process HestiaKERNEL.Unicode data type
-        ___utf=""
+        ___content="${___converted%, }"
         case "$(HestiaKERNEL_Get_String_Encoder)" in
-        "$HestiaKERNEL_UTF8")
-                ___utf="$(HestiaKERNEL_To_UTF8_From_Unicode "$1")"
+        $HestiaKERNEL_UTF8)
+                ___content="$(HestiaKERNEL_To_UTF8_From_Unicode "$___content")"
                 ;;
-        "$HestiaKERNEL_UTF16BE")
-                ___utf="$(HestiaKERNEL_To_UTF16_From_Unicode "$1")"
+        $HestiaKERNEL_UTF16BE)
+                ___content="$(HestiaKERNEL_To_UTF16_From_Unicode "$___content")"
                 ;;
-        "$HestiaKERNEL_UTF32BE")
-                ___utf="$(HestiaKERNEL_To_UTF32_From_Unicode "$1")"
+        $HestiaKERNEL_UTF32BE)
+                ___content="$(HestiaKERNEL_To_UTF32_From_Unicode "$___content")"
                 ;;
         *)
                 printf -- ""
@@ -69,19 +89,16 @@ HestiaKERNEL_To_String_From_Unicode() {
                 ;;
         esac
 
-        if [ "$___utf" = "" ]; then
-                printf -- ""
-                return $HestiaKERNEL_ERROR_DATA_INVALID
-        fi
-
         ___converted=""
-        while [ ! "$___utf" = "" ]; do
-                ___byte="${___utf%%, *}"
-                ___converted="${___converted}$(printf -- '\%o' "$___byte")"
-                ___utf="${___utf#"$___byte"}"
-                if [ "${___utf%"${___utf#?}"}" = "," ]; then
-                        ___utf="${___utf#, }"
+        while [ ! "$___content" = "" ]; do
+                # get character
+                ___byte="${___content%%, *}"
+                ___content="${___content#"$___byte"}"
+                if [ "${___content%"${___content#?}"}" = "," ]; then
+                        ___content="${___content#, }"
                 fi
+
+                ___converted="${___converted}$(printf -- '\%o' "$___byte")"
         done
 
 

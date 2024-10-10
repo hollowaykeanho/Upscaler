@@ -1,4 +1,3 @@
-#!/bin/sh
 # Copyright 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
@@ -28,46 +27,46 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-. "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/To_Uppercase_Unicode.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/To_Unicode_From_String.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/To_String_From_Unicode.sh"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Trim_Left_Unicode.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\To_Unicode_From_String.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\To_String_From_Unicode.ps1"
 
 
 
 
-HestiaKERNEL_To_Uppercase_String() {
-        #___input="$1"
-        #___locale="$2"
+function HestiaKERNEL-Trim-Left-String {
+        param (
+                [string]$___input,
+                [string]$___charset
+        )
 
 
         # validate input
-        if [ "$1" = "" ]; then
-                printf -- ""
-                return $HestiaKERNEL_ERROR_DATA_EMPTY
-        fi
+        if (
+                ($___input -eq "") -or
+                ($___charset -eq "")
+        ) {
+                return $___input
+        }
 
 
         # execute
-        ___content="$(HestiaKERNEL_To_Unicode_From_String "$1")"
-        if [ "$___content" = "" ]; then
-                printf -- "%s" "$1"
-                return $HestiaKERNEL_ERROR_DATA_INVALID
-        fi
+        $___content = HestiaKERNEL-To-Unicode-From-String $___input
+        if ($___content.Length -eq 0) {
+                return $___input
+        }
 
-        ___content="$(HestiaKERNEL_To_Uppercase_Unicode "$___content")"
-        if [ "$___content" = "" ]; then
-                printf -- "%s" "$1"
-                return $HestiaKERNEL_ERROR_BAD_EXEC
-        fi
+        $___chars = HestiaKERNEL-To-Unicode-From-String $___charset
+        if ($___chars.Length -eq 0) {
+                return $___input
+        }
 
-        ___content="$(HestiaKERNEL_To_String_From_Unicode "$___content")"
-        if [ "$___content" = "" ]; then
-                printf -- "%s" "$1"
-                return $HestiaKERNEL_ERROR_BAD_EXEC
-        fi
+        $___content = HestiaKERNEL-Trim-Left-Unicode $___content $___chars
+        if ($___content.Length -eq 0) {
+                return $___input
+        }
 
 
         # report status
-        return $HestiaKERNEL_ERROR_OK
+        return HestiaKERNEL-To-String-From-Unicode $___content
 }

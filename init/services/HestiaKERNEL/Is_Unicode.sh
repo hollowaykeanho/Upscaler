@@ -46,7 +46,7 @@ HestiaKERNEL_Is_Unicode() {
 
         # execute
         case "$1" in
-        *[!0123456789,\ ]*)
+        *[!0123456789,\ \-\+]*)
                 printf -- "%d" $HestiaKERNEL_ERROR_DATA_INVALID
                 return $HestiaKERNEL_ERROR_DATA_INVALID
                 ;;

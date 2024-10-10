@@ -111,13 +111,8 @@ ${env:LIBS_HESTIA} = "${env:LIBS_UPSCALER}\services"
 . "${env:LIBS_UPSCALER}\services\i18n\report-success.ps1"
 
 ### TEST ZONE
-. "${env:LIBS_HESTIA}\HestiaKERNEL\To_Uppercase_String.ps1"
-. "${env:LIBS_HESTIA}\HestiaKERNEL\To_Lowercase_String.ps1"
-. "${env:LIBS_HESTIA}\HestiaKERNEL\To_Titlecase_String.ps1"
-Write-Host "$(HestiaKERNEL-To-Uppercase-String "e你feeeff你你aerg aegE你F")"
-Write-Host "$(HestiaKERNEL-To-Lowercase-String "E你FEEEFF你你AERG AEGE你F")"
-Write-Host "$(HestiaKERNEL-To-Titlecase-String "e你feeeff你你aerg aegE你F")"
-Write-Host "$(HestiaKERNEL-To-Titlecase-String "E你FEEEFF你你AERG AEGE你F")"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Trim_Left_String.ps1"
+Write-Host "$(HestiaKERNEL-Trim-Left-String "e你feeeff你你aerg aegE你F" "e你a")"
 
 
 

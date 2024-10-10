@@ -1,4 +1,3 @@
-#!/bin/sh
 # Copyright 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
@@ -28,46 +27,50 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-. "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/To_Uppercase_Unicode.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/To_Unicode_From_String.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/To_String_From_Unicode.sh"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Unicode.ps1"
 
 
 
 
-HestiaKERNEL_To_Uppercase_String() {
-        #___input="$1"
-        #___locale="$2"
+function HestiaKERNEL-Trim-Left-Unicode {
+        param (
+                [uint32[]]$___content_unicode,
+                [uint32[]]$___charset_unicode
+        )
 
 
         # validate input
-        if [ "$1" = "" ]; then
-                printf -- ""
-                return $HestiaKERNEL_ERROR_DATA_EMPTY
-        fi
+        if (
+                ($(HestiaKERNEL-Is-Unicode $___content_unicode) -ne ${env:HestiaKERNEL_ERROR_OK}) -or
+                ($(HestiaKERNEL-Is-Unicode $___charset_unicode) -ne ${env:HestiaKERNEL_ERROR_OK})
+        ) {
+                return $___unicode
+        }
 
 
         # execute
-        ___content="$(HestiaKERNEL_To_Unicode_From_String "$1")"
-        if [ "$___content" = "" ]; then
-                printf -- "%s" "$1"
-                return $HestiaKERNEL_ERROR_DATA_INVALID
-        fi
+        [System.Collections.Generic.List[uint32]]$___converted = @()
+        $___is_scanning = 0
+        :scan_unicode foreach ($___current in $___content_unicode) {
+                if ($___is_scanning -ne 0) {
+                        $null = $___converted.Add($___current)
+                        continue scan_unicode
+                }
 
-        ___content="$(HestiaKERNEL_To_Uppercase_Unicode "$___content")"
-        if [ "$___content" = "" ]; then
-                printf -- "%s" "$1"
-                return $HestiaKERNEL_ERROR_BAD_EXEC
-        fi
 
-        ___content="$(HestiaKERNEL_To_String_From_Unicode "$___content")"
-        if [ "$___content" = "" ]; then
-                printf -- "%s" "$1"
-                return $HestiaKERNEL_ERROR_BAD_EXEC
-        fi
+                # scan character from given charset
+                foreach ($___char in $___charset_unicode) {
+                        if ($___current -eq $___char) {
+                                continue scan_unicode # exit early from O(m^2) timing ASAP
+                        }
+                }
+
+                # It's an mismatched
+                $___is_scanning = 1
+                $null = $___converted.Add($___current)
+        }
 
 
         # report status
-        return $HestiaKERNEL_ERROR_OK
+        return [uint32[]]$___converted
 }

@@ -61,12 +61,13 @@ HestiaKERNEL_To_Titlecase_String() {
                 return $HestiaKERNEL_ERROR_BAD_EXEC
         fi
 
-
-        # report status
-        printf -- "%s" "$(HestiaKERNEL_To_String_From_Unicode "$___content")"
-        if [ $? -ne $HestiaKERNEL_ERROR_OK ]; then
+        ___content="$(HestiaKERNEL_To_String_From_Unicode "$___content")"
+        if [ "$___content" = "" ]; then
+                printf -- "%s" "$1"
                 return $HestiaKERNEL_ERROR_BAD_EXEC
         fi
 
+
+        # report status
         return $HestiaKERNEL_ERROR_OK
 }
