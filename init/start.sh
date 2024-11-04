@@ -109,6 +109,7 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF8 "228, 189, 160, 97, 229, 165, 189, 98")"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF8 "239, 187, 191, 228, 189, 160, 97, 229, 165, 189, 98")"
 
+. "${LIBS_HESTIA}/HestiaKERNEL/Endian.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/To_Unicode_From_UTF16.sh"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF16 "79, 96, 0, 97, 89, 125, 0, 98")"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF16 "96, 79, 97, 0, 125, 89, 98, 0" $HestiaKERNEL_ENDIAN_LITTLE)"
@@ -117,6 +118,15 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF16 "79, 96, 0, 97, 89, 125, 0, 98" $HestiaKERNEL_ENDIAN_BIG)"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF16 "254, 255, 79, 96, 0, 97, 89, 125, 0, 98" $HestiaKERNEL_ENDIAN_BIG)"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF16 "254, 255, 79, 96, 0, 97, 89, 125, 0, 98" $HestiaKERNEL_ENDIAN_LITTLE)"
+
+. "${LIBS_HESTIA}/HestiaKERNEL/To_Unicode_From_UTF32.sh"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF32 "0, 0, 79, 96, 0, 0, 0, 97, 0, 0, 89, 125, 0, 0, 0, 98")"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF32 "96, 79, 0, 0, 97, 0, 0, 0, 125, 89, 0, 0, 98, 0, 0, 0" $HestiaKERNEL_ENDIAN_LITTLE)"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF32 "255, 254, 0, 0, 96, 79, 0, 0, 97, 0, 0, 0, 125, 89, 0, 0, 98, 0, 0, 0" $HestiaKERNEL_ENDIAN_LITTLE)"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF32 "255, 254, 0, 0, 96, 79, 0, 0, 97, 0, 0, 0, 125, 89, 0, 0, 98, 0, 0, 0" $HestiaKERNEL_ENDIAN_BIG)"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF32 "0, 0, 79, 96, 0, 0, 0, 97, 0, 0, 89, 125, 0, 0, 0, 98" $HestiaKERNEL_ENDIAN_BIG)"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF32 "0, 0, 254, 255, 0, 0, 79, 96, 0, 0, 0, 97, 0, 0, 89, 125, 0, 0, 0, 98" $HestiaKERNEL_ENDIAN_BIG)"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF32 "0, 0, 254, 255, 0, 0, 79, 96, 0, 0, 0, 97, 0, 0, 89, 125, 0, 0, 0, 98" $HestiaKERNEL_ENDIAN_LITTLE)"
 ### expect 20320, 97, 22909, 98
 
 

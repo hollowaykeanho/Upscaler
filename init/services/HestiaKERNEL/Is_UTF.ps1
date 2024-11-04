@@ -30,6 +30,7 @@ function HestiaKERNEL-Is-UTF {
         $___content = $___byte_array
         $___count = 8
         $___utf8_expect = 0
+        $___utf32_expect = 0
         $___byte_0 = $null
         $___byte_1 = $null
         $___byte_2 = $null
@@ -105,6 +106,12 @@ function HestiaKERNEL-Is-UTF {
                 }
 
 
+                # detect UTF-32 for later guessing
+                if ($___count -le 4) {
+                        $___utf32_expect = 1
+                }
+
+
                 # prepare for next scan
                 $___count -= 1
         }
@@ -170,7 +177,7 @@ ${___output}
 "@
         }
 
-        if ($___byte_array.Length % 4) {
+        if ($___utf32_expect -gt 0) {
                 $___output = @"
 ${___output}
 ${env:HestiaKERNEL_UTF32BE}

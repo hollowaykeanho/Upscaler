@@ -9,7 +9,6 @@
 #
 # You MUST ensure any interaction with the content STRICTLY COMPLIES with
 # the permissions and limitations set forth in the license.
-# Copyright 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 . "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Unicode.sh"
 
@@ -31,6 +30,7 @@ HestiaKERNEL_Is_UTF() {
         ___content="$1"
         ___count=8
         ___utf8_expect=0
+        ___utf32_expect=0
         ___byte_0=""
         ___byte_1=""
         ___byte_2=""
@@ -112,6 +112,12 @@ HestiaKERNEL_Is_UTF() {
                 fi
 
 
+                # detect UTF-32 for later guessing
+                if [ $___count -le 4 ]; then
+                        ___utf32_expect=1
+                fi
+
+
                 # prepare for next scan
                 ___count=$(($___count - 1))
         done
@@ -168,7 +174,7 @@ ${HestiaKERNEL_UTF8}
 ${___output}"
         fi
 
-        if [ $((${#1} % 4)) -eq 0 ]; then
+        if [ $___utf32_expect -gt 0 ]; then
                 ___output="\
 ${___output}
 ${HestiaKERNEL_UTF32BE}

@@ -128,6 +128,15 @@ Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF16 @(255, 254, 96, 79, 97, 0, 125,
 Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF16 @(79, 96, 0, 97, 89, 125, 0, 98) ${env:HestiaKERNEL_ENDIAN_BIG})"
 Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF16 @(254, 255, 79, 96, 0, 97, 89, 125, 0, 98) ${env:HestiaKERNEL_ENDIAN_BIG})"
 Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF16 @(254, 255, 79, 96, 0, 97, 89, 125, 0, 98) ${env:HestiaKERNEL_ENDIAN_LITTLE})"
+
+. "${env:LIBS_HESTIA}\HestiaKERNEL\To_Unicode_From_UTF32.ps1"
+Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF32 @(0, 0, 79, 96, 0, 0, 0, 97, 0, 0, 89, 125, 0, 0, 0, 98))"
+Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF32 @(96, 79, 0, 0, 97, 0, 0, 0, 125, 89, 0, 0, 98, 0, 0, 0) ${env:HestiaKERNEL_ENDIAN_LITTLE})"
+Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF32 @(255, 254, 0, 0, 96, 79, 0, 0, 97, 0, 0, 0, 125, 89, 0, 0, 98, 0, 0, 0) ${env:HestiaKERNEL_ENDIAN_LITTLE})"
+Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF32 @(255, 254, 0, 0, 96, 79, 0, 0, 97, 0, 0, 0, 125, 89, 0, 0, 98, 0, 0, 0) ${env:HestiaKERNEL_ENDIAN_BIG})"
+Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF32 @(0, 0, 79, 96, 0, 0, 0, 97, 0, 0, 89, 125, 0, 0, 0, 98) ${env:HestiaKERNEL_ENDIAN_BIG})"
+Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF32 @(0, 0, 254, 255, 0, 0, 79, 96, 0, 0, 0, 97, 0, 0, 89, 125, 0, 0, 0, 98) ${env:HestiaKERNEL_ENDIAN_BIG})"
+Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF32 @(0, 0, 254, 255, 0, 0, 79, 96, 0, 0, 0, 97, 0, 0, 89, 125, 0, 0, 0, 98) ${env:HestiaKERNEL_ENDIAN_LITTLE})"
 ### expect 20320, 97, 22909, 98
 
 
