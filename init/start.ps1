@@ -1,5 +1,5 @@
-# Copyright (c) 2024, (Holloway) Chew, Kean Ho
-# Copyright (c) 2024, Joly0 [https://github.com/Joly0]
+# Copyright 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
+# Copyright 2024 Joly0 [https://github.com/Joly0]
 #
 #
 # BSD 3-Clause License
@@ -63,7 +63,7 @@ if (Test-Path ".\start.ps1") {
         # current directory is the root directory.
         ${env:UPSCALER_PATH_ROOT} = ${env:UPSCALER_PATH_PWD}
 } else {
-        # scan from current directory - bottom to top
+        # scan from root directory until the first hit.
         $__pathing = ${env:UPSCALER_PATH_PWD}
         $env:UPSCALER_PATH_ROOT = ""
         foreach ($__pathing in (${env:UPSCALER_PATH_PWD}.Split("\"))) {
@@ -72,9 +72,10 @@ if (Test-Path ".\start.ps1") {
                 }
                 ${env:UPSCALER_PATH_ROOT} += ${__pathing}
 
+                # stop the scan if the previous pathing is the same as current
                 if (Test-Path -Path `
                         "${env:UPSCALER_PATH_ROOT}\${env:UPSCALER_PATH_SCRIPTS}\start.ps1") {
-                        break
+                        return 1
                 }
         }
         $null = Remove-Variable -Name __pathing
@@ -116,6 +117,17 @@ Write-Host "$(HestiaKERNEL-Trim-Left-String "e你feeeff你你aerg aegE你F" "e�
 
 . "${env:LIBS_HESTIA}\HestiaKERNEL\To_Unicode_From_UTF8.ps1"
 Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF8 @(228, 189, 160, 97, 229, 165, 189, 98))"
+Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF8 @(239, 187, 191, 228, 189, 160, 97, 229, 165, 189, 98))"
+
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Endian.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\To_Unicode_From_UTF16.ps1"
+Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF16 @(79, 96, 0, 97, 89, 125, 0, 98))"
+Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF16 @(96, 79, 97, 0, 125, 89, 98, 0) ${env:HestiaKERNEL_ENDIAN_LITTLE})"
+Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF16 @(255, 254, 96, 79, 97, 0, 125, 89, 98, 0) ${env:HestiaKERNEL_ENDIAN_LITTLE})"
+Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF16 @(255, 254, 96, 79, 97, 0, 125, 89, 98, 0) ${env:HestiaKERNEL_ENDIAN_BIG})"
+Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF16 @(79, 96, 0, 97, 89, 125, 0, 98) ${env:HestiaKERNEL_ENDIAN_BIG})"
+Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF16 @(254, 255, 79, 96, 0, 97, 89, 125, 0, 98) ${env:HestiaKERNEL_ENDIAN_BIG})"
+Write-Host "$(HestiaKERNEL-To-Unicode-From-UTF16 @(254, 255, 79, 96, 0, 97, 89, 125, 0, 98) ${env:HestiaKERNEL_ENDIAN_LITTLE})"
 ### expect 20320, 97, 22909, 98
 
 

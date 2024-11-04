@@ -65,7 +65,7 @@ else
                 # stop the scan if the previous pathing is the same as current
                 if [ "$__previous" = "$__pathing" ]; then
                         1>&2 printf "[ ERROR ] Missing root directory.\n"
-                        exit 1
+                        return 1
                 fi
                 __previous="$__pathing"
         done
@@ -107,6 +107,16 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 
 . "${LIBS_HESTIA}/HestiaKERNEL/To_Unicode_From_UTF8.sh"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF8 "228, 189, 160, 97, 229, 165, 189, 98")"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF8 "239, 187, 191, 228, 189, 160, 97, 229, 165, 189, 98")"
+
+. "${LIBS_HESTIA}/HestiaKERNEL/To_Unicode_From_UTF16.sh"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF16 "79, 96, 0, 97, 89, 125, 0, 98")"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF16 "96, 79, 97, 0, 125, 89, 98, 0" $HestiaKERNEL_ENDIAN_LITTLE)"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF16 "255, 254, 96, 79, 97, 0, 125, 89, 98, 0" $HestiaKERNEL_ENDIAN_LITTLE)"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF16 "255, 254, 96, 79, 97, 0, 125, 89, 98, 0" $HestiaKERNEL_ENDIAN_BIG)"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF16 "79, 96, 0, 97, 89, 125, 0, 98" $HestiaKERNEL_ENDIAN_BIG)"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF16 "254, 255, 79, 96, 0, 97, 89, 125, 0, 98" $HestiaKERNEL_ENDIAN_BIG)"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_Unicode_From_UTF16 "254, 255, 79, 96, 0, 97, 89, 125, 0, 98" $HestiaKERNEL_ENDIAN_LITTLE)"
 ### expect 20320, 97, 22909, 98
 
 

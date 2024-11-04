@@ -2,33 +2,16 @@
 # Copyright 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
-# BSD 3-Clause License
+# Licensed under (Holloway) Chew, Kean Ho’s Liberal License (the "License").
+# You must comply with the license to use the content. Get the License at:
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
+#                 https://doi.org/10.5281/zenodo.13770769
 #
-# 1. Redistributions of source code must retain the above copyright notice, this
-#    list of conditions and the following disclaimer.
-#
-# 2. Redistributions in binary form must reproduce the above copyright notice,
-#    this list of conditions and the following disclaimer in the documentation
-#    and/or other materials provided with the distribution.
-#
-# 3. Neither the name of the copyright holder nor the names of its
-#    contributors may be used to endorse or promote products derived from
-#    this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# You MUST ensure any interaction with the content STRICTLY COMPLIES with
+# the permissions and limitations set forth in the license.
+. "${LIBS_HESTIA}/HestiaKERNEL/Endian.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/Is_Array_Byte.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Is_UTF.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Unicode.sh"
 
@@ -36,7 +19,7 @@
 
 
 HestiaKERNEL_To_Unicode_From_UTF8() {
-        #___bytes_array="$1"
+        #___input_content="$1"
 
 
         # validate input
@@ -45,12 +28,10 @@ HestiaKERNEL_To_Unicode_From_UTF8() {
                 return $HestiaKERNEL_ERROR_DATA_EMPTY
         fi
 
-        case "$1" in
-        *[!0123456789\ \,]*)
+        if [ "$(HestiaKERNEL_Is_Array_Byte "$1")" -ne $HestiaKERNEL_ERROR_OK ]; then
                 printf -- ""
                 return $HestiaKERNEL_ERROR_DATA_INVALID
-                ;;
-        esac
+        fi
 
 
         # execute
@@ -58,18 +39,22 @@ HestiaKERNEL_To_Unicode_From_UTF8() {
         ## POSIX Shell does not handle UTF-8 byte stream in an isolated manner
         ## without messing up the current terminal's $LANG settings. To avoid
         ## it, manual implementations are required.
+        ##
+        ## From the Unicode engineering specification, the default endian is
+        ## big-endian.
 
 
         # check for data encoder
+        ___endian=$HestiaKERNEL_ENDIAN_BIG
         ___ignore=0
         ___output="$(HestiaKERNEL_Is_UTF "$1")"
         if [ ! "${___output#*"$HestiaKERNEL_UTF8_BOM"}" = "$___output" ]; then
                 # it's UTF8 with BOM marker
                 ___ignore=3
         elif [ ! "${___output#*"$HestiaKERNEL_UTF8"}" = "$___output" ]; then
-                : # UTF8 is a candidate - try to convert
+                : # UTF8 is a candidate
         else
-                # unsupported decoders
+                # not a UTF byte array
                 printf -- ""
                 return $HestiaKERNEL_ERROR_DATA_INVALID
         fi
@@ -79,18 +64,18 @@ HestiaKERNEL_To_Unicode_From_UTF8() {
         ___char=0
         ___state=0
         while [ ! "$___content" = "" ]; do
-                # ignore BOM markers
-                if [ $___ignore -gt 0 ]; then
-                        ___ignore=$(($___ignore - 1))
-                        continue
-                fi
-
-
-                # get current character decimal
+                # get current byte
                 ___byte="${___content%%, *}"
                 ___content="${___content#"$___byte"}"
                 if [ "${___content%"${___content#?}"}" = "," ]; then
                         ___content="${___content#, }"
+                fi
+
+
+                # ignore BOM markers
+                if [ $___ignore -gt 0 ]; then
+                        ___ignore=$(($___ignore - 1))
+                        continue
                 fi
 
 
