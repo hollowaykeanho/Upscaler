@@ -8,7 +8,6 @@
 #
 # You MUST ensure any interaction with the content STRICTLY COMPLIES with
 # the permissions and limitations set forth in the license.
-# Copyright 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Error_Codes.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Array_Number.ps1"
 
