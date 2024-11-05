@@ -28,9 +28,17 @@ function HestiaKERNEL-Is-Number {
 
         # execute
         if (
-                ([bool]($___content -as [byte])) -or
+                ([bool]($___content -as [sbyte])) -or
                 ([bool]($___content -as [int])) -or
-                ([bool]($___content -as [long]))
+                ([bool]($___content -as [int16])) -or
+                ([bool]($___content -as [int32])) -or
+                ([bool]($___content -as [int64])) -or
+                ([bool]($___content -as [long])) -or
+                ([bool]($___content -as [byte])) -or
+                ([bool]($___content -as [uint16])) -or
+                ([bool]($___content -as [uint32])) -or
+                ([bool]($___content -as [uint64])) -or
+                ([bool]($___content -as [bigint]))
         ) {
                 return ${env:HestiaKERNEL_ERROR_OK}
         }

@@ -10,13 +10,13 @@
 # You MUST ensure any interaction with the content STRICTLY COMPLIES with
 # the permissions and limitations set forth in the license.
 . "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/Is_Whitespace_Unicode.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/Is_Punctuation_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/To_Unicode_From_String.sh"
 
 
 
 
-HestiaKERNEL_Is_Whitespace_String() {
+HestiaKERNEL_Is_Punctuation_String() {
         #___rune="$1"
 
 
@@ -27,6 +27,6 @@ HestiaKERNEL_Is_Whitespace_String() {
                 return $HestiaKERNEL_ERROR_DATA_INVALID
         fi
 
-        printf -- "%d" "$(HestiaKERNEL_Is_Whitespace_Unicode "${___unicode%%, *}")"
+        printf -- "%d" "$(HestiaKERNEL_Is_Punctuation_Unicode "${___unicode%%, *}")"
         return $?
 }

@@ -9,13 +9,13 @@
 # You MUST ensure any interaction with the content STRICTLY COMPLIES with
 # the permissions and limitations set forth in the license.
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Error_Codes.ps1"
-. "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Whitespace_Unicode.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Punctuation_Unicode.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\To_Unicode_From_String.ps1"
 
 
 
 
-function HestiaKERNEL-Is-Whitespace-String {
+function HestiaKERNEL-Is-Punctuation-String {
         param (
                 [string]$___rune
         )
@@ -29,5 +29,5 @@ function HestiaKERNEL-Is-Whitespace-String {
 
 
         # execute
-        return HestiaKERNEL-Is-Whitespace-Unicode $___unicode[0]
+        return HestiaKERNEL-Is-Punctuation-Unicode $___unicode[0]
 }

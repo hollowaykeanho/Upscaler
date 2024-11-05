@@ -112,6 +112,18 @@ ${env:LIBS_HESTIA} = "${env:LIBS_UPSCALER}\services"
 . "${env:LIBS_UPSCALER}\services\i18n\report-success.ps1"
 
 ### TEST ZONE
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Whitespace_String.ps1"
+Write-Host "$(HestiaKERNEL-Is-Whitespace-String " ")"
+Write-Host "$(HestiaKERNEL-Is-Whitespace-String "m")"
+Write-Host "$(HestiaKERNEL-Is-Whitespace-String "m ")"
+Write-Host "$(HestiaKERNEL-Is-Whitespace-String " m")"
+
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Punctuation_String.ps1"
+Write-Host "$(HestiaKERNEL-Is-Punctuation-String ",")"
+Write-Host "$(HestiaKERNEL-Is-Punctuation-String "m")"
+Write-Host "$(HestiaKERNEL-Is-Punctuation-String "m,")"
+Write-Host "$(HestiaKERNEL-Is-Punctuation-String ",m")"
+
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Trim_Right_String.ps1"
 Write-Host "$(HestiaKERNEL-Trim-Right-String "e你feeeff你你aerg aegE你F" "E你F")"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Trim_Left_String.ps1"

@@ -102,6 +102,19 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 . "${LIBS_UPSCALER}/services/i18n/report-success.sh"
 
 ### TEST ZONE
+. "${LIBS_HESTIA}/HestiaKERNEL/Is_Whitespace_String.sh"
+1>&2 printf -- "%d\n" "$(HestiaKERNEL_Is_Whitespace_String " ")"
+1>&2 printf -- "%d\n" "$(HestiaKERNEL_Is_Whitespace_String "m")"
+1>&2 printf -- "%d\n" "$(HestiaKERNEL_Is_Whitespace_String "m ")"
+1>&2 printf -- "%d\n" "$(HestiaKERNEL_Is_Whitespace_String " m")"
+
+
+. "${LIBS_HESTIA}/HestiaKERNEL/Is_Punctuation_String.sh"
+1>&2 printf -- "%d\n" "$(HestiaKERNEL_Is_Punctuation_String ",")"
+1>&2 printf -- "%d\n" "$(HestiaKERNEL_Is_Punctuation_String "m")"
+1>&2 printf -- "%d\n" "$(HestiaKERNEL_Is_Punctuation_String "m,")"
+1>&2 printf -- "%d\n" "$(HestiaKERNEL_Is_Punctuation_String ",m")"
+
 . "${LIBS_HESTIA}/HestiaKERNEL/Trim_Right_String.sh"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Right_String "e你feeeff你你aerg aegE你F" "E你F")"
 . "${LIBS_HESTIA}/HestiaKERNEL/Trim_Left_String.sh"

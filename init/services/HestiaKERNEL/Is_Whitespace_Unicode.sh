@@ -10,7 +10,7 @@
 # You MUST ensure any interaction with the content STRICTLY COMPLIES with
 # the permissions and limitations set forth in the license.
 . "${LIBS_HESTIA}/HestiaKERNEL/Error_Codes.sh"
-. "${LIBS_HESTIA}/HestiaKERNEL/Is_Unicode.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/Is_Number.sh"
 
 
 
@@ -20,8 +20,8 @@ HestiaKERNEL_Is_Whitespace_Unicode() {
 
 
         # validate input
-        if [ "$(HestiaKERNEL_Is_Unicode "$1")" -ne $HestiaKERNEL_ERROR_OK ]; then
-                printf -- ""
+        if [ "$(HestiaKERNEL_Is_Number "$1")" -ne $HestiaKERNEL_ERROR_OK ]; then
+                printf -- "%d" $HestiaKERNEL_ERROR_DATA_INVALID
                 return $HestiaKERNEL_ERROR_DATA_INVALID
         fi
 
