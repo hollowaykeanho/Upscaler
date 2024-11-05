@@ -102,6 +102,14 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 . "${LIBS_UPSCALER}/services/i18n/report-success.sh"
 
 ### TEST ZONE
+. "${LIBS_HESTIA}/HestiaKERNEL/Is_Empty_String.sh"
+1>&2 printf -- "%d\n" "$(HestiaKERNEL_Is_Empty_String "")"
+1>&2 printf -- "%d\n" "$(HestiaKERNEL_Is_Empty_String "s")"
+
+. "${LIBS_HESTIA}/HestiaKERNEL/Is_Empty_Unicode.sh"
+1>&2 printf -- "%d\n" "$(HestiaKERNEL_Is_Empty_Unicode "")"
+1>&2 printf -- "%d\n" "$(HestiaKERNEL_Is_Empty_Unicode "45, 54")"
+
 . "${LIBS_HESTIA}/HestiaKERNEL/Is_Whitespace_String.sh"
 1>&2 printf -- "%d\n" "$(HestiaKERNEL_Is_Whitespace_String " ")"
 1>&2 printf -- "%d\n" "$(HestiaKERNEL_Is_Whitespace_String "m")"

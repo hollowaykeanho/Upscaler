@@ -112,6 +112,14 @@ ${env:LIBS_HESTIA} = "${env:LIBS_UPSCALER}\services"
 . "${env:LIBS_UPSCALER}\services\i18n\report-success.ps1"
 
 ### TEST ZONE
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Empty_String.ps1"
+Write-Host "$(HestiaKERNEL-Is-Empty-String '')"
+Write-Host "$(HestiaKERNEL-Is-Empty-String "a")"
+
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Empty_Unicode.ps1"
+Write-Host "$(HestiaKERNEL-Is-Empty-Unicode @())"
+Write-Host "$(HestiaKERNEL-Is-Empty-Unicode @(45, 54))"
+
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Is_Whitespace_String.ps1"
 Write-Host "$(HestiaKERNEL-Is-Whitespace-String " ")"
 Write-Host "$(HestiaKERNEL-Is-Whitespace-String "m")"
