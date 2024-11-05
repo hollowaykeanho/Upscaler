@@ -13,7 +13,7 @@
 
 
 
-function HestiaKERNEL-Trim-Left-Unicode {
+function HestiaKERNEL-Trim-Right-Unicode {
         param (
                 [uint32[]]$___content_unicode,
                 [uint32[]]$___charset_unicode
@@ -32,14 +32,14 @@ function HestiaKERNEL-Trim-Left-Unicode {
         # execute
         [System.Collections.Generic.List[uint32]]$___converted = @()
         $___is_scanning = 0
-        :scan_unicode for ($i = 0; $i -le $___content_unicode.Length - 1; $i++) {
+        :scan_unicode for ($i = $___content_unicode.Length - 1; $i -ge 0; $i--) {
                 # get current character
                 $___current = $___content_unicode[$i]
 
 
                 # it's already mismatched so prefix the remaining values
                 if ($___is_scanning -ne 0) {
-                        $null = $___converted.Add($___current)
+                        $null = $___converted.Insert(0, $___current)
                         continue scan_unicode
                 }
 
@@ -54,7 +54,7 @@ function HestiaKERNEL-Trim-Left-Unicode {
 
                 # It's an mismatched
                 $___is_scanning = 1
-                $null = $___converted.Add($___current)
+                $null = $___converted.Insert(0, $___current)
         }
 
 

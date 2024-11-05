@@ -54,7 +54,9 @@ echo \" <<'RUN_AS_POWERSHELL' >/dev/null # " | Out-Null
 . "${env:LIBS_HESTIA}\HestiaKERNEL\To_UTF16_From_Unicode.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\To_UTF32_From_Unicode.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Trim_Left_String.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Trim_Right_String.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Trim_Left_Unicode.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Trim_Right_Unicode.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode.ps1"
 ################################################################################
 # Windows POWERSHELL Codes                                                     #
@@ -91,7 +93,9 @@ RUN_AS_POWERSHELL
 . "${LIBS_HESTIA}/HestiaKERNEL/To_UTF16_From_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/To_UTF32_From_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Trim_Left_String.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/Trim_Right_String.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Trim_Left_Unicode.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/Trim_Right_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Unicode.sh"
 ################################################################################
 # Unix Main Codes                                                              #

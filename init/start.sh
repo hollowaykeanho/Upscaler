@@ -102,6 +102,8 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 . "${LIBS_UPSCALER}/services/i18n/report-success.sh"
 
 ### TEST ZONE
+. "${LIBS_HESTIA}/HestiaKERNEL/Trim_Right_String.sh"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Right_String "e你feeeff你你aerg aegE你F" "E你F")"
 . "${LIBS_HESTIA}/HestiaKERNEL/Trim_Left_String.sh"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Left_String "e你feeeff你你aerg aegE你F" "e你a")"
 
