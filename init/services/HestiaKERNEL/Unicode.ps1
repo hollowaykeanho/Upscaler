@@ -25,6 +25,12 @@
 
 
 
+# Error type
+${env:HestiaKERNEL_UNICODE_ERROR} = [uint32]4294967295 # 0xFFFFFFFF
+
+
+
+
 # BOM type
 ${env:HestiaKERNEL_UTF_NO_BOM} = 0      # default
 ${env:HestiaKERNEL_UTF_BOM} = 1

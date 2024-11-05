@@ -20,6 +20,12 @@
 
 
 
+# Error type
+HestiaKERNEL_UNICODE_ERROR=4294967295 # 0xFFFFFFFF
+
+
+
+
 # BOM type
 HestiaKERNEL_UTF_NO_BOM=0       # default
 HestiaKERNEL_UTF_BOM=1
