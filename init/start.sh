@@ -107,6 +107,11 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_Get_First_Character "s")"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_Get_First_Character "sta")"
 
+. "${LIBS_HESTIA}/HestiaKERNEL/String/Get_Last_Character.sh"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_Get_Last_Character "")"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_Get_Last_Character "s")"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_Get_Last_Character "sta")"
+
 . "${LIBS_HESTIA}/HestiaKERNEL/String/Is_Empty_String.sh"
 1>&2 printf -- "%d\n" "$(HestiaKERNEL_Is_Empty_String "")"
 1>&2 printf -- "%d\n" "$(HestiaKERNEL_Is_Empty_String "s")"

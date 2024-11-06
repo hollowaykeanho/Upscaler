@@ -117,6 +117,11 @@ Write-Host "$(HestiaKERNEL-Get-First-Character '')"
 Write-Host "$(HestiaKERNEL-Get-First-Character "s")"
 Write-Host "$(HestiaKERNEL-Get-First-Character "sta")"
 
+. "${env:LIBS_HESTIA}\HestiaKERNEL\String\Get_Last_Character.ps1"
+Write-Host "$(HestiaKERNEL-Get-Last-Character '')"
+Write-Host "$(HestiaKERNEL-Get-Last-Character "s")"
+Write-Host "$(HestiaKERNEL-Get-Last-Character "sta")"
+
 . "${env:LIBS_HESTIA}\HestiaKERNEL\String\Is_Empty_String.ps1"
 Write-Host "$(HestiaKERNEL-Is-Empty-String '')"
 Write-Host "$(HestiaKERNEL-Is-Empty-String "a")"
