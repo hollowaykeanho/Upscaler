@@ -112,6 +112,11 @@ ${env:LIBS_HESTIA} = "${env:LIBS_UPSCALER}\services"
 . "${env:LIBS_UPSCALER}\services\i18n\report-success.ps1"
 
 ### TEST ZONE
+. "${env:LIBS_HESTIA}\HestiaKERNEL\String\Get_Length_String.ps1"
+Write-Host "$(HestiaKERNEL-Get-Length-String '')"
+Write-Host "$(HestiaKERNEL-Get-Length-String "f")"
+Write-Host "$(HestiaKERNEL-Get-Length-String "f你你a")"
+
 . "${env:LIBS_HESTIA}\HestiaKERNEL\String\Get_First_Character.ps1"
 Write-Host "$(HestiaKERNEL-Get-First-Character '')"
 Write-Host "$(HestiaKERNEL-Get-First-Character "s")"

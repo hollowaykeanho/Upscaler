@@ -102,6 +102,11 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 . "${LIBS_UPSCALER}/services/i18n/report-success.sh"
 
 ### TEST ZONE
+. "${LIBS_HESTIA}/HestiaKERNEL/String/Get_Length_String.sh"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_Get_Length_String "")"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_Get_Length_String "f")"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_Get_Length_String "f你你a")"
+
 . "${LIBS_HESTIA}/HestiaKERNEL/String/Get_First_Character.sh"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_Get_First_Character "")"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_Get_First_Character "s")"
