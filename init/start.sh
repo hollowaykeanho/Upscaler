@@ -102,6 +102,11 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 . "${LIBS_UPSCALER}/services/i18n/report-success.sh"
 
 ### TEST ZONE
+. "${LIBS_HESTIA}/HestiaKERNEL/String/Trim_Prefix_String.sh"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Prefix_String "e你feeeff你你aerg aegE你F" "")"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Prefix_String "e你feeeff你你aerg aegE你F" "e你a")"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Prefix_String "e你feeeff你你aerg aegE你F" "e你f")"
+
 . "${LIBS_HESTIA}/HestiaKERNEL/String/Get_Length_String.sh"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_Get_Length_String "")"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_Get_Length_String "f")"
