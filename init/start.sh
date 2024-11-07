@@ -108,6 +108,12 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Trim_Whitespace_Left_String "    e你feeeff你你aerg aegE你F    ")"
 1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Trim_Whitespace_Left_String "e你feeeff你你aerg aegE你F    ")"
 
+. "${LIBS_HESTIA}/HestiaKERNEL/String/Trim_Whitespace_Right_String.sh"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Trim_Whitespace_Right_String "")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Trim_Whitespace_Right_String "    ")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Trim_Whitespace_Right_String "    e你feeeff你你aerg aegE你F    ")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Trim_Whitespace_Right_String "    e你feeeff你你aerg aegE你F")"
+
 . "${LIBS_HESTIA}/HestiaKERNEL/String/Trim_Prefix_String.sh"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Prefix_String "e你feeeff你你aerg aegE你F" "")"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Prefix_String "e你feeeff你你aerg aegE你F" "e你feeeff你你aerg aegE你FX")"

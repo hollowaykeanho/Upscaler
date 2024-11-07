@@ -118,6 +118,12 @@ Write-Host "|$(HestiaKERNEL-Trim-Whitespace-Left-String "    ")|"
 Write-Host "|$(HestiaKERNEL-Trim-Whitespace-Left-String "    e你feeeff你你aerg aegE你F    ")|"
 Write-Host "|$(HestiaKERNEL-Trim-Whitespace-Left-String "e你feeeff你你aerg aegE你F    ")|"
 
+. "${env:LIBS_HESTIA}\HestiaKERNEL\String\Trim_Whitespace_Right_String.ps1"
+Write-Host "|$(HestiaKERNEL-Trim-Whitespace-Right-String '')|"
+Write-Host "|$(HestiaKERNEL-Trim-Whitespace-Right-String "    ")|"
+Write-Host "|$(HestiaKERNEL-Trim-Whitespace-Right-String "    e你feeeff你你aerg aegE你F    ")|"
+Write-Host "|$(HestiaKERNEL-Trim-Whitespace-Right-String "    e你feeeff你你aerg aegE你F")|"
+
 . "${env:LIBS_HESTIA}\HestiaKERNEL\String\Trim_Prefix_String.ps1"
 Write-Host "$(HestiaKERNEL-Trim-Prefix-String "e你feeeff你你aerg aegE你F" '')"
 Write-Host "$(HestiaKERNEL-Trim-Prefix-String "e你feeeff你你aerg aegE你F" "e你feeeff你你aerg aegE你FX")"
