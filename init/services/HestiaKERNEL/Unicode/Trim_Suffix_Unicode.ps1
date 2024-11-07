@@ -13,36 +13,38 @@
 
 
 
-function HestiaKERNEL-Trim-Prefix-Unicode {
+function HestiaKERNEL-Trim-Suffix-Unicode {
         param (
                 [uint32[]]$___content_unicode,
-                [uint32[]]$___prefix_unicode
+                [uint32[]]$___suffix_unicode
         )
 
 
         # validate input
         if (
                 ($(HestiaKERNEL-Is-Unicode $___content_unicode) -ne ${env:HestiaKERNEL_ERROR_OK}) -or
-                ($(HestiaKERNEL-Is-Unicode $___prefix_unicode) -ne ${env:HestiaKERNEL_ERROR_OK})
+                ($(HestiaKERNEL-Is-Unicode $___suffix_unicode) -ne ${env:HestiaKERNEL_ERROR_OK})
         ) {
                 return $___content_unicode
         }
 
-        if ($___prefix_unicode.Length -gt $___content_unicode.Length) {
+        if ($___suffix_unicode.Length -gt $___content_unicode.Length) {
                 return $___content_unicode
         }
 
 
         # execute
-        $___index = $___prefix_unicode.Length
-        for ($i = 0; $i -le $___index - 1; $i++) {
+        $___index = $___content_unicode.Length - 1
+        for ($i = $___suffix_unicode.Length - 1; $i -ge 0; $i--) {
                 # bail if mismatched
-                if ($___content_unicode[$i] -ne $___prefix_unicode[$i]) {
+                if ($___content_unicode[$___index] -ne $___suffix_unicode[$i]) {
                         return $___content_unicode
                 }
+
+                $___index -= 1
         }
 
 
         # report status
-        return [uint32[]]$___content_unicode[$___index..($___content_unicode.Length - 1)]
+        return [uint32[]]$___content_unicode[0..$___index]
 }

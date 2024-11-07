@@ -1,4 +1,3 @@
-#!/bin/sh
 # Copyright 2024 (Holloway) Chew, Kean Ho <hello@hollowaykeanho.com>
 #
 #
@@ -15,18 +14,18 @@
 
 
 
-HestiaKERNEL_Trim_Prefix_Unicode() {
+HestiaKERNEL_Trim_Suffix_Unicode() {
         #___content_unicode="$1"
-        #___prefix_unicode="$2"
+        #___charset_unicode="$2"
 
 
         # validate input
-        if [ $(HestiaKERNEL_Is_Unicode "$1") -ne $HestiaKERNEL_ERROR_OK ]; then
+        if [ "$(HestiaKERNEL_Is_Unicode "$1")" -ne $HestiaKERNEL_ERROR_OK ]; then
                 printf -- "%s" "$1"
                 return $HestiaKERNEL_ERROR_ENTITY_EMPTY
         fi
 
-        if [ $(HestiaKERNEL_Is_Unicode "$2") -ne $HestiaKERNEL_ERROR_OK ]; then
+        if [ "$(HestiaKERNEL_Is_Unicode "$2")" -ne $HestiaKERNEL_ERROR_OK ]; then
                 printf -- "%s" "$1"
                 return $HestiaKERNEL_ERROR_DATA_EMPTY
         fi
@@ -34,27 +33,27 @@ HestiaKERNEL_Trim_Prefix_Unicode() {
 
         # execute
         ___content_unicode="$1"
-        ___prefix_unicode="$2"
-        while [ ! "$___prefix_unicode" = "" ]; do
+        ___suffix_unicode="$2"
+        while [ ! "$___suffix_unicode" = "" ]; do
                 # get current character
-                ___current="${___content_unicode%%, *}"
-                ___content_unicode="${___content_unicode#"$___current"}"
-                if [ "${___content_unicode%"${___content_unicode#?}"}" = "," ]; then
-                        ___content_unicode="${___content_unicode#, }"
+                ___current="${___content_unicode##*, }"
+                ___content_unicode="${___content_unicode%"$___current"}"
+                if [ "${___content_unicode#"${___content_unicode%?}"}" = " " ]; then
+                        ___content_unicode="${___content_unicode%, }"
                 fi
 
 
                 # get target character
-                ___target="${___prefix_unicode%%, *}"
-                ___prefix_unicode="${___prefix_unicode#"$___target"}"
-                if [ "${___prefix_unicode%"${___prefix_unicode#?}"}" = "," ]; then
-                        ___prefix_unicode="${___prefix_unicode#, }"
+                ___target="${___suffix_unicode##*, }"
+                ___suffix_unicode="${___suffix_unicode%"$___target"}"
+                if [ "${___suffix_unicode#"${___suffix_unicode%?}"}" = " " ]; then
+                        ___suffix_unicode="${___suffix_unicode%, }"
                 fi
 
 
                 # bail if mismatched
                 if [ "$___current" != "$___target" ] ||
-                        ([ "$___content_unicode" = "" ] && [ ! "$___prefix_unicode" = "" ]); then
+                        ([ "$___content_unicode" = "" ] && [ ! "$___suffix_unicode" = "" ]); then
                         printf -- "%s" "$1"
                         return $HestiaKERNEL_ERROR_OK
                 fi

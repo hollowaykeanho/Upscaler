@@ -114,8 +114,15 @@ ${env:LIBS_HESTIA} = "${env:LIBS_UPSCALER}\services"
 ### TEST ZONE
 . "${env:LIBS_HESTIA}\HestiaKERNEL\String\Trim_Prefix_String.ps1"
 Write-Host "$(HestiaKERNEL-Trim-Prefix-String "e你feeeff你你aerg aegE你F" '')"
+Write-Host "$(HestiaKERNEL-Trim-Prefix-String "e你feeeff你你aerg aegE你F" "e你feeeff你你aerg aegE你FX")"
 Write-Host "$(HestiaKERNEL-Trim-Prefix-String "e你feeeff你你aerg aegE你F" "e你a")"
 Write-Host "$(HestiaKERNEL-Trim-Prefix-String "e你feeeff你你aerg aegE你F" "e你f")"
+
+. "${env:LIBS_HESTIA}\HestiaKERNEL\String\Trim_Suffix_String.ps1"
+Write-Host "$(HestiaKERNEL-Trim-Suffix-String "e你feeeff你你aerg aegE你F" '')"
+Write-Host "$(HestiaKERNEL-Trim-Suffix-String "e你feeeff你你aerg aegE你F" "e你feeeff你你aerg aegE你FX")"
+Write-Host "$(HestiaKERNEL-Trim-Suffix-String "e你feeeff你你aerg aegE你F" "E你A")"
+Write-Host "$(HestiaKERNEL-Trim-Suffix-String "e你feeeff你你aerg aegE你F" "E你F")"
 
 . "${env:LIBS_HESTIA}\HestiaKERNEL\String\Get_Length_String.ps1"
 Write-Host "$(HestiaKERNEL-Get-Length-String '')"

@@ -104,8 +104,15 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 ### TEST ZONE
 . "${LIBS_HESTIA}/HestiaKERNEL/String/Trim_Prefix_String.sh"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Prefix_String "e你feeeff你你aerg aegE你F" "")"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Prefix_String "e你feeeff你你aerg aegE你F" "e你feeeff你你aerg aegE你FX")"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Prefix_String "e你feeeff你你aerg aegE你F" "e你a")"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Prefix_String "e你feeeff你你aerg aegE你F" "e你f")"
+
+. "${LIBS_HESTIA}/HestiaKERNEL/String/Trim_Suffix_String.sh"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Suffix_String "e你feeeff你你aerg aegE你F" "")"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Suffix_String "e你feeeff你你aerg aegE你F" "e你feeeff你你aerg aegE你FX")"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Suffix_String "e你feeeff你你aerg aegE你F" "E你A")"
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_Trim_Suffix_String "e你feeeff你你aerg aegE你F" "E你F")"
 
 . "${LIBS_HESTIA}/HestiaKERNEL/String/Get_Length_String.sh"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_Get_Length_String "")"
