@@ -44,6 +44,11 @@ function HestiaKERNEL-Trim-Suffix-Unicode {
                 $___index -= 1
         }
 
+        if ($___index -le 0) {
+                return [uint32[]]@()
+        }
+        $___index += 1
+
 
         # report status
         return [uint32[]]$___content_unicode[0..$___index]

@@ -44,5 +44,5 @@ function HestiaKERNEL-Trim-Prefix-Unicode {
 
 
         # report status
-        return [uint32[]]$___content_unicode[$___index..($___content_unicode.Length - 1)]
+        return [uint32[]]$___content_unicode[$___index..($___content_unicode.Length)]
 }
