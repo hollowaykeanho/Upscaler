@@ -50,5 +50,6 @@ HestiaKERNEL_To_Uppercase_String() {
 
 
         # report status
+        printf -- "%s" "$___content"
         return $HestiaKERNEL_ERROR_OK
 }
