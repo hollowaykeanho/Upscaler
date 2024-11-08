@@ -48,16 +48,7 @@ HestiaKERNEL_Trim_Right_String() {
         fi
 
         ___content="$(HestiaKERNEL_Trim_Right_Unicode "$___content" "$___chars")"
-        if [ "$___content" = "" ]; then
-                printf -- "%s" "$1"
-                return $HestiaKERNEL_ERROR_BAD_EXEC
-        fi
-
         ___content="$(HestiaKERNEL_To_String_From_Unicode "$___content")"
-        if [ "$___content" = "" ]; then
-                printf -- "%s" "$1"
-                return $HestiaKERNEL_ERROR_BAD_EXEC
-        fi
         printf -- "%s" "$___content"
 
 

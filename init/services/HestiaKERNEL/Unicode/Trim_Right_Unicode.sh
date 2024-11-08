@@ -32,9 +32,6 @@ HestiaKERNEL_Trim_Right_Unicode() {
 
 
         # execute
-        ## IMPORTANT NOTICE
-        ## POSIX Shell's UNIX regex cannot recognize anything outside Latin-1
-        ## script. Therefore, manual algorithmic handling is required.
         ___content_unicode="$1"
         ___charset_unicode="$2"
         ___converted=""
@@ -49,7 +46,7 @@ HestiaKERNEL_Trim_Right_Unicode() {
 
                 # get char from charset character
                 ___charset_list="$___charset_unicode"
-                ___mismatched=0
+                ___mismatched=0 ## assume mismatched by default
                 while [ ! "$___charset_list" = "" ]; do
                         ___char="${___charset_list%%, *}"
                         ___charset_list="${___charset_list#"$___char"}"
@@ -67,13 +64,13 @@ HestiaKERNEL_Trim_Right_Unicode() {
 
                 # It's a mismatch - prepend the rest and bail out
                 if [ $___mismatched -eq 0 ]; then
-                        ___converted="${___content_unicode}, ${___current}"
+                        ___content_unicode="${___content_unicode}, ${___current}"
                         break
                 fi
         done
 
 
         # report status
-        printf -- "%s" "${___converted%, }"
+        printf -- "%s" "${___content_unicode%, }"
         return $HestiaKERNEL_ERROR_OK
 }

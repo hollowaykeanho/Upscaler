@@ -43,9 +43,6 @@ function HestiaKERNEL-Trim-Suffix-String {
         }
 
         $___content = HestiaKERNEL-Trim-Suffix-Unicode $___content $___chars
-        if ($___content.Length -eq 0) {
-                return $___input
-        }
 
 
         # report status
