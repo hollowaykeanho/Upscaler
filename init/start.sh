@@ -393,9 +393,9 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_UTF32_From_Unicode "20320, 97, 22909, 98" "$HestiaKERNEL_UTF_BOM")"
 ### expect 0, 0, 254, 255, 0, 0, 79, 96, 0, 0, 0, 97, 0, 0, 89, 125, 0, 0, 0, 98
 1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_UTF32_From_Unicode "20320, 97, 22909, 98" "$HestiaKERNEL_UTF_BOM" "$HestiaKERNEL_ENDIAN_BIG")"
-### expect 255, 254, 0, 0, 96, 79, 0, 0, 97, 0, 0, 0, 125, 89, 0, 0, 98, 0, 0, 0
-1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_UTF32_From_Unicode "20320, 97, 22909, 98" "$HestiaKERNEL_UTF_BOM" "$HestiaKERNEL_ENDIAN_LITTLE")"
 ### expect 0, 0, 254, 255, 0, 0, 79, 96, 0, 0, 0, 97, 0, 0, 89, 125, 0, 0, 0, 98
+1>&2 printf -- "%s\n" "$(HestiaKERNEL_To_UTF32_From_Unicode "20320, 97, 22909, 98" "$HestiaKERNEL_UTF_BOM" "$HestiaKERNEL_ENDIAN_LITTLE")"
+### expect 255, 254, 0, 0, 96, 79, 0, 0, 97, 0, 0, 0, 125, 89, 0, 0, 98, 0, 0, 0
 1>&2 printf -- "----\n"
 
 

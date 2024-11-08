@@ -32,6 +32,9 @@ function HestiaKERNEL-To-UTF32-From-Unicode {
 
         # execute
         [System.Collections.Generic.List[byte]]$___converted = @()
+
+
+        # prefix BOM if requested
         if ($___bom -eq ${env:HestiaKERNEL_UTF_BOM}) {
                 switch ($___endian) {
                 ${env:HestiaKERNEL_ENDIAN_LITTLE} {
@@ -49,9 +52,9 @@ function HestiaKERNEL-To-UTF32-From-Unicode {
                 }}
         }
 
+
+        # convert to UTF-32 bytes list
         foreach ($___char in $___unicode) {
-                # convert to UTF-32 bytes list
-                ## 0x00000 - 0x10000 - 0x10FFFF (surrogate pair region)
                 switch ($___endian) {
                 ${env:HestiaKERNEL_ENDIAN_LITTLE} {
                         $___register = $___char -band 0xFF
@@ -81,7 +84,7 @@ function HestiaKERNEL-To-UTF32-From-Unicode {
                         $___register = $___register -shr 8
                         $null = $___converted.Add($___register)
 
-                        $___register = $___register -band 0xFF
+                        $___register = $___char -band 0xFF
                         $null = $___converted.Add($___register)
                 }}
         }

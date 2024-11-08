@@ -404,9 +404,9 @@ Write-Host "$(HestiaKERNEL-To-UTF32-From-Unicode @(20320, 97, 22909, 98) ${env:H
 Write-Host "$(HestiaKERNEL-To-UTF32-From-Unicode @(20320, 97, 22909, 98) ${env:HestiaKERNEL_UTF_BOM})"
 ### expect 0, 0, 254, 255, 0, 0, 79, 96, 0, 0, 0, 97, 0, 0, 89, 125, 0, 0, 0, 98
 Write-Host "$(HestiaKERNEL-To-UTF32-From-Unicode @(20320, 97, 22909, 98) ${env:HestiaKERNEL_UTF_BOM} ${env:HestiaKERNEL_ENDIAN_BIG})"
-### expect 255, 254, 0, 0, 96, 79, 0, 0, 97, 0, 0, 0, 125, 89, 0, 0, 98, 0, 0, 0
-Write-Host "$(HestiaKERNEL-To-UTF32-From-Unicode @(20320, 97, 22909, 98) ${env:HestiaKERNEL_UTF_BOM} ${env:HestiaKERNEL_ENDIAN_LITTLE})"
 ### expect 0, 0, 254, 255, 0, 0, 79, 96, 0, 0, 0, 97, 0, 0, 89, 125, 0, 0, 0, 98
+Write-Host "$(HestiaKERNEL-To-UTF32-From-Unicode @(20320, 97, 22909, 98) ${env:HestiaKERNEL_UTF_BOM} ${env:HestiaKERNEL_ENDIAN_LITTLE})"
+### expect 255, 254, 0, 0, 96, 79, 0, 0, 97, 0, 0, 0, 125, 89, 0, 0, 98, 0, 0, 0
 Write-Host "----"
 
 
