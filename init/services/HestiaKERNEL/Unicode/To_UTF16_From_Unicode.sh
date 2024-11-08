@@ -32,19 +32,24 @@ HestiaKERNEL_To_UTF16_From_Unicode() {
 
         # execute
         ___converted=""
+
+
+        # prefix BOM if requested
         if [ "$2" = "$HestiaKERNEL_UTF_BOM" ]; then
                 case "$3" in
                 "$HestiaKERNEL_ENDIAN_LITTLE")
-                        # UTF16LE BOM - 0xFF, 0xFE
-                        ___converted="255, 254"
+                        # UTF16LE_BOM - 0xFF, 0xFE
+                        ___converted="255, 254, "
                         ;;
                 *)
-                        # UTF16BE BOM (default) - 0xFE, 0xFF
-                        ___converted="255, 254"
+                        # UTF16BE_BOM (default) - 0xFE, 0xFF
+                        ___converted="254, 255, "
                         ;;
                 esac
         fi
 
+
+        # convert to UTF-16 bytes list
         ___content="$1"
         while [ ! "$___content" = "" ]; do
                 # get current character decimal
@@ -55,9 +60,6 @@ HestiaKERNEL_To_UTF16_From_Unicode() {
                 fi
 
 
-                # convert to UTF-16 bytes list
-                # IMPORTANT NOTICE
-                #   (1) using single code-point algorithm (not the 2 16-bits).
                 if [ $___char -lt 200000 ]; then
                         # char < 0x10000
                         case "$3" in

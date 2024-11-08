@@ -32,23 +32,25 @@ function HestiaKERNEL-To-UTF16-From-Unicode {
 
         # execute
         [System.Collections.Generic.List[byte]]$___converted = @()
+
+
+        # prefix BOM if requested
         if ($___bom -eq ${env:HestiaKERNEL_UTF_BOM}) {
                 switch ($___endian) {
                 ${env:HestiaKERNEL_ENDIAN_LITTLE} {
-                        # UTF16LE BOM - 0xFF, 0xFE
+                        # UTF16LE_BOM - 0xFF, 0xFE
                         $null = $___converted.Add(0xFF)
                         $null = $___converted.Add(0xFE)
                 } default {
-                        # UTF16BE BOM (default) - 0xFE, 0xFF
+                        # UTF16BE_BOM (default) - 0xFE, 0xFF
                         $null = $___converted.Add(0xFE)
                         $null = $___converted.Add(0xFF)
                 }}
         }
 
+
+        # convert to UTF-16 bytes list
         foreach ($___char in $___unicode) {
-                # convert to UTF-16 bytes list
-                # IMPORTANT NOTICE
-                #   (1) using single code-point algorithm (not the 2 16-bits).
                 if ($___char -lt 0x10000) {
                         # char < 0x10000
                         switch ($___endian) {
@@ -68,6 +70,9 @@ function HestiaKERNEL-To-UTF16-From-Unicode {
                 } else {
                         # >0x10000 - 0x10000-0x10FFFF (surrogate pair)
                         $___register16 = $___char - 0x10000
+
+
+                        # high surrogate
                         $___register16 = $___register16 -shr 10
                         $___register16 = $___register16 -band 0x3FF
                         $___register16 += 0xD800
@@ -86,6 +91,8 @@ function HestiaKERNEL-To-UTF16-From-Unicode {
                                 $null = $___converted.Add($___register)
                         }}
 
+
+                        # low surrogate
                         $___register16 = $___char - 0x10000
                         $___register16 = $___register16 -band 0x3FF
                         $___register16 += 0xDC00
