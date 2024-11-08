@@ -30,17 +30,19 @@ function HestiaKERNEL-To-UTF8-From-Unicode {
 
         # execute
         [System.Collections.Generic.List[byte]]$___converted = @()
+
+
+        # prefix BOM if requested
         if ($___bom -eq ${env:HestiaKERNEL_UTF_BOM}) {
-                # UTF-8 BOM - 0xEF, 0xBB, 0xBF
+                # UTF8_BOM - 0xEF, 0xBB, 0xBF
                 $null = $___converted.Add(0xEF)
                 $null = $___converted.Add(0xBB)
                 $null = $___converted.Add(0xBF)
         }
 
+
+        # convert to UTF-8 bytes list
         foreach ($___char in $___unicode) {
-                # convert to UTF-8 bytes list
-                # IMPORTANT NOTICE
-                #   (1) using single code-point algorithm (not the 2 16-bits).
                 if ($___char -lt 0x80) {
                         $null = $___converted.Add($___char)
                 } elseif ($___char -lt 0x800) {

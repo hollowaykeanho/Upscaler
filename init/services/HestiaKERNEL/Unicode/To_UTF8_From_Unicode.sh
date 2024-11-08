@@ -30,11 +30,16 @@ HestiaKERNEL_To_UTF8_From_Unicode() {
 
         # execute
         ___converted=""
+
+
+        # prefix BOM if requested
         if [ "$2" = "$HestiaKERNEL_UTF_BOM" ]; then
-                # UTF-8 BOM - 0xEF, 0xBB, 0xBF
-                ___converted="239, 187, 191"
+                # UTF8_BOM - 0xEF, 0xBB, 0xBF
+                ___converted="239, 187, 191, "
         fi
 
+
+        # convert to UTF-8 bytes list
         ___content="$1"
         while [ ! "$___content" = "" ]; do
                 # get current character decimal
@@ -44,10 +49,6 @@ HestiaKERNEL_To_UTF8_From_Unicode() {
                         ___content="${___content#, }"
                 fi
 
-
-                # convert to UTF-8 bytes list
-                # IMPORTANT NOTICE
-                #   (1) using single code-point algorithm (not the 2 16-bits).
                 if [ $___char -lt 200 ]; then
                         # char < 0x80
                         ___converted="${___converted}$(printf -- "%d" "$___char"), "

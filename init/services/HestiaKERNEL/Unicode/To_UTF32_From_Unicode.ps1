@@ -38,13 +38,13 @@ function HestiaKERNEL-To-UTF32-From-Unicode {
         if ($___bom -eq ${env:HestiaKERNEL_UTF_BOM}) {
                 switch ($___endian) {
                 ${env:HestiaKERNEL_ENDIAN_LITTLE} {
-                        # UTF32LE BOM - 0xFF, 0xFE, 0x00, 0x00
+                        # UTF32LE_BOM - 0xFF, 0xFE, 0x00, 0x00
                         $null = $___converted.Add(0xFF)
                         $null = $___converted.Add(0xFE)
                         $null = $___converted.Add(0x00)
                         $null = $___converted.Add(0x00)
                 } default {
-                        # UTF32BE BOM (default) - 0x00, 0x00, 0xFE, 0xFF
+                        # UTF32BE_BOM (default) - 0x00, 0x00, 0xFE, 0xFF
                         $null = $___converted.Add(0x00)
                         $null = $___converted.Add(0x00)
                         $null = $___converted.Add(0xFE)
