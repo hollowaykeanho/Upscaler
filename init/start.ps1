@@ -112,6 +112,12 @@ ${env:LIBS_HESTIA} = "${env:LIBS_UPSCALER}\services"
 . "${env:LIBS_UPSCALER}\services\i18n\report-success.ps1"
 
 ### TEST ZONE
+. "${env:LIBS_HESTIA}\HestiaKERNEL\String\Trim_Whitespace_String.ps1"
+Write-Host "|$(HestiaKERNEL-Trim-Whitespace-String '')|"
+Write-Host "|$(HestiaKERNEL-Trim-Whitespace-String "    ")|"
+Write-Host "|$(HestiaKERNEL-Trim-Whitespace-String "    e你feeeff你你aerg aegE你F    ")|"
+Write-Host "|$(HestiaKERNEL-Trim-Whitespace-String "e你feeeff你你aerg aegE你F    ")|"
+
 . "${env:LIBS_HESTIA}\HestiaKERNEL\String\Trim_Whitespace_Left_String.ps1"
 Write-Host "|$(HestiaKERNEL-Trim-Whitespace-Left-String '')|"
 Write-Host "|$(HestiaKERNEL-Trim-Whitespace-Left-String "    ")|"

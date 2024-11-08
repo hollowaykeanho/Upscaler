@@ -54,6 +54,7 @@ echo \" <<'RUN_AS_POWERSHELL' >/dev/null # " | Out-Null
 . "${env:LIBS_HESTIA}\HestiaKERNEL\String\Trim_Suffix_String.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\String\Trim_Whitespace_Left_String.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\String\Trim_Whitespace_Right_String.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\String\Trim_Whitespace_String.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode\Get_First_Unicode.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode\Get_Last_Unicode.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode\Is_Empty_Unicode.ps1"
@@ -77,6 +78,7 @@ echo \" <<'RUN_AS_POWERSHELL' >/dev/null # " | Out-Null
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode\Trim_Suffix_Unicode.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode\Trim_Whitespace_Left_Unicode.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode\Trim_Whitespace_Right_Unicode.ps1"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode\Trim_Whitespace_Unicode.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode\Unicode.ps1"
 ################################################################################
 # Windows POWERSHELL Codes                                                     #
@@ -113,6 +115,7 @@ RUN_AS_POWERSHELL
 . "${LIBS_HESTIA}/HestiaKERNEL/String/Trim_Suffix_String.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/String/Trim_Whitespace_Left_String.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/String/Trim_Whitespace_Right_String.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/String/Trim_Whitespace_String.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Unicode/Get_First_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Unicode/Get_Last_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Unicode/Is_Empty_Unicode.sh"
@@ -136,6 +139,7 @@ RUN_AS_POWERSHELL
 . "${LIBS_HESTIA}/HestiaKERNEL/Unicode/Trim_Suffix_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Unicode/Trim_Whitespace_Left_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Unicode/Trim_Whitespace_Right_Unicode.sh"
+. "${LIBS_HESTIA}/HestiaKERNEL/Unicode/Trim_Whitespace_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Unicode/Unicode.sh"
 ################################################################################
 # Unix Main Codes                                                              #
