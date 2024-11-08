@@ -61,27 +61,27 @@ function HestiaKERNEL-To-UTF32-From-Unicode {
                         $___register = $___register -shr 8
                         $null = $___converted.Add($___register)
 
-                        ___register=$(($___char -band 0xFF0000))
-                        ___register=$(($___register -shr 16))
+                        $___register = $___char -band 0xFF0000
+                        $___register = $___register -shr 16
                         $null = $___converted.Add($___register)
 
-                        ___register=$(($___char -band 0xFF000000))
-                        ___register=$(($___register -shr 24))
+                        $___register = $___char -band 0xFF000000
+                        $___register = $___register -shr 24
                         $null = $___converted.Add($___register)
                 } default {
-                        ___register=$(($___char -band 0xFF000000))
-                        ___register=$(($___register -shr 24))
+                        $___register = $___char -band 0xFF000000
+                        $___register = $___register -shr 24
                         $null = $___converted.Add($___register)
 
-                        ___register=$(($___char -band 0xFF0000))
-                        ___register=$(($___register -shr 16))
+                        $___register = $___char -band 0xFF0000
+                        $___register = $___register -shr 16
                         $null = $___converted.Add($___register)
 
-                        ___register=$(($___char -band 0xFF00))
-                        ___register=$(($___register -shr 8))
+                        $___register = $___char -band 0xFF00
+                        $___register = $___register -shr 8
                         $null = $___converted.Add($___register)
 
-                        ___register=$(($___register -band 0xFF))
+                        $___register = $___register -band 0xFF
                         $null = $___converted.Add($___register)
                 }}
         }
