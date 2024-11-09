@@ -118,6 +118,7 @@ Write-Host "|$(HestiaKERNEL-Trim-Whitespace-String '')|"
 Write-Host "|$(HestiaKERNEL-Trim-Whitespace-String "    ")|"
 Write-Host "|$(HestiaKERNEL-Trim-Whitespace-String "    e你feeeff你你aerg aegE你F    ")|"
 Write-Host "|$(HestiaKERNEL-Trim-Whitespace-String "e你feeeff你你aerg aegE你F    ")|"
+Write-Host "|$(HestiaKERNEL-Trim-Whitespace-String "    e你feeeff你你aerg aegE你F")|"
 Write-Host "----"
 
 Write-Host "---- Trim_Whitespace_Left_String ----"

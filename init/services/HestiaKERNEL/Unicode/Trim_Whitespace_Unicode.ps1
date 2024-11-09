@@ -53,7 +53,7 @@ function HestiaKERNEL-Trim-Whitespace-Unicode {
 
                         # stop the scan if mismatched
                         if ($(HestiaKERNEL-Is-Whitespace-Unicode $___current) -ne ${env:HestiaKERNEL_ERROR_OK}) {
-                                $___scan_left = 1
+                                $___scan_right = 1
                         } else {
                                 $___index_right -= 1
                         }
