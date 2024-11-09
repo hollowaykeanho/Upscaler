@@ -37,11 +37,6 @@ HestiaKERNEL_Get_Last_Character() {
         fi
 
         ___unicode="$(HestiaKERNEL_Get_Last_Unicode "$___unicodes")"
-        if [ "$___unicode" = "${HestiaKERNEL_UNICODE_ERROR}" ]; then
-                printf -- ""
-                return $HestiaKERNEL_ERROR_DATA_INVALID
-        fi
-
         printf -- "%s" "$(HestiaKERNEL_To_String_From_Unicode "$___unicode")"
         if [ $? -ne $HestiaKERNEL_ERROR_OK ]; then
                 return $HestiaKERNEL_ERROR_BAD_EXEC

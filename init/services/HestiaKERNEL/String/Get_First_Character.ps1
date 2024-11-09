@@ -35,9 +35,6 @@ function HestiaKERNEL-Get-First-Character {
         }
 
         $___unicode = HestiaKERNEL-Get-First-Unicode $___unicodes
-        if ($___unicode -eq ${env:HestiaKERNEL_UNICODE_ERROR}) {
-                return ""
-        }
 
 
         # execute

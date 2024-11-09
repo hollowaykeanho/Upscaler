@@ -35,9 +35,6 @@ function HestiaKERNEL-Get-Last-Character {
         }
 
         $___unicode = HestiaKERNEL-Get-Last-Unicode $___unicodes
-        if ($___unicode -eq ${env:HestiaKERNEL_UNICODE_ERROR}) {
-                return ""
-        }
 
 
         # execute
