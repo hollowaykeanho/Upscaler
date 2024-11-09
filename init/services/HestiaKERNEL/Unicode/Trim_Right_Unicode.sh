@@ -34,7 +34,6 @@ HestiaKERNEL_Trim_Right_Unicode() {
         # execute
         ___content_unicode="$1"
         ___charset_unicode="$2"
-        ___converted=""
         while [ ! "$___content_unicode" = "" ]; do
                 # get current character
                 ___current="${___content_unicode##*, }"

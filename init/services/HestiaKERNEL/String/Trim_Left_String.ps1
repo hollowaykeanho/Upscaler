@@ -43,9 +43,6 @@ function HestiaKERNEL-Trim-Left-String {
         }
 
         $___content = HestiaKERNEL-Trim-Left-Unicode $___content $___chars
-        if ($___content.Length -eq 0) {
-                return $___input
-        }
 
 
         # report status
