@@ -16,28 +16,28 @@
 function HestiaKERNEL-Trim-Suffix-Unicode {
         param (
                 [uint32[]]$___content_unicode,
-                [uint32[]]$___suffix_unicode
+                [uint32[]]$___target_unicode
         )
 
 
         # validate input
         if (
                 ($(HestiaKERNEL-Is-Unicode $___content_unicode) -ne ${env:HestiaKERNEL_ERROR_OK}) -or
-                ($(HestiaKERNEL-Is-Unicode $___suffix_unicode) -ne ${env:HestiaKERNEL_ERROR_OK})
+                ($(HestiaKERNEL-Is-Unicode $___target_unicode) -ne ${env:HestiaKERNEL_ERROR_OK})
         ) {
                 return $___content_unicode
         }
 
-        if ($___suffix_unicode.Length -gt $___content_unicode.Length) {
+        if ($___target_unicode.Length -gt $___content_unicode.Length) {
                 return $___content_unicode
         }
 
 
         # execute
         $___index = $___content_unicode.Length - 1
-        for ($i = $___suffix_unicode.Length - 1; $i -ge 0; $i--) {
+        for ($i = $___target_unicode.Length - 1; $i -ge 0; $i--) {
                 # bail if mismatched
-                if ($___content_unicode[$___index] -ne $___suffix_unicode[$i]) {
+                if ($___content_unicode[$___index] -ne $___target_unicode[$i]) {
                         return $___content_unicode
                 }
 
@@ -47,7 +47,6 @@ function HestiaKERNEL-Trim-Suffix-Unicode {
         if ($___index -le 0) {
                 return [uint32[]]@()
         }
-        $___index += 1
 
 
         # report status
