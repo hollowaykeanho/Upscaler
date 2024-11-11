@@ -17,7 +17,7 @@
 
 HestiaKERNEL_Trim_Prefix_Unicode() {
         #___content_unicode="$1"
-        #___prefix_unicode="$2"
+        #___target_unicode="$2"
 
 
         # validate input
@@ -34,8 +34,8 @@ HestiaKERNEL_Trim_Prefix_Unicode() {
 
         # execute
         ___content_unicode="$1"
-        ___prefix_unicode="$2"
-        while [ ! "$___prefix_unicode" = "" ]; do
+        ___target_unicode="$2"
+        while [ ! "$___target_unicode" = "" ]; do
                 # get current character
                 ___current="${___content_unicode%%, *}"
                 ___content_unicode="${___content_unicode#"$___current"}"
@@ -45,16 +45,16 @@ HestiaKERNEL_Trim_Prefix_Unicode() {
 
 
                 # get target character
-                ___target="${___prefix_unicode%%, *}"
-                ___prefix_unicode="${___prefix_unicode#"$___target"}"
-                if [ "${___prefix_unicode%"${___prefix_unicode#?}"}" = "," ]; then
-                        ___prefix_unicode="${___prefix_unicode#, }"
+                ___target="${___target_unicode%%, *}"
+                ___target_unicode="${___target_unicode#"$___target"}"
+                if [ "${___target_unicode%"${___target_unicode#?}"}" = "," ]; then
+                        ___target_unicode="${___target_unicode#, }"
                 fi
 
 
                 # bail if mismatched
                 if [ "$___current" != "$___target" ] ||
-                        ([ "$___content_unicode" = "" ] && [ ! "$___prefix_unicode" = "" ]); then
+                        ([ "$___content_unicode" = "" ] && [ ! "$___target_unicode" = "" ]); then
                         printf -- "%s" "$1"
                         return $HestiaKERNEL_ERROR_OK
                 fi

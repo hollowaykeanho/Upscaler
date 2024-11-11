@@ -9,7 +9,6 @@
 #
 # You MUST ensure any interaction with the content STRICTLY COMPLIES with
 # the permissions and limitations set forth in the license.
-. "${LIBS_HESTIA}/HestiaKERNEL/Errors/Error_Codes.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Unicode/Index_Left_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Unicode/To_Unicode_From_String.sh"
 
