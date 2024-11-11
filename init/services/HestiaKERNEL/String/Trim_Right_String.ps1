@@ -18,30 +18,13 @@
 function HestiaKERNEL-Trim-Right-String {
         param (
                 [string]$___input,
-                [string]$___charset
+                [string]$___target
         )
-
-
-        # validate input
-        if (
-                ($___input -eq "") -or
-                ($___charset -eq "")
-        ) {
-                return $___input
-        }
 
 
         # execute
         $___content = HestiaKERNEL-To-Unicode-From-String $___input
-        if ($___content.Length -eq 0) {
-                return $___input
-        }
-
-        $___chars = HestiaKERNEL-To-Unicode-From-String $___charset
-        if ($___chars.Length -eq 0) {
-                return $___input
-        }
-
+        $___chars = HestiaKERNEL-To-Unicode-From-String $___target
         $___content = HestiaKERNEL-Trim-Right-Unicode $___content $___chars
 
 

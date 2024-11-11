@@ -16,14 +16,14 @@
 function HestiaKERNEL-Trim-Right-Unicode {
         param (
                 [uint32[]]$___content_unicode,
-                [uint32[]]$___charset_unicode
+                [uint32[]]$___target_unicode
         )
 
 
         # validate input
         if (
                 ($(HestiaKERNEL-Is-Unicode $___content_unicode) -ne ${env:HestiaKERNEL_ERROR_OK}) -or
-                ($(HestiaKERNEL-Is-Unicode $___charset_unicode) -ne ${env:HestiaKERNEL_ERROR_OK})
+                ($(HestiaKERNEL-Is-Unicode $___target_unicode) -ne ${env:HestiaKERNEL_ERROR_OK})
         ) {
                 return $___content_unicode
         }
@@ -44,8 +44,8 @@ function HestiaKERNEL-Trim-Right-Unicode {
                 }
 
 
-                # scan character from given charset
-                foreach ($___char in $___charset_unicode) {
+                # scan character from given target
+                foreach ($___char in $___target_unicode) {
                         if ($___current -eq $___char) {
                                 continue scan_unicode # exit early from O(m^2) timing ASAP
                         }

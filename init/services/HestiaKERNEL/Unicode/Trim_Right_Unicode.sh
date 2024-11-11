@@ -16,7 +16,7 @@
 
 HestiaKERNEL_Trim_Right_Unicode() {
         #___content_unicode="$1"
-        #___charset_unicode="$2"
+        #___target_unicode="$2"
 
 
         # validate input
@@ -33,7 +33,6 @@ HestiaKERNEL_Trim_Right_Unicode() {
 
         # execute
         ___content_unicode="$1"
-        ___charset_unicode="$2"
         while [ ! "$___content_unicode" = "" ]; do
                 # get current character
                 ___current="${___content_unicode##*, }"
@@ -43,18 +42,18 @@ HestiaKERNEL_Trim_Right_Unicode() {
                 fi
 
 
-                # get char from charset character
-                ___charset_list="$___charset_unicode"
+                # get char from target character
+                ___target_unicode="$2"
                 ___mismatched=0 ## assume mismatched by default
-                while [ ! "$___charset_list" = "" ]; do
-                        ___char="${___charset_list%%, *}"
-                        ___charset_list="${___charset_list#"$___char"}"
-                        if [ "${___charset_list%"${___charset_list#?}"}" = "," ]; then
-                                ___charset_list="${___charset_list#, }"
+                while [ ! "$___target_unicode" = "" ]; do
+                        ___char="${___target_unicode%%, *}"
+                        ___target_unicode="${___target_unicode#"$___char"}"
+                        if [ "${___target_unicode%"${___target_unicode#?}"}" = "," ]; then
+                                ___target_unicode="${___target_unicode#, }"
                         fi
 
                         if [ "$___current" = "$___char" ]; then
-                                ___charset_list=""
+                                ___target_unicode=""
                                 ___mismatched=1
                                 break # exit early from O(m^2) timing ASAP
                         fi
