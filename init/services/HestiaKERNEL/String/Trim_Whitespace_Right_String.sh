@@ -9,7 +9,6 @@
 #
 # You MUST ensure any interaction with the content STRICTLY COMPLIES with
 # the permissions and limitations set forth in the license.
-. "${LIBS_HESTIA}/HestiaKERNEL/Errors/Error_Codes.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/String/To_String_From_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Unicode/Trim_Whitespace_Right_Unicode.sh"
 . "${LIBS_HESTIA}/HestiaKERNEL/Unicode/To_Unicode_From_String.sh"
@@ -18,27 +17,15 @@
 
 
 HestiaKERNEL_Trim_Whitespace_Right_String() {
-        #___content="$1"
-
-
-        # validate input
-        if [ "$1" = "" ]; then
-                printf -- "%s" "$1"
-                return $HestiaKERNEL_ERROR_ENTITY_EMPTY
-        fi
+        #___input="$1"
 
 
         # execute
         ___content="$(HestiaKERNEL_To_Unicode_From_String "$1")"
-        if [ "$___content" = "" ]; then
-                printf -- "%s" "$1"
-                return $HestiaKERNEL_ERROR_DATA_INVALID
-        fi
-
         ___content="$(HestiaKERNEL_Trim_Whitespace_Right_Unicode "$___content")"
         printf -- "%s" "$(HestiaKERNEL_To_String_From_Unicode "$___content")"
 
 
         # report status
-        return $HestiaKERNEL_ERROR_OK
+        return $?
 }
