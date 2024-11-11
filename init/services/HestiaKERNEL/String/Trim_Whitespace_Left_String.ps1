@@ -21,12 +21,6 @@ function HestiaKERNEL-Trim-Whitespace-Left-String {
         )
 
 
-        # validate input
-        if ($___input -eq "") {
-                return $___input
-        }
-
-
         # execute
         $___content = HestiaKERNEL-To-Unicode-From-String $___input
         $___content = HestiaKERNEL-Trim-Whitespace-Left-Unicode $___content
