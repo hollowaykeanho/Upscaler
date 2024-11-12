@@ -73,11 +73,6 @@ function HestiaKERNEL-Index-Right-Unicode {
         }
 
 
-        # convert right-to-left index back to left-to-right index for
-        # programming language's consistency
-        $___scan_index = $___scan_index - $___target_length
-
-
         # report status
         return $___scan_index
 }
