@@ -14,20 +14,20 @@
 
 
 
-HestiaKERNEL_Index_Right_Unicode() {
+HestiaKERNEL_Index_Any_Right_Unicode() {
         #___content_unicode="$1"
         #___target_unicode="$2"
-        ___scan_index=-1
+        ___scan_index="-1"
 
 
         # validate input
         if [ "$(HestiaKERNEL_Is_Unicode "$1")" -ne $HestiaKERNEL_ERROR_OK ]; then
-                printf -- "%s" "$___scan_index"
+                printf -- "%d" "$___scan_index"
                 return $HestiaKERNEL_ERROR_ENTITY_EMPTY
         fi
 
         if [ "$(HestiaKERNEL_Is_Unicode "$2")" -ne $HestiaKERNEL_ERROR_OK ]; then
-                printf -- "%s" "$___scan_index"
+                printf -- "%d" "$___scan_index"
                 return $HestiaKERNEL_ERROR_DATA_EMPTY
         fi
 
@@ -53,18 +53,27 @@ HestiaKERNEL_Index_Right_Unicode() {
                 fi
 
 
-                # get target character
-                ___target="${___target_unicode##*, }"
-                ___target_unicode="${___target_unicode%"$___target"}"
-                if [ "${___target_unicode#"${___target_unicode%?}"}" = " " ]; then
-                        ___target_unicode="${___target_unicode%, }"
-                fi
+                # get char from target character
+                ___target_unicode="$2"
+                ___mismatched=0 ## assume mismatched by default
+                while [ ! "$___target_unicode" = "" ]; do
+                        ___target="${___target_unicode%%, *}"
+                        ___target_unicode="${___target_unicode#"$___target"}"
+                        if [ "${___target_unicode%"${___target_unicode#?}"}" = "," ]; then
+                                ___target_unicode="${___target_unicode#, }"
+                        fi
+
+                        if [ "$___current" = "$___target" ]; then
+                                ___target_unicode=""
+                                ___mismatched=1
+                                break # exit early from O(m^2) timing ASAP
+                        fi
+                done
 
 
                 # bail if mismatched
-                if [ ! "$___current" = "$___target" ]; then
+                if [ $___mismatched -eq 0 ]; then
                         ___scan_index=-1
-                        ___target_unicode="$2"
                         ___index=$(($___index + 1))
                         continue
                 fi
@@ -73,11 +82,6 @@ HestiaKERNEL_Index_Right_Unicode() {
                 # it's a match - set $___scan_index if available
                 if [ $___scan_index -lt 0 ]; then
                         ___scan_index=$___index
-                fi
-
-
-                # stop the scan if target is fully scanned
-                if [ "$___target_unicode" = "" ]; then
                         ___is_scanning=1
                 fi
 
@@ -88,7 +92,7 @@ HestiaKERNEL_Index_Right_Unicode() {
 
 
         # report early if the scan is negative
-        if [ $___scan_index -lt 0 ] || [ ! "$___target_unicode" = "" ]; then
+        if [ $___scan_index -lt 0 ]; then
                 printf -- "%d" "-1"
                 return $HestiaKERNEL_ERROR_OK
         fi
