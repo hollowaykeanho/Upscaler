@@ -102,6 +102,11 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 . "${LIBS_UPSCALER}/services/i18n/report-success.sh"
 
 ### TEST ZONE
+1>&2 printf -- "---- Scan_String ----\n"
+. "${LIBS_HESTIA}/HestiaKERNEL/String/Scan_String.sh"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Scan_String "e你feeeff你你aerg aegE你F" "a" "-1" "-1" "right")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Scan_String "e你feeeff你你aerg aegE你F" "a" "-1" "-1")"
+
 1>&2 printf -- "---- Scan_Right_String ----\n"
 . "${LIBS_HESTIA}/HestiaKERNEL/String/Scan_Right_String.sh"
 1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Scan_Right_String "e你feeeff你你aerg aegE你F" "")"

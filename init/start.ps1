@@ -112,6 +112,12 @@ ${env:LIBS_HESTIA} = "${env:LIBS_UPSCALER}\services"
 . "${env:LIBS_UPSCALER}\services\i18n\report-success.ps1"
 
 ### TEST ZONE
+Write-Host "---- Scan-String ----"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\String\Scan_String.ps1"
+Write-Host "|$(HestiaKERNEL-Scan-String "e你feeeff你你aerg aegE你F" "a" "-1" "-1" "right")|"
+Write-Host "|$(HestiaKERNEL-Scan-String "e你feeeff你你aerg aegE你F" "a" "-1" "-1")|"
+Write-Host "----"
+
 Write-Host "---- Scan-Right-String ----"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\String\Scan_Right_String.ps1"
 Write-Host "|$(HestiaKERNEL-Scan-Right-String "e你feeeff你你aerg aegE你F" '')|"
