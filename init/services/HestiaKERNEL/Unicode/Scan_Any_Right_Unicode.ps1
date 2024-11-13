@@ -14,7 +14,7 @@
 
 
 
-function HestiaKERNEL-Scan-Any-Left-Unicode {
+function HestiaKERNEL-Scan-Any-Right-Unicode {
         param (
                 [uint32[]]$___content_unicode,
                 [uint32[]]$___target_unicode,
@@ -48,9 +48,9 @@ function HestiaKERNEL-Scan-Any-Left-Unicode {
 
         # execute
         [System.Collections.Generic.List[uint32]]$___list_index = @()
-        $___target_index = 0
         $___target_length = $___target_unicode.Length - 1
-        :scan for ($___index = 0; $___index -le $___content_unicode.Length - 1; $___index++) {
+        $___target_index = $___target_length
+        :scan for ($___index = $___content_unicode.Length - 1; $___index -ge 0; $___index--) {
                 # get current character
                 $___current = $___content_unicode[$___index]
 
