@@ -118,6 +118,12 @@ Write-Host "|$(HestiaKERNEL-Scan-String "e你feeeff你你aerg aegE你F" "a" "-1"
 Write-Host "|$(HestiaKERNEL-Scan-String "e你feeeff你你aerg aegE你F" "a" "-1" "-1")|"
 Write-Host "----"
 
+Write-Host "---- Scan-Any-String ----"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\String\Scan_Any_String.ps1"
+Write-Host "|$(HestiaKERNEL-Scan-Any-String "e你feeeff你你aerg aegE你F" "a" "-1" "-1" "right")|"
+Write-Host "|$(HestiaKERNEL-Scan-Any-String "e你feeeff你你aerg aegE你F" "a" "-1" "-1")|"
+Write-Host "----"
+
 Write-Host "---- Scan-Any-Right-String ----"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\String\Scan_Any_Right_String.ps1"
 Write-Host "|$(HestiaKERNEL-Scan-Any-Right-String "e你feeeff你你aerg aegE你F" '')|"

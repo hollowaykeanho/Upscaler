@@ -107,6 +107,11 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Scan_String "e你feeeff你你aerg aegE你F" "a" "-1" "-1" "right")"
 1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Scan_String "e你feeeff你你aerg aegE你F" "a" "-1" "-1")"
 
+1>&2 printf -- "---- Scan_Any_String ----\n"
+. "${LIBS_HESTIA}/HestiaKERNEL/String/Scan_Any_String.sh"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Scan_Any_String "e你feeeff你你aerg aegE你F" "a" "-1" "-1" "right")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Scan_Any_String "e你feeeff你你aerg aegE你F" "a" "-1" "-1")"
+
 1>&2 printf -- "---- Scan_Any_Right_String ----\n"
 . "${LIBS_HESTIA}/HestiaKERNEL/String/Scan_Any_Right_String.sh"
 1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Scan_Any_Right_String "e你feeeff你你aerg aegE你F" "")"
