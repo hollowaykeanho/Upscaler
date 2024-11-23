@@ -112,6 +112,47 @@ ${env:LIBS_HESTIA} = "${env:LIBS_UPSCALER}\services"
 . "${env:LIBS_UPSCALER}\services\i18n\report-success.ps1"
 
 ### TEST ZONE
+Write-Host "---- Replace-Right-String ----"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\String\Replace_Right_String.ps1"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" '' '')|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String '' "E你F" "y我z")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String '' "E你A" "y我z")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String '' "E你F" '')|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String '' "E你A" '')|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" `
+                                                "e你feeeff你你aerg aegE你F" `
+                                                "y我z")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" `
+                                                "e你feeeff你你aerg aegE你F" `
+                                                '')|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "e你feeeff你你aerg aegE你F" )|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" `
+                                                "e你feeeff你你aerg aegE你FX" `
+                                                "y我z")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" `
+                                                "e你feeeff你你aerg aegE你FX" `
+                                                '')|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "e你feeeff你你aerg aegE你FX")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "E你A" "y我z")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "E你F" "y我z")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "a" "z")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "你" "我")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "z" "j")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "我" "他")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "y我z" "XXX")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "E你A" "y我z" "1")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "E你F" "y我z" "1")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "E你A" "y我z" "-1")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "E你F" "y我z" "-1")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "E你A" "y我z" "1" "1")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "E你F" "y我z" "1" "1")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "E你A" "y我z" "-1" "1")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "E你F" "y我z" "-1" "1")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "E你A" "y我z" "1" "-1")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "E你F" "y我z" "1" "-1")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "E你A" "y我z" "-1" "-1")|"
+Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" "E你F" "y我z" "-1" "-1")|"
+
 Write-Host "---- Replace-Left-String ----"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\String\Replace_Left_String.ps1"
 Write-Host "|$(HestiaKERNEL-Replace-Left-String "e你feeeff你你aerg aegE你F" '' '')|"

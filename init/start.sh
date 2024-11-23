@@ -102,6 +102,51 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 . "${LIBS_UPSCALER}/services/i18n/report-success.sh"
 
 ### TEST ZONE
+1>&2 printf -- "---- Replace_Right_String ----\n"
+. "${LIBS_HESTIA}/HestiaKERNEL/String/Replace_Right_String.sh"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "" "")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "" "E你F" "y我z")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "" "E你A" "y我z")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "" "E你F" "")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "" "E你A" "")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" \
+                                                                "e你feeeff你你aerg aegE你F" \
+                                                                "y我z"
+                        )"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" \
+                                                                "e你feeeff你你aerg aegE你F" \
+                                                                ""
+                        )"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "e你feeeff你你aerg aegE你F")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" \
+                                                                "e你feeeff你你aerg aegE你FX" \
+                                                                "y我z"
+                        )"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" \
+                                                                "e你feeeff你你aerg aegE你FX" \
+                                                                ""
+                        )"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "e你feeeff你你aerg aegE你FX")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "E你A" "y我z")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "E你F" "y我z")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "a" "z")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "你" "我")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "z" "j")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "我" "他")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "y我z" "XXX")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "E你A" "y我z" "1")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "E你F" "y我z" "1")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "E你A" "y我z" "-1")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "E你F" "y我z" "-1")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "E你A" "y我z" "1" "1")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "E你F" "y我z" "1" "1")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "E你A" "y我z" "-1" "1")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "E你F" "y我z" "-1" "1")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "E你A" "y我z" "1" "-1")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "E你F" "y我z" "1" "-1")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "E你A" "y我z" "-1" "-1")"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "E你F" "y我z" "-1" "-1")"
+
 1>&2 printf -- "---- Replace_Left_String ----\n"
 . "${LIBS_HESTIA}/HestiaKERNEL/String/Replace_Left_String.sh"
 1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Left_String "e你feeeff你你aerg aegE你F" "" "")"
