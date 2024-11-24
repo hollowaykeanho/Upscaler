@@ -112,6 +112,7 @@ HestiaKERNEL_Replace_Right_Unicode() {
                                 ___count=$(($___count - 1))
                                 if [ $___count -le 0 ]; then
                                         ___is_replacing=1
+                                        ___buffer=""
 
                                         continue
                                 fi

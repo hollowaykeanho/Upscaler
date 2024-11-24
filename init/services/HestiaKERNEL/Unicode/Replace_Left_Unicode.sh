@@ -113,11 +113,7 @@ HestiaKERNEL_Replace_Left_Unicode() {
                                 ___count=$(($___count - 1))
                                 if [ $___count -le 0 ]; then
                                         ___is_replacing=1
-
-                                        if [ ! "$___buffer" = "" ]; then
-                                                ___converted="${___converted}${___buffer%, }, "
-                                                ___buffer=""
-                                        fi
+                                        ___buffer=""
 
                                         continue
                                 fi
@@ -135,9 +131,8 @@ HestiaKERNEL_Replace_Left_Unicode() {
                 ___from_unicode="$2"
         done
 
-        if [ ! "$___buffer" = "" ]; then
+        if [ ! "$___to_unicode" = "" ] && [ ! "$___buffer" = "" ]; then
                 ___converted="${___converted}${___buffer%, }, "
-                ___buffer=""
         fi
 
 

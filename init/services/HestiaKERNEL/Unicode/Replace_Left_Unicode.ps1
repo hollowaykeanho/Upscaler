@@ -8,6 +8,7 @@
 #
 # You MUST ensure any interaction with the content STRICTLY COMPLIES with
 # the permissions and limitations set forth in the license.
+. "${env:LIBS_HESTIA}\HestiaKERNEL\Errors\Error_Codes.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Unicode\Is_Unicode.ps1"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\Number\Is_Number.ps1"
 
@@ -32,7 +33,7 @@ function HestiaKERNEL-Replace-Left-Unicode {
                 return $___content_unicode
         }
 
-        if ($___to_unicode.Length -gt 0) {
+        if ("${___to_unicode}" -ne "") {
                 if ($(HestiaKERNEL-Is-Unicode $___to_unicode) -ne ${env:HestiaKERNEL_ERROR_OK}) {
                         return [uint32[]]@()
                 }
@@ -52,7 +53,7 @@ function HestiaKERNEL-Replace-Left-Unicode {
                 $___ignore = -1
         }
 
-        if ($___target_unicode.Length -gt $___content_unicode.Length) {
+        if ($___from_unicode.Length -gt $___content_unicode.Length) {
                 return $___content_unicode
         }
 
@@ -60,12 +61,17 @@ function HestiaKERNEL-Replace-Left-Unicode {
         # execute
         [System.Collections.Generic.List[uint32]]$___converted = @()
         [System.Collections.Generic.List[uint32]]$___buffer = @()
-        $___from_index = 0
         $___from_length = $___from_unicode.Length - 1
+        $___from_index = 0
         $___is_replacing = 0
         for ($___index = 0; $___index -le $___content_unicode.Length - 1; $___index++) {
                 # get current character
                 $___current = $___content_unicode[$___index]
+
+                if ($___is_replacing -ne 0) {
+                        $___converted.Add($___current)
+                        continue
+                }
 
 
                 # get target character
@@ -107,21 +113,12 @@ function HestiaKERNEL-Replace-Left-Unicode {
                                 if ($___count -le 0) {
                                         $___is_replacing = 1
 
-                                        if ($___buffer.Length -gt 0) {
-                                                foreach ($___char in $___buffer) {
-                                                        $___converted.Add($___char)
-                                                }
-                                                [System.Collections.Generic.List[uint32]]$___buffer = @()
-                                        }
-
                                         continue
                                 }
                         }
                 } else {
-                        if ($___buffer.Length -gt 0) {
-                                foreach ($___char in $___buffer) {
-                                        $___converted.Add($___char)
-                                }
+                        foreach ($___char in $___buffer) {
+                                $___converted.Add($___char)
                         }
 
                         $___converted.Add($___current)
@@ -130,13 +127,6 @@ function HestiaKERNEL-Replace-Left-Unicode {
 
                 [System.Collections.Generic.List[uint32]]$___buffer = @()
                 $___from_index = 0
-        }
-
-        if ($___buffer.Length -gt 0) {
-                foreach ($___char in $___buffer) {
-                        $___converted.Add($___char)
-                }
-                [System.Collections.Generic.List[uint32]]$___buffer = @()
         }
 
 
