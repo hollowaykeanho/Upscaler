@@ -112,6 +112,20 @@ ${env:LIBS_HESTIA} = "${env:LIBS_UPSCALER}\services"
 . "${env:LIBS_UPSCALER}\services\i18n\report-success.ps1"
 
 ### TEST ZONE
+Write-Host "---- Replace-String ----"
+. "${env:LIBS_HESTIA}\HestiaKERNEL\String\Replace_String.ps1"
+Write-Host "|$(HestiaKERNEL-Replace-String "e你feeeff你你aerg aegE你F" `
+                                                "a" `
+                                                "z" `
+                                                "1" `
+                                                "-1" `
+                                                "right")|"
+Write-Host "|$(HestiaKERNEL-Replace-String "e你feeeff你你aerg aegE你F" `
+                                                "a" `
+                                                "z" `
+                                                "1" `
+                                                "-1")|"
+
 Write-Host "---- Replace-Right-String ----"
 . "${env:LIBS_HESTIA}\HestiaKERNEL\String\Replace_Right_String.ps1"
 Write-Host "|$(HestiaKERNEL-Replace-Right-String "e你feeeff你你aerg aegE你F" '' '')|"

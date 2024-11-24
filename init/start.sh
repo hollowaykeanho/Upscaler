@@ -102,6 +102,22 @@ LIBS_HESTIA="${LIBS_UPSCALER}/services"
 . "${LIBS_UPSCALER}/services/i18n/report-success.sh"
 
 ### TEST ZONE
+1>&2 printf -- "---- Replace_String ----\n"
+. "${LIBS_HESTIA}/HestiaKERNEL/String/Replace_String.sh"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_String "e你feeeff你你aerg aegE你F" \
+                                                                "a" \
+                                                                "z" \
+                                                                "1" \
+                                                                "-1" \
+                                                                "right" \
+                        )"
+1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_String "e你feeeff你你aerg aegE你F" \
+                                                                "a" \
+                                                                "z" \
+                                                                "1" \
+                                                                "-1" \
+                        )"
+
 1>&2 printf -- "---- Replace_Right_String ----\n"
 . "${LIBS_HESTIA}/HestiaKERNEL/String/Replace_Right_String.sh"
 1>&2 printf -- "|%s|\n" "$(HestiaKERNEL_Replace_Right_String "e你feeeff你你aerg aegE你F" "" "")"
