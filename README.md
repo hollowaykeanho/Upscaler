@@ -357,6 +357,11 @@ repository. These data serves few purposes:
 | `v0.7.0`     | `11633 seconds`   |
 
 
+#### Manjaro-AMD64; AMD Threadripper 1950X CPU; 64GB RAM; 10GB VRAM; NVIDIA RTX 3080
+
+| Version      | Sample 1 (Video)  |
+|:-------------|:------------------|
+| `master`     | `4947 seconds`    |
 
 
 ## Commands Help
