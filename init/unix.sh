@@ -307,7 +307,7 @@ _check_io() {
         fi
 
         subject_name="${source_file##*/}"
-        subject_dir="${source_file%/*}"
+        subject_dir="$(dirname "$source_file")"
         subject_ext="${subject_name#*.}"
         subject_name="${subject_name%%.*}"
 
